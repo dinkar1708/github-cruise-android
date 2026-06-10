@@ -9,9 +9,11 @@ A modern Android application built with Jetpack Compose that allows users to sea
 
 ## Screenshots & Demo
 
-[View Screenshots & Demo Video](https://github.com/dinkar1708/GithubCruise/tree/main/screenshots)
+<img width="260" height="600" alt="Screenshot_1781061222" src="https://github.com/user-attachments/assets/714cbf84-e99e-430a-81e1-e098183d6ba4" />
 
-https://github.com/dinkar1708/GithubCruise/assets/14831652/08b8def1-3dff-4dc0-9326-53ee7a78f284
+<img width="260" height="600" alt="Screenshot_1781061219" src="https://github.com/user-attachments/assets/0f4e67af-f866-410c-ad8e-ea4315900a91" />
+<img width="260" height="600" alt="Screenshot_1781061214" src="https://github.com/user-attachments/assets/59bbeb7b-ce38-4b84-82fc-1a39f3978338" />
+<img width="260" height="600" alt="Screenshot_1781061210" src="https://github.com/user-attachments/assets/dd747c73-1f24-4ca9-b8f2-eeabbf96ef34" />
 
 ---
 
