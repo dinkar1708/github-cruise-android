@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
@@ -25,12 +25,12 @@ android {
 
     buildTypes {
         release {
+            manifestPlaceholders += mapOf("app_name" to "GithubCruise")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            manifestPlaceholders += mapOf("app_name" to "GithubCruise")
             buildConfigField("boolean", "DEBUG", "false")
             buildConfigField("String", "API_BASE_URL", "\"https://release.api.github.com\"")
             buildConfigField("String", "API_VERSION", "\"2022-11-28\"")
@@ -88,7 +88,7 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android.core)
     implementation(libs.androidx.hilt.navigation.compose)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // Jetpack Compose
     val composeBom = platform(libs.androidx.compose.bom)
