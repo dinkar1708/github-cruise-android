@@ -57,6 +57,7 @@ Code coverage documentation:
 2. [ARCHITECTURE.md](ARCHITECTURE.md) - Code structure
 3. [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) - UI component guidelines
 4. [CODE_COVERAGE.md](CODE_COVERAGE.md) - Testing and coverage
+5. [COVERAGE_REPORT.md](../COVERAGE_REPORT.md) - Latest coverage report
 
 **For API integration:**
 - [API.md](API.md) - All API endpoints and examples
