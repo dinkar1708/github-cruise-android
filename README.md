@@ -603,12 +603,29 @@ This project is available for educational and portfolio purposes.
 
 ---
 
-## Contact
+## 👤 Author
 
-**Repository:** [github.com/dinkar1708/GithubCruise](https://github.com/dinkar1708/GithubCruise)
+**Dinkar Maurya**
 
-**Issues:** [Report a bug or request a feature](https://github.com/dinkar1708/GithubCruise/issues)
+- GitHub: [github.com/dinkar1708](https://github.com/dinkar1708)
+- LinkedIn: [linkedin.com/in/dinkar1708](https://www.linkedin.com/in/dinkar1708)
+- Medium: [medium.com/@dinkar1708](https://medium.com/@dinkar1708)
+- Email: dinkar1708@gmail.com
 
 ---
 
-**Made with ❤️ using Jetpack Compose**
+## 📞 Support & Feedback
+
+- **Issues**: [GitHub Issues](https://github.com/dinkar1708/GithubCruise/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/dinkar1708/GithubCruise/discussions)
+- **Repository**: [github.com/dinkar1708/GithubCruise](https://github.com/dinkar1708/GithubCruise)
+
+---
+
+<p align="center">
+  <b>⭐ Star this repo if you find it helpful!</b>
+</p>
+
+<p align="center">
+  Made with ❤️ using Kotlin & Jetpack Compose
+</p>

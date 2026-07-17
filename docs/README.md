@@ -8,20 +8,26 @@ This folder contains all project documentation organized by type.
 
 ```
 docs/
-├── product/           # Product & business documentation
+├── README.md                           # This file
+│
+├── product/                            # Product & business docs
 │   ├── case-study.md
 │   ├── product-development.md
 │   ├── requirements-specification.md
 │   └── roadmap.md
 │
-└── technical/         # Technical documentation
-    ├── api.md
-    ├── architecture.md
-    ├── code-coverage.md
-    ├── coverage-report.md
-    ├── design-system.md
-    ├── features.md
-    └── testing-types.md
+├── technical/                          # Technical documentation
+│   ├── api.md
+│   ├── architecture.md
+│   ├── code-coverage.md
+│   ├── coverage-report.md
+│   ├── design-system.md
+│   ├── features.md
+│   └── testing-types.md
+│
+└── testing/                            # Testing guides
+    ├── ui-testing-guide.md            # Compose Testing setup
+    └── ui-test-journeys.md            # 10 user journey tests
 ```
 
 ---
@@ -50,9 +56,13 @@ Start here to understand product thinking and business skills:
 **Development:**
 - [design-system.md](technical/design-system.md) - UI guidelines and Material Design 3
 - [api.md](technical/api.md) - GitHub API endpoints and integration
-- [testing-types.md](technical/testing-types.md) - Testing guide and best practices
 - [code-coverage.md](technical/code-coverage.md) - Coverage setup and best practices
 - [coverage-report.md](technical/coverage-report.md) - Detailed coverage analysis
+
+**Testing:**
+- [testing-types.md](technical/testing-types.md) - All testing types overview
+- [ui-testing-guide.md](testing/ui-testing-guide.md) - Compose UI testing setup
+- [ui-test-journeys.md](testing/ui-test-journeys.md) - 10 user journey tests
 
 ---
 
@@ -66,6 +76,7 @@ Start here to understand product thinking and business skills:
 - Use the API → [api.md](technical/api.md)
 - Style components → [design-system.md](technical/design-system.md)
 - Write tests → [testing-types.md](technical/testing-types.md)
+- Write UI tests → [ui-testing-guide.md](testing/ui-testing-guide.md)
 - Setup coverage → [code-coverage.md](technical/code-coverage.md)
 - Check coverage report → [coverage-report.md](technical/coverage-report.md)
 

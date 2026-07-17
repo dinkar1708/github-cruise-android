@@ -125,6 +125,9 @@ dependencies {
     // Dependencies for Android unit tests
     androidTestImplementation(composeBom)
     androidTestImplementation(libs.junit4)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.runner)
 }
 
 tasks.register<JacocoReport>("jacocoTestReport") {

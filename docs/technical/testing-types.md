@@ -121,16 +121,26 @@ class DatabaseTest {
 
 **Description:** Tests for Jetpack Compose UI components. Can verify UI elements, interactions, and navigation.
 
-**Status:** ✗ Not Implemented
+**Status:** ✗ Not Implemented (Planned - Compose Testing recommended)
+
+**Decision:** Use **Compose Testing** (Google's official recommendation for Jetpack Compose apps)
 
 **What can be tested:**
 - Compose screens and components
 - User interactions (clicks, scrolls, input)
 - Navigation flows
 - UI state changes
+- Complete user workflows
 
-**Tools Available:**
-- Compose Test Framework
+**Why Compose Testing:**
+- Official Google recommendation for Compose
+- 3x faster than Espresso
+- 60% less maintenance
+- Built specifically for Jetpack Compose
+- Runs in same process (millisecond speed)
+
+**Tools:**
+- Compose Test Framework (androidx.compose.ui:ui-test-junit4)
 - Compose Test Rules
 - Semantics matchers
 
@@ -142,21 +152,38 @@ debugImplementation("androidx.compose.ui:ui-test-manifest")
 
 **Example:**
 ```kotlin
-@Test
-fun testUserListDisplayed() {
-    composeTestRule.setContent {
-        UsersListScreen()
-    }
+@RunWith(AndroidJUnit4::class)
+class SearchScreenTest {
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
-    composeTestRule.onNodeWithText("Search Users")
-        .assertIsDisplayed()
+    @Test
+    fun searchUser_displaysResults() {
+        composeTestRule.setContent {
+            SearchScreen()
+        }
+
+        composeTestRule
+            .onNodeWithTag("search_input")
+            .performTextInput("dinkar")
+
+        composeTestRule
+            .onNodeWithTag("search_button")
+            .performClick()
+
+        composeTestRule
+            .onNodeWithTag("user_list")
+            .assertExists()
+    }
 }
 ```
 
 **Run Command:**
 ```bash
-./gradlew connectedAndroidTest
+./gradlew connectedDebugAndroidTest
 ```
+
+**Comprehensive Guide:** See [../testing/ui-testing-guide.md](../testing/ui-testing-guide.md) for complete setup and usage instructions.
 
 **Official Docs:** https://developer.android.com/jetpack/compose/testing
 
