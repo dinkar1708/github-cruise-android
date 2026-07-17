@@ -44,6 +44,14 @@ Code coverage documentation:
 - Coverage goals and roadmap
 - Testing best practices
 
+### TESTING_TYPES.md
+Complete testing guide:
+- All Android test types explained
+- Unit, Integration, UI, E2E, Screenshot tests
+- Current implementation status
+- Official Android documentation links
+- Recommended testing strategy
+
 ## Quick Reference
 
 **For new developers:**
@@ -72,8 +80,9 @@ Code coverage documentation:
 - Add features: [ARCHITECTURE.md](ARCHITECTURE.md) + [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
 - Fix bugs: [ARCHITECTURE.md](ARCHITECTURE.md)
 - Style components: [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
-- Write tests: [CODE_COVERAGE.md](CODE_COVERAGE.md)
+- Write tests: [TESTING_TYPES.md](TESTING_TYPES.md) + [CODE_COVERAGE.md](CODE_COVERAGE.md)
 - Check coverage: [CODE_COVERAGE.md](CODE_COVERAGE.md)
+- Understand test types: [TESTING_TYPES.md](TESTING_TYPES.md)
 
 ## Contributing to Documentation
 

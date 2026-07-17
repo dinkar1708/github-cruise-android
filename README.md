@@ -175,6 +175,14 @@ See detailed architecture in [ARCHITECTURE.md](documentation/ARCHITECTURE.md)
 
 **Summary:** Our test suite ensures critical business logic reliability with focused coverage on repositories (77-79%), use cases (70%), and state management (100%). While overall coverage is 10% due to the large Compose UI codebase, all business-critical code paths are well-tested.
 
+**Test Types Implemented:**
+- Unit Tests (35 tests) - Business logic, ViewModels, Repositories, Use Cases
+- Integration Tests (4 tests) - ViewModel + UseCase flow testing
+- Code Coverage with JaCoCo
+- Screenshot Testing (Paparazzi configured, ready to use)
+
+**For comprehensive testing guide:** See [TESTING_TYPES.md](documentation/TESTING_TYPES.md) for all Android test types, implementation status, and official documentation links.
+
 ### Run Tests
 
 **From Android Studio:**
@@ -194,11 +202,15 @@ See detailed architecture in [ARCHITECTURE.md](documentation/ARCHITECTURE.md)
 
 # View coverage report
 open app/build/reports/jacoco/jacocoTestReport/html/index.html
+
+# Run screenshot tests (Paparazzi)
+./gradlew recordPaparazziDebug  # Record baseline screenshots
+./gradlew verifyPaparazziDebug  # Verify against baseline
 ```
 
 ### Test Structure
 
-**Current Test Suite: 6 test files, 30 test methods**
+**Current Test Suite: 8 test files, 39 test methods**
 
 **ViewModel Tests:**
 - `UsersListViewModelTest` - 12 test cases
@@ -223,6 +235,12 @@ open app/build/reports/jacoco/jacocoTestReport/html/index.html
   - Update fork filter state
   - Null response handling
   - Fork filtering
+- `SettingsViewModelTest` - 5 test cases
+  - Dark mode flow exposure
+  - Set dark mode true
+  - Set dark mode false
+  - Toggle dark mode
+  - Dark mode state verification
 
 **Repository Tests:**
 - `UserRepositoryImplTest` - User data repository
@@ -232,12 +250,21 @@ open app/build/reports/jacoco/jacocoTestReport/html/index.html
 - `UserRepositoryUseCaseTest` - User business logic
 - `SearchRepositoryUseCaseTest` - Search business logic
 
+**Integration Tests:**
+- `SearchUserIntegrationTest` - 4 test cases
+  - ViewModel to UseCase flow
+  - Empty results handling
+  - Pagination integration
+  - Complete search journey
+
 All tests use **MockK** for mocking and **Coroutines Test** for async testing.
 
 ### Testing Tools
 - **JUnit 4** - Test framework
 - **MockK** - Mocking library for Kotlin
 - **Coroutines Test** - Testing async code
+- **JaCoCo** - Code coverage measurement
+- **Paparazzi** - Screenshot testing (configured)
 
 ### Code Coverage
 
