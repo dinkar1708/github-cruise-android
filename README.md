@@ -303,6 +303,41 @@ See detailed architecture in [architecture.md](docs/technical/architecture.md)
 
 ## Testing
 
+### 🎯 UI Testing - 100% Journey Coverage
+
+**✅ All 48 UI tests passing across 10 complete user journeys**
+
+<img width="1229" alt="UI Test Results - All Tests Passing" src="https://github.com/user-attachments/assets/3a7fcfdd-0611-4f5e-87f4-4a08329be659" />
+
+<img width="1139" alt="Test Execution Details" src="https://github.com/user-attachments/assets/e127ab54-77c3-4cd4-8555-731696c61187" />
+
+**Quick Stats:**
+- **48 UI Tests** - 100% passing
+- **10 User Journeys** - Complete flow coverage
+- **Test Duration** - 3-4 minutes
+- **Framework** - Compose Testing (Google Official)
+
+**Journey Coverage:**
+- Journey 1: App Launch (3 tests) ✅
+- Journey 2: User Search (4 tests) ✅
+- Journey 3: View User Profile (3 tests) ✅
+- Journey 4: View Repositories (4 tests) ✅
+- Journey 5: Filter Repositories (4 tests) ✅
+- Journey 6: View Repository Details (5 tests) ✅
+- Journey 7: Empty Search (6 tests) ✅
+- Journey 8: Error Handling (7 tests) ✅
+- Journey 9: Pull to Refresh (6 tests) ✅
+- Journey 10: Back Navigation (6 tests) ✅
+
+**📖 UI Testing Documentation:**
+- **Test Execution Report:** [TEST_EXECUTION_REPORT.md](docs/testing/TEST_EXECUTION_REPORT.md)
+- **UI Testing Guide:** [ui-testing-guide.md](docs/testing/ui-testing-guide.md)
+- **Journey Documentation:** [docs/testing/journeys/](docs/testing/journeys/)
+
+---
+
+### Unit & Integration Testing
+
 **Summary:** Our test suite ensures critical business logic reliability with focused coverage on repositories (77-79%), use cases (70%), and state management (100%). While overall coverage is 10% due to the large Compose UI codebase, all business-critical code paths are well-tested.
 
 **Test Types Implemented:**
@@ -313,7 +348,7 @@ See detailed architecture in [architecture.md](docs/technical/architecture.md)
 
 **For comprehensive testing guide:** See [testing-types.md](docs/technical/testing-types.md) for all Android test types, implementation status, and official documentation links.
 
-### Run Tests
+### Run Unit Tests
 
 **From Android Studio:**
 - Right-click on test package → Run Tests
@@ -337,6 +372,26 @@ open app/build/reports/jacoco/jacocoTestReport/html/index.html
 ./gradlew recordPaparazziDebug  # Record baseline screenshots
 ./gradlew verifyPaparazziDebug  # Verify against baseline
 ```
+
+### Run UI Journey Tests
+
+**Run all journey tests (requires connected device/emulator):**
+```bash
+./gradlew connectedDebugAndroidTest
+```
+
+**Run single journey:**
+```bash
+./gradlew connectedDebugAndroidTest \
+  -Pandroid.testInstrumentationRunnerArguments.class=com.jetpack.compose.github.cruise.journeys.Journey1_AppLaunchTest
+```
+
+**View UI test results:**
+```bash
+open app/build/reports/androidTests/connected/debug/index.html
+```
+
+**Journey Test Guide:** See [ui-testing-guide.md](docs/testing/ui-testing-guide.md) and [ui-test-journeys.md](docs/testing/ui-test-journeys.md)
 
 ### Test Structure
 

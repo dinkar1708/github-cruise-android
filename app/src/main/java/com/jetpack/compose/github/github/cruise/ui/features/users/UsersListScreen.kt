@@ -28,6 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -120,7 +122,8 @@ fun UsersListScreenContent(
             UsersListView(
                 modifier = Modifier
                     .padding(horizontal = Spacing.medium)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .semantics { testTag = "user_list" },
                 userList = userList,
                 lastVisibleItemIndex = lastVisibleItemIndex,
                 onItemClick = onItemClick,
@@ -168,7 +171,9 @@ fun SearchBar(
         TextField(
             value = searchText,
             onValueChange = { searchText = it },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .semantics { testTag = "search_input" },
             placeholder = {
                 Text(
                     text = stringResource(R.string.user_search_field_help),

@@ -10,14 +10,9 @@ import org.junit.runner.RunWith
 
 /**
  * Journey 1: App Launch
- *
  * User Flow: User opens app → Sees splash screen → Auto-navigates to search screen
  *
- * What this test verifies:
- * - App launches without crashing
- * - Splash screen displays for 3 seconds
- * - App auto-navigates after splash
- * - Search screen appears
+ * @see <a href="file://../../../../../../../docs/testing/journeys/JOURNEY_01_APP_LAUNCH.md">Journey 1 Documentation</a>
  */
 @RunWith(AndroidJUnit4::class)
 class Journey1_AppLaunchTest {
