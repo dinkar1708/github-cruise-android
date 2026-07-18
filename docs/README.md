@@ -10,6 +10,12 @@ This folder contains all project documentation organized by type.
 docs/
 ├── README.md                           # This file
 │
+├── master/                             # Cross-platform master specs
+│   ├── MASTER_FEATURE_SPECIFICATION.md # Feature inventory (all platforms)
+│   ├── GITHUB_API_SPECIFICATION.md     # API reference (all platforms)
+│   ├── BEST_PRACTICES.md              # Engineering standards (all platforms)
+│   └── README.md                       # Master docs guide
+│
 ├── product/                            # Product & business docs
 │   ├── case-study.md
 │   ├── product-development.md
@@ -29,6 +35,23 @@ docs/
     ├── ui-testing-guide.md            # Compose Testing setup
     └── ui-test-journeys.md            # 10 user journey tests
 ```
+
+---
+
+## Cross-Platform Master Documentation
+
+### For All Three Projects (Android, iOS, Flutter)
+
+These master specs define features, APIs, and standards for the entire portfolio:
+
+- **[MASTER_FEATURE_SPECIFICATION.md](master/MASTER_FEATURE_SPECIFICATION.md)** - Complete feature inventory with Feature IDs
+- **[GITHUB_API_SPECIFICATION.md](master/GITHUB_API_SPECIFICATION.md)** - API reference with API IDs
+- **[BEST_PRACTICES.md](master/BEST_PRACTICES.md)** - Engineering standards and best practices
+- **[Master Docs Guide](master/README.md)** - How to use and maintain these docs
+
+**Other Projects Reference:**
+- iOS: Links to these docs via GitHub URL
+- Flutter: Links to these docs via GitHub URL
 
 ---
 
@@ -69,6 +92,9 @@ Start here to understand product thinking and business skills:
 ## Quick Navigation
 
 **I want to...**
+- **Check cross-platform features** → [MASTER_FEATURE_SPECIFICATION.md](master/MASTER_FEATURE_SPECIFICATION.md)
+- **See all available APIs** → [GITHUB_API_SPECIFICATION.md](master/GITHUB_API_SPECIFICATION.md)
+- **Follow engineering standards** → [BEST_PRACTICES.md](master/BEST_PRACTICES.md)
 - Understand the product → [case-study.md](product/case-study.md)
 - See business thinking → [product-development.md](product/product-development.md)
 - Setup the project → [../README.md](../README.md)

@@ -562,27 +562,63 @@ A: Wait for the limit to reset (60 requests/hour) or implement personal access t
 
 ---
 
-## Roadmap
+## Gap Analysis - What's Missing
 
-### Planned Features
-- Debounced/throttled search input
-- Repository caching with refresh strategy
-- Comprehensive UI tests
-- Enhanced tablet optimization
-- Repository pagination support
-- User authentication with GitHub OAuth
-- Favorite users/repositories
-- Advanced filtering options
+**Reference:** See [MASTER_FEATURE_SPECIFICATION.md](docs/master/MASTER_FEATURE_SPECIFICATION.md) for complete feature inventory across all platforms.
 
-### Planned Improvements
-- Code Coverage Goals:
-  - Short-term (3 months): 30% overall coverage
-  - Medium-term (6 months): 50% overall coverage
-  - Long-term (12 months): 80% overall coverage
-- Add integration tests
-- Implement analytics
-- Add crash reporting
-- Optimize app size
+### Priority 1 - Core Features Missing
+
+| Feature ID | Feature | Priority | Status |
+|------------|---------|----------|--------|
+| 2.1 | Repository Search Screen | P1 | TODO |
+| 2.2 | Repository Details Screen | P1 | TODO |
+
+**APIs Needed:**
+- API-4: Search Repositories
+
+---
+
+### Priority 2 - Advanced Features Missing
+
+| Feature ID | Feature | Priority | Status |
+|------------|---------|----------|--------|
+| 3.0 | Favorites Screen | P2 | TODO |
+
+---
+
+### Already Implemented (Android Complete)
+
+| Feature ID | Feature | Status |
+|------------|---------|--------|
+| 1.1 | Splash Screen | Done |
+| 1.2 | User Search Screen | Done |
+| 1.3 | User Profile Screen | Done |
+| 1.4 | Repository Details Screen | Done |
+| 4.0 | Settings Screen | Done |
+
+**APIs Implemented:**
+- API-1: Search Users
+- API-2: Get User Profile
+- API-3: Get User Repositories
+
+---
+
+### Roadmap - Implementation Plan
+
+**Next Up (Month 1-2):**
+1. Add Repository Search (Feature 2.1, API-4)
+2. Enhance Repository Details (Feature 2.2)
+
+**Future (Month 3-6):**
+3. Settings Screen (Feature 10.0)
+4. Favorites/Bookmarks (Feature 8.0)
+5. Search History (Feature 9.0)
+6. Offline Support (Feature 11.0)
+
+**Code Coverage Goals:**
+- Short-term (3 months): 30% overall coverage
+- Medium-term (6 months): 50% overall coverage
+- Long-term (12 months): 80% overall coverage
 
 ---
 
