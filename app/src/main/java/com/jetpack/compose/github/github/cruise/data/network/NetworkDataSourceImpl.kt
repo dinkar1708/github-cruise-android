@@ -1,9 +1,9 @@
-package com.jetpack.compose.github.github.cruise.network
+package com.jetpack.compose.github.github.cruise.data.network
 
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
-import com.jetpack.compose.github.github.cruise.network.api.APIInterface
+import com.jetpack.compose.github.github.cruise.data.network.api.APIInterface
 
 /**
  * Created by Dinakar Maurya on 2024/05/12

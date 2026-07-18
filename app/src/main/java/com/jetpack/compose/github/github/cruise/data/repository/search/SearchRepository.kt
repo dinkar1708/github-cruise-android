@@ -1,4 +1,4 @@
-package com.jetpack.compose.github.github.cruise.repository.search
+package com.jetpack.compose.github.github.cruise.data.repository.search
 
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import kotlinx.coroutines.flow.Flow

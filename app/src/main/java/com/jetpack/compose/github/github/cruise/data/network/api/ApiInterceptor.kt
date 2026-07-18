@@ -1,7 +1,7 @@
-package com.jetpack.compose.github.github.cruise.network.api
+package com.jetpack.compose.github.github.cruise.data.network.api
 
-import com.jetpack.compose.github.github.cruise.network.model.ApiError
-import com.jetpack.compose.github.github.cruise.network.model.ApiErrorResponse
+import com.jetpack.compose.github.github.cruise.data.network.model.ApiError
+import com.jetpack.compose.github.github.cruise.data.network.model.ApiErrorResponse
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor

@@ -1,10 +1,10 @@
-package com.jetpack.compose.github.github.cruise.repository.user
+package com.jetpack.compose.github.github.cruise.data.repository.user
 
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
-import com.jetpack.compose.github.github.cruise.network.NetworkDataSource
-import com.jetpack.compose.github.github.cruise.network.model.ApiError
-import com.jetpack.compose.github.github.cruise.network.model.ApiErrorResponse
+import com.jetpack.compose.github.github.cruise.data.network.NetworkDataSource
+import com.jetpack.compose.github.github.cruise.data.network.model.ApiError
+import com.jetpack.compose.github.github.cruise.data.network.model.ApiErrorResponse
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase

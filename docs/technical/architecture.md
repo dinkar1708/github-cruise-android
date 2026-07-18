@@ -192,7 +192,7 @@ data class UserRepo(
 
 ### 3. Data Layer
 
-**Location:** `repository/` and `network/` packages
+**Location:** `data/repository/` and `data/network/` packages
 
 **Responsibility:** Data operations and external service communication
 
@@ -855,24 +855,25 @@ com.jetpack.compose.github.github.cruise/
 │       ├── SearchRepositoryUseCase.kt
 │       └── UserRepositoryUseCase.kt
 │
-├── network/                             # Network Layer
-│   ├── api/                            # API Configuration
-│   │   ├── ApiConstants.kt
-│   │   ├── ApiInterceptor.kt
-│   │   └── ApiInterface.kt
-│   ├── model/                          # Network Models
-│   │   ├── ApiErrorResponse.kt
-│   │   └── ApiException.kt
-│   ├── NetworkDataSource.kt
-│   └── NetworkDataSourceImpl.kt
-│
-├── repository/                          # Data Layer
-│   ├── search/
-│   │   ├── SearchRepository.kt
-│   │   └── SearchRepositoryImpl.kt
-│   └── user/
-│       ├── UserRepository.kt
-│       └── UserRepositoryImpl.kt
+├── data/                                # Data Layer
+│   ├── network/                        # Network Layer
+│   │   ├── api/                       # API Configuration
+│   │   │   ├── ApiConstants.kt
+│   │   │   ├── ApiInterceptor.kt
+│   │   │   └── ApiInterface.kt
+│   │   ├── model/                     # Network Models
+│   │   │   ├── ApiErrorResponse.kt
+│   │   │   └── ApiException.kt
+│   │   ├── NetworkDataSource.kt
+│   │   └── NetworkDataSourceImpl.kt
+│   ├── repository/                     # Data Repositories
+│   │   ├── search/
+│   │   │   ├── SearchRepository.kt
+│   │   │   └── SearchRepositoryImpl.kt
+│   │   └── user/
+│   │       ├── UserRepository.kt
+│   │       └── UserRepositoryImpl.kt
+│   └── preferences/                    # Data Preferences
 │
 └── ui/                                  # Presentation Layer
     ├── features/                        # Feature Screens

@@ -3,8 +3,8 @@ package com.jetpack.compose.github.github.cruise.ui.features.userrepository
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
 import com.jetpack.compose.github.github.cruise.domain.usecase.UserRepositoryUseCase
-import com.jetpack.compose.github.github.cruise.network.model.ApiError
-import com.jetpack.compose.github.github.cruise.network.model.ApiErrorResponse
+import com.jetpack.compose.github.github.cruise.data.network.model.ApiError
+import com.jetpack.compose.github.github.cruise.data.network.model.ApiErrorResponse
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoViewListState
 import io.mockk.coEvery
 import io.mockk.mockk

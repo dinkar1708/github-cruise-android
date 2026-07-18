@@ -1,4 +1,4 @@
-package com.jetpack.compose.github.github.cruise.network
+package com.jetpack.compose.github.github.cruise.data.network
 
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile

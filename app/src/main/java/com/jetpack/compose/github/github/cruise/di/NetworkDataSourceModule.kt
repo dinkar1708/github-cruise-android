@@ -1,10 +1,10 @@
 package com.jetpack.compose.github.github.cruise.di
 
-import com.jetpack.compose.github.github.cruise.network.NetworkDataSource
-import com.jetpack.compose.github.github.cruise.network.NetworkDataSourceImpl
-import com.jetpack.compose.github.github.cruise.network.api.APIInterface
-import com.jetpack.compose.github.github.cruise.network.api.ApiConstants
-import com.jetpack.compose.github.github.cruise.network.api.ApiInterceptor
+import com.jetpack.compose.github.github.cruise.data.network.NetworkDataSource
+import com.jetpack.compose.github.github.cruise.data.network.NetworkDataSourceImpl
+import com.jetpack.compose.github.github.cruise.data.network.api.APIInterface
+import com.jetpack.compose.github.github.cruise.data.network.api.ApiConstants
+import com.jetpack.compose.github.github.cruise.data.network.api.ApiInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

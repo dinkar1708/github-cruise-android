@@ -260,14 +260,16 @@ GithubCruiseAndroid/
 │   ├── domain/                # Business logic layer
 │   │   ├── model/            # Domain models
 │   │   └── usecase/          # Use cases
-│   ├── network/              # Network layer (Retrofit, API)
-│   ├── repository/           # Data repositories
+│   ├── data/                 # Data layer
+│   │   ├── network/         # Network layer (Retrofit, API)
+│   │   ├── repository/      # Data repositories
+│   │   └── preferences/     # Data preferences
 │   └── ui/                   # Presentation layer
 │       ├── features/         # Feature screens
 │       │   ├── splash/
 │       │   ├── users/
-│       │   ├── userrepository/
-│       │   └── repodetails/
+│       │   ├── userrepository/      # User profile & repos screen
+│       │   └── repodetails/         # Repository details screen
 │       ├── shared/           # Reusable UI components
 │       └── theme/            # Material Design 3 theme & tokens
 ├── documentation/             # Project documentation

@@ -3,8 +3,8 @@ package com.jetpack.compose.github.github.cruise.ui.features.users
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.domain.usecase.SearchRepositoryUseCase
-import com.jetpack.compose.github.github.cruise.network.model.ApiError
-import com.jetpack.compose.github.github.cruise.network.model.ApiErrorResponse
+import com.jetpack.compose.github.github.cruise.data.network.model.ApiError
+import com.jetpack.compose.github.github.cruise.data.network.model.ApiErrorResponse
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

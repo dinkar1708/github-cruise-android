@@ -538,10 +538,12 @@ com.jetpack.compose.github.github.cruise/
 ├── domain/                # Business logic & models
 │   ├── model/            # Domain models
 │   └── usecase/          # Use cases
-├── network/              # Network layer
-│   ├── api/             # Retrofit interfaces
-│   └── model/           # Network models
-├── repository/           # Data repositories
+├── data/                 # Data layer
+│   ├── network/         # Network layer
+│   │   ├── api/        # Retrofit interfaces
+│   │   └── model/      # Network models
+│   ├── repository/      # Data repositories
+│   └── preferences/     # Data preferences
 ├── ui/                   # UI layer
 │   ├── features/        # Feature screens
 │   ├── shared/          # Reusable components

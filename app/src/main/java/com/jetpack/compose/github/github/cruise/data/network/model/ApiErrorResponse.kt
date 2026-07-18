@@ -1,4 +1,4 @@
-package com.jetpack.compose.github.github.cruise.network.model
+package com.jetpack.compose.github.github.cruise.data.network.model
 
 import com.squareup.moshi.Json
 

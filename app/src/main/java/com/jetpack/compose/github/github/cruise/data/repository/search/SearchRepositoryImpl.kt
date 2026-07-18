@@ -1,8 +1,8 @@
-package com.jetpack.compose.github.github.cruise.repository.search
+package com.jetpack.compose.github.github.cruise.data.repository.search
 
 import com.jetpack.compose.github.github.cruise.di.DefaultDispatcher
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
-import com.jetpack.compose.github.github.cruise.network.NetworkDataSource
+import com.jetpack.compose.github.github.cruise.data.network.NetworkDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

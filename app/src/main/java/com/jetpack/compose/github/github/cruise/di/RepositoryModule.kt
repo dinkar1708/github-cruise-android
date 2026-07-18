@@ -1,9 +1,9 @@
 package com.jetpack.compose.github.github.cruise.di
 
-import com.jetpack.compose.github.github.cruise.repository.search.SearchRepository
-import com.jetpack.compose.github.github.cruise.repository.search.SearchRepositoryImpl
-import com.jetpack.compose.github.github.cruise.repository.user.UserRepository
-import com.jetpack.compose.github.github.cruise.repository.user.UserRepositoryImpl
+import com.jetpack.compose.github.github.cruise.data.repository.search.SearchRepository
+import com.jetpack.compose.github.github.cruise.data.repository.search.SearchRepositoryImpl
+import com.jetpack.compose.github.github.cruise.data.repository.user.UserRepository
+import com.jetpack.compose.github.github.cruise.data.repository.user.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

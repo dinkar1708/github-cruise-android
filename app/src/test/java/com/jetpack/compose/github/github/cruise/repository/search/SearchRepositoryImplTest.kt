@@ -1,9 +1,9 @@
-package com.jetpack.compose.github.github.cruise.repository.search
+package com.jetpack.compose.github.github.cruise.data.repository.search
 
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.User
-import com.jetpack.compose.github.github.cruise.network.NetworkDataSource
-import com.jetpack.compose.github.github.cruise.network.model.ApiError
+import com.jetpack.compose.github.github.cruise.data.network.NetworkDataSource
+import com.jetpack.compose.github.github.cruise.data.network.model.ApiError
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals

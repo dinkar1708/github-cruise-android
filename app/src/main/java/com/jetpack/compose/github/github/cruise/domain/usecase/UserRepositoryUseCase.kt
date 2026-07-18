@@ -2,7 +2,7 @@ package com.jetpack.compose.github.github.cruise.domain.usecase
 
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
-import com.jetpack.compose.github.github.cruise.repository.user.UserRepository
+import com.jetpack.compose.github.github.cruise.data.repository.user.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

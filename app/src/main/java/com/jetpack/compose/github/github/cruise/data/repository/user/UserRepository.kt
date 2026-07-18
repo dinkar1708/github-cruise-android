@@ -1,4 +1,4 @@
-package com.jetpack.compose.github.github.cruise.repository.user
+package com.jetpack.compose.github.github.cruise.data.repository.user
 
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo

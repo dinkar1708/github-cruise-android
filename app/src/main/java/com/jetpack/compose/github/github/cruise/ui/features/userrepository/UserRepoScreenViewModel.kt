@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jetpack.compose.github.github.cruise.di.DefaultDispatcher
 import com.jetpack.compose.github.github.cruise.domain.usecase.UserRepositoryUseCase
-import com.jetpack.compose.github.github.cruise.network.model.ApiError
+import com.jetpack.compose.github.github.cruise.data.network.model.ApiError
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoScreenProfileState
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoViewListState
 import dagger.hilt.android.lifecycle.HiltViewModel
