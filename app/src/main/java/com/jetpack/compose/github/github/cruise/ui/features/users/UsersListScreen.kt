@@ -40,12 +40,10 @@ import com.jetpack.compose.github.github.cruise.domain.model.User
 import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USER_REPO_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.features.users.view.UsersListView
 import com.jetpack.compose.github.github.cruise.ui.shared.AppActionBarView
+import com.jetpack.compose.github.github.cruise.ui.shared.SearchBox
 import com.jetpack.compose.github.github.cruise.ui.shared.StateContentBox
-import com.jetpack.compose.github.github.cruise.ui.theme.AppShapes
-import com.jetpack.compose.github.github.cruise.ui.theme.Elevation
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 import com.jetpack.compose.github.github.cruise.ui.theme.Spacing
-import kotlinx.coroutines.delay
 
 /**
  * Created by Dinakar Maurya on 2024/05/12.
@@ -102,20 +100,20 @@ fun UsersListScreenContent(
             .windowInsetsPadding(WindowInsets.statusBars),
     ) {
         AppActionBarView(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = Spacing.medium),
+            modifier = Modifier.fillMaxWidth(),
             headerText = stringResource(R.string.users_page_title),
             showBackButton = false
         )
 
-        SearchBar(
+        SearchBox(
+            placeholder = stringResource(R.string.user_search_field_help),
             onSearchSubmitted = onSearchSubmitted,
-            onClearInput = onClearInput
+            onClearInput = onClearInput,
+            testTag = "search_input"
         )
 
         StateContentBox(
-            modifier = Modifier.padding(top = Spacing.small),
+            modifier = Modifier.padding(top = Spacing.medium),
             isLoading = isLoading,
             errorMessage = errorMessage
         ) {
@@ -130,90 +128,6 @@ fun UsersListScreenContent(
                 onListScrolledToEnd = onListScrolledToEnd
             )
         }
-    }
-}
-
-/**
- * Material Design 3 search bar component with auto-search
- *
- * Design principles:
- * - Fully rounded pill shape per Material Design 3
- * - Auto-search after 500ms of user stopping typing
- * - Clear action for better UX
- * - State persistence across configuration changes
- */
-@Composable
-fun SearchBar(
-    onSearchSubmitted: (String) -> Unit,
-    onClearInput: () -> Unit
-) {
-    // Keep search text across screen rotation
-    var searchText by rememberSaveable { mutableStateOf("") }
-    val keyboardController = LocalSoftwareKeyboardController.current
-
-    // Auto-search with debounce after user stops typing
-    androidx.compose.runtime.LaunchedEffect(searchText) {
-        if (searchText.length >= 3 || searchText.isEmpty()) {
-            kotlinx.coroutines.delay(500) // Wait 500ms after user stops typing
-            onSearchSubmitted(searchText)
-        }
-    }
-
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = Spacing.medium),
-        shape = AppShapes.searchBar,
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        shadowElevation = Elevation.level1,
-        tonalElevation = Elevation.level2
-    ) {
-        TextField(
-            value = searchText,
-            onValueChange = { searchText = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { testTag = "search_input" },
-            placeholder = {
-                Text(
-                    text = stringResource(R.string.user_search_field_help),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            },
-            trailingIcon = {
-                if (searchText.isNotEmpty()) {
-                    Icon(
-                        imageVector = Icons.Filled.Clear,
-                        contentDescription = "Clear search",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.clickable {
-                            searchText = ""
-                            onClearInput()
-                        }
-                    )
-                }
-            },
-            colors = TextFieldDefaults.colors(
-                focusedTextColor = MaterialTheme.colorScheme.onSurface,
-                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                // Remove underline for pill shape
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-            ),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Search
-            ),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    onSearchSubmitted(searchText)
-                    keyboardController?.hide()
-                }
-            ),
-            singleLine = true
-        )
     }
 }
 

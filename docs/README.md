@@ -23,7 +23,6 @@ docs/
 │   └── roadmap.md
 │
 ├── technical/                          # Technical documentation
-│   ├── api.md
 │   ├── architecture.md
 │   ├── code-coverage.md
 │   ├── coverage-report.md
@@ -57,8 +56,7 @@ These master specs define features, APIs, and standards for the entire portfolio
 
 ## Product Documentation
 
-### For Recruiters & Hiring Managers
-Start here to understand product thinking and business skills:
+### Product thinking and business context:
 
 - **[case-study.md](product/case-study.md)** - Executive summary
 - **[product-development.md](product/product-development.md)** - Full product journey
@@ -69,7 +67,7 @@ Start here to understand product thinking and business skills:
 
 ## Technical Documentation
 
-### For Developers & Contributors
+### Development and implementation details:
 
 **Getting Started:**
 1. Main [README.md](../README.md) - Setup and run the project
@@ -78,7 +76,7 @@ Start here to understand product thinking and business skills:
 
 **Development:**
 - [design-system.md](technical/design-system.md) - UI guidelines and Material Design 3
-- [api.md](technical/api.md) - GitHub API endpoints and integration
+- [GITHUB_API_SPECIFICATION.md](master/GITHUB_API_SPECIFICATION.md) - GitHub API endpoints (see master docs)
 - [code-coverage.md](technical/code-coverage.md) - Coverage setup and best practices
 - [coverage-report.md](technical/coverage-report.md) - Detailed coverage analysis
 
@@ -99,7 +97,7 @@ Start here to understand product thinking and business skills:
 - See business thinking → [product-development.md](product/product-development.md)
 - Setup the project → [../README.md](../README.md)
 - Learn architecture → [architecture.md](technical/architecture.md)
-- Use the API → [api.md](technical/api.md)
+- Use GitHub APIs → [GITHUB_API_SPECIFICATION.md](master/GITHUB_API_SPECIFICATION.md)
 - Style components → [design-system.md](technical/design-system.md)
 - Write tests → [testing-types.md](technical/testing-types.md)
 - Write UI tests → [ui-testing-guide.md](testing/ui-testing-guide.md)

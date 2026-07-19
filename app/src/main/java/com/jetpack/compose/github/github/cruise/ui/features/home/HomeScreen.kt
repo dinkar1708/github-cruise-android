@@ -1,6 +1,7 @@
 package com.jetpack.compose.github.github.cruise.ui.features.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -129,6 +130,8 @@ fun HomeScreen(
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
+            // Use when statement - ViewModels are scoped at NavGraph level
+            // so state will be preserved even when tabs are removed from composition
             when (selectedTabIndex) {
                 0 -> usersListContent()
                 1 -> repositoriesSearchContent()

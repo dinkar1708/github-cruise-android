@@ -22,7 +22,7 @@ This document demonstrates product development skills beyond technical implement
 
 **Who needs this?**
 - Developers (code reviews on-the-go)
-- Recruiters (candidate checks during interviews)
+- Professionals (candidate verification and evaluation)
 - OSS contributors (finding collaborators)
 
 **Real needs uncovered:**
@@ -32,7 +32,7 @@ This document demonstrates product development skills beyond technical implement
 
 ### 2. Business to Technical Translation
 
-**Recruiter said:** "I need to quickly look up candidates"
+**User need:** "I need to quickly look up profiles"
 
 **I translated that to:**
 - Response time under 1 second
@@ -85,12 +85,12 @@ I created 3 detailed docs:
 
 ---
 
-## For Interviews
+## Quick Summary
 
-**Technical answer:**
+**Technical perspective:**
 "Built GitHub app with Kotlin, Compose, MVVM. 77% test coverage."
 
-**Product answer:**
+**Product perspective:**
 "Noticed devs waste time on slow mobile GitHub. Built 60% faster app (1.2s vs 3-5s). Key: researched users first, translated 'fast' into under 800ms spec and achieved 650ms, planned 12-month roadmap with monetization. Result: 77% coverage, 99.8% crash-free, supports 99.6% of devices."
 
 ---

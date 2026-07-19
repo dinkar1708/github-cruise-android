@@ -3,8 +3,12 @@ package com.jetpack.compose.github.github.cruise.ui.features.favorites
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
@@ -71,8 +75,13 @@ private fun FavoritesScreenContent(
     onRemoveFavorite: (String, com.jetpack.compose.github.github.cruise.domain.model.FavoriteType) -> Unit,
     onClearAll: () -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.statusBars)
+    ) {
         AppActionBarView(
+            modifier = Modifier.fillMaxWidth(),
             headerText = stringResource(R.string.favorites_title),
             showBackButton = false
         )

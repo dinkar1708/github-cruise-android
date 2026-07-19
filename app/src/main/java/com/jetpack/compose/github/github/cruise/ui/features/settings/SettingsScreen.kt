@@ -72,9 +72,7 @@ fun SettingsScreen(
             .windowInsetsPadding(WindowInsets.statusBars)
     ) {
         AppActionBarView(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = Spacing.medium),
+            modifier = Modifier.fillMaxWidth(),
             headerText = stringResource(R.string.settings_title),
             showBackButton = false
         )

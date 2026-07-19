@@ -2,7 +2,7 @@
 
 ## The Problem
 
-Mobile GitHub sucks. The website takes 3-5 seconds to load on mobile. Developers and recruiters need quick access to profiles, but the experience is frustrating.
+Mobile GitHub sucks. The website takes 3-5 seconds to load on mobile. Users need quick access to profiles, but the experience is frustrating.
 
 ---
 
@@ -10,7 +10,7 @@ Mobile GitHub sucks. The website takes 3-5 seconds to load on mobile. Developers
 
 **Who needs this?**
 - Developers (checking profiles during code reviews, commutes)
-- Recruiters (evaluating candidates in interviews)
+- Professionals (evaluating profiles and contributions)
 - OSS contributors (finding collaborators)
 
 **What exists?**
@@ -20,7 +20,7 @@ Mobile GitHub sucks. The website takes 3-5 seconds to load on mobile. Developers
 
 **Value:**
 - Save 60% time vs mobile web
-- Quick candidate evaluation
+- Quick profile evaluation
 - On-the-go code reviews
 
 ---
@@ -45,7 +45,7 @@ Mobile GitHub sucks. The website takes 3-5 seconds to load on mobile. Developers
 **Business need:** "Find developers quickly"
 
 **User story:**
-> "As a recruiter, I want to search developers by username during interviews so I can verify their work"
+> "As a user, I want to search developers by username so I can verify their work and contributions"
 
 **Translation:**
 - Under 1 second response

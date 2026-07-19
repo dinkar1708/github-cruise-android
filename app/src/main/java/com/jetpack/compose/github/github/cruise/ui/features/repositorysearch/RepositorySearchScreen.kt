@@ -40,13 +40,11 @@ import com.jetpack.compose.github.github.cruise.domain.model.Repository
 import com.jetpack.compose.github.github.cruise.ui.MainDestinations.USER_REPO_DETAILS_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.features.repositorysearch.view.RepositoriesListView
 import com.jetpack.compose.github.github.cruise.ui.shared.AppActionBarView
+import com.jetpack.compose.github.github.cruise.ui.shared.SearchBox
 import com.jetpack.compose.github.github.cruise.ui.shared.StateContentBox
 import com.jetpack.compose.github.github.cruise.ui.shared.utils.CommonUtils
-import com.jetpack.compose.github.github.cruise.ui.theme.AppShapes
-import com.jetpack.compose.github.github.cruise.ui.theme.Elevation
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 import com.jetpack.compose.github.github.cruise.ui.theme.Spacing
-import kotlinx.coroutines.delay
 
 /**
  * Repository Search Screen
@@ -96,17 +94,22 @@ fun RepositorySearchScreenContent(
             .windowInsetsPadding(WindowInsets.statusBars)
     ) {
         AppActionBarView(
+            modifier = Modifier.fillMaxWidth(),
             headerText = stringResource(R.string.repository_search_title),
             showBackButton = false
         )
 
-        SearchTextField(
+        SearchBox(
+            placeholder = stringResource(R.string.repository_search_hint),
             onSearchSubmitted = onSearchSubmitted,
-            onClearInput = onClearInput
+            onClearInput = onClearInput,
+            testTag = "repository_search_input"
         )
 
         StateContentBox(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = Spacing.medium),
             isLoading = isLoading,
             errorMessage = errorMessage
         ) {
@@ -117,73 +120,6 @@ fun RepositorySearchScreenContent(
                 onListScrolledToEnd = onListScrolledToEnd
             )
         }
-    }
-}
-
-@Composable
-private fun SearchTextField(
-    onSearchSubmitted: (String) -> Unit,
-    onClearInput: () -> Unit
-) {
-    var searchText by rememberSaveable { mutableStateOf("") }
-    val keyboardController = LocalSoftwareKeyboardController.current
-
-    LaunchedEffect(searchText) {
-        if (searchText.length >= 2) {
-            delay(500)
-            onSearchSubmitted(searchText)
-        }
-    }
-
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(Spacing.medium),
-        shape = AppShapes.searchBar,
-        shadowElevation = Elevation.level2,
-        color = MaterialTheme.colorScheme.surface
-    ) {
-        TextField(
-            value = searchText,
-            onValueChange = { searchText = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { testTag = "repository_search_input" },
-            placeholder = {
-                Text(stringResource(R.string.repository_search_hint))
-            },
-            trailingIcon = {
-                if (searchText.isNotEmpty()) {
-                    Icon(
-                        imageVector = Icons.Default.Clear,
-                        contentDescription = "Clear",
-                        modifier = Modifier.clickable {
-                            searchText = ""
-                            onClearInput()
-                        }
-                    )
-                }
-            },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Search
-            ),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    keyboardController?.hide()
-                    if (searchText.isNotEmpty()) {
-                        onSearchSubmitted(searchText)
-                    }
-                }
-            ),
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-            )
-        )
     }
 }
 

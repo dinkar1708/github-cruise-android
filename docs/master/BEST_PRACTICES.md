@@ -955,8 +955,8 @@ func searchUsers(query: String, page: Int) async -> Result<[User], Error>
 
 **Required files:**
 - `docs/technical/architecture.md` - System design
-- `docs/technical/api.md` - API specifications
-- `docs/technical/features.md` - Feature details
+- `docs/master/GITHUB_API_SPECIFICATION.md` - API specifications (cross-platform)
+- `docs/technical/features.md` - Feature details (platform-specific)
 - `docs/testing/` - Test guides
 
 ---

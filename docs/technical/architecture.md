@@ -73,8 +73,11 @@ GitHub Cruise follows **Clean Architecture** principles combined with **MVVM (Mo
 ##### Screens (Composables)
 - `SplashScreen.kt`: Entry point with brand animation
 - `UsersListScreen.kt`: User search and list display
-- `UserRepoScreen.kt`: User profile and repositories
-- `RepoDetailsScreen.kt`: WebView for repository details
+- `UserRepoScreen.kt`: User profile and repositories (native screen)
+- `RepositorySearchScreen.kt`: Repository search functionality
+- `EnhancedRepoDetailsScreen.kt`: Native repository details with statistics and actions
+- `FavoritesScreen.kt`: User and repository favorites list
+- `SettingsScreen.kt`: App preferences and settings
 
 ##### ViewModels
 ```kotlin
@@ -557,13 +560,15 @@ fun GithubCruiseNavGraph(
         }
 
         composable(
-            route = "repo-details?url={url}",
-            arguments = listOf(navArgument("url") { type = NavType.StringType })
+            route = "user_repo_details/{html_url}",
+            arguments = listOf(navArgument("html_url") { type = NavType.StringType })
         ) { backStackEntry ->
-            val repoUrl = backStackEntry.arguments?.getString("url")
-            RepoDetailsScreen(
-                repoUrl = repoUrl ?: "",
-                onBackClick = { navController.popBackStack() }
+            val decodedUrl = CommonUtils.decodeUrl(
+                backStackEntry.arguments?.getString("html_url") ?: ""
+            )
+            EnhancedRepoDetailsScreen(
+                navController = navController,
+                htmlUrl = decodedUrl
             )
         }
     }
@@ -891,8 +896,21 @@ com.jetpack.compose.github.github.cruise/
     │   │   ├── UserRepoScreenViewModel.kt
     │   │   ├── state/
     │   │   └── view/
-    │   └── repodetails/
-    │       └── RepoDetailsScreen.kt
+    │   ├── repodetails/
+    │   │   ├── EnhancedRepoDetailsScreen.kt
+    │   │   ├── RepoDetailsViewModel.kt
+    │   │   └── RepoDetailsState.kt
+    │   ├── repositorysearch/
+    │   │   ├── RepositorySearchScreen.kt
+    │   │   ├── RepositorySearchViewModel.kt
+    │   │   └── view/
+    │   ├── favorites/
+    │   │   ├── FavoritesScreen.kt
+    │   │   ├── FavoritesViewModel.kt
+    │   │   └── view/
+    │   └── settings/
+    │       ├── SettingsScreen.kt
+    │       └── SettingsViewModel.kt
     ├── shared/                          # Reusable Components
     │   ├── AppActionbarView.kt
     │   ├── HorizontalLineView.kt

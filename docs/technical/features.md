@@ -122,21 +122,27 @@ Displays comprehensive user profile information and their GitHub repositories.
 
 ---
 
-### 4. Repository Details (WebView)
+### 4. Repository Details (Native Screen)
 
-**Location:** `ui/features/repodetails/RepoDetailsScreen.kt`
+**Location:** `ui/features/repodetails/EnhancedRepoDetailsScreen.kt`
 
-In-app browser for viewing GitHub repository pages.
+Native screen displaying comprehensive repository information with Material Design 3.
 
 **Features:**
-- Full WebView integration
-- Loads repository URL directly from GitHub
-- Back navigation to return to repository list
-- Loading indicator during page load
-- Error handling for failed page loads
+- Repository header with owner avatar and full name
+- Statistics grid (stars, forks, issues, watchers)
+- Topics/tags display
+- Repository information (language, license, default branch, homepage)
+- Action buttons (open in browser, copy clone URL, share)
+- Favorite button integration in app bar
+- Loading states and error handling
+- Native Compose UI components
 
 **User Experience:**
-- Seamless in-app browsing
+- Fast, native performance
+- Consistent Material Design 3 styling
+- Offline capability with cached data
+- Better accessibility
 - No need to leave the app
 - Quick access to repository information
 

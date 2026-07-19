@@ -12,7 +12,7 @@ How I translate business needs into technical specifications with measurable out
 "Users need to find GitHub developers quickly while on mobile"
 
 ### User Story
-> "As a recruiter, I want to search developers by username during interviews so I can verify their contributions quickly"
+> "As a user, I want to search developers by username so I can verify their contributions quickly"
 
 ### Requirements Translation
 
@@ -44,10 +44,10 @@ How I translate business needs into technical specifications with measurable out
 ## Example 2: Profile Viewing
 
 ### Business Need
-"Recruiters need comprehensive profile info to assess candidates"
+"Users need comprehensive profile info to evaluate developers"
 
 ### User Story
-> "As a hiring manager, I want to see followers, bio, and top repos so I can evaluate technical expertise"
+> "As a user, I want to see followers, bio, and top repos so I can evaluate technical expertise"
 
 ### Requirements Translation
 
@@ -61,13 +61,15 @@ How I translate business needs into technical specifications with measurable out
 - Profile load: under 2 seconds
 - Show: avatar, bio, followers/following, repo count
 - Filter: toggle to hide forked repos
-- Navigation: tap repo to open in WebView
+- Navigation: tap repo to open native details screen
+- Favorites: ability to save users for quick access
 
 **What I built:**
 - Profile loads in 1.5s average
 - Complete profile card with Material Design 3
 - Fork filter (client-side for speed)
-- In-app WebView with back navigation
+- Native repository details screen with rich information
+- Star button to add/remove users from favorites
 
 **How I validated:**
 - 70%+ of profile views lead to repo browsing
@@ -110,6 +112,49 @@ How I translate business needs into technical specifications with measurable out
 - 60%+ users adopt dark mode
 - 100% color contrast compliance
 - Zero visual glitches during theme switch
+
+---
+
+## Example 4: Repository Search & Favorites
+
+### Business Need
+"Power users need quick access to repositories and ability to save important ones"
+
+### User Story
+> "As a developer, I want to search for open-source projects and save my favorites so I can reference them later"
+
+### Requirements Translation
+
+**What users need:**
+- Direct repository search (bypass user search)
+- Rich repository information
+- Save favorites (users AND repositories)
+- Quick access to saved items
+
+**What I specified:**
+- Search input with 500ms debounce
+- Repository cards showing stars, forks, language, description
+- Favorite button on user profiles and repository details
+- Dedicated favorites tab showing both users and repos
+- Persistent storage (survives app restart)
+
+**What I built:**
+- Repository search screen with infinite scroll
+- Native repository details screen with:
+  - Statistics grid (stars, forks, issues, watchers)
+  - Topics/tags display
+  - Action buttons (open browser, copy clone URL, share)
+- Favorites system:
+  - Star button in app bar for users and repos
+  - Favorites screen with unified list
+  - SharedPreferences for persistence
+  - Remove individual items or clear all
+
+**How I validated:**
+- Favorites persist across app restarts
+- Navigation from favorites to details works correctly
+- URL encoding prevents crashes on special characters
+- Smooth integration with existing flows
 
 ---
 
