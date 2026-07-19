@@ -1,5 +1,7 @@
 package com.jetpack.compose.github.github.cruise.data.network.api
 
+import com.jetpack.compose.github.github.cruise.domain.model.RepositoryDetails
+import com.jetpack.compose.github.github.cruise.domain.model.SearchRepository
 import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
@@ -14,9 +16,17 @@ interface APIInterface {
     // search apis
     @GET("/search/users")
     suspend fun getSearchUsers(
-        @Query("q") userName: String, @Query("page") page: Int,
+        @Query("q") userName: String,
+        @Query("page") page: Int,
         @Query("per_page") pageSize: Int,
     ): SearchUser
+
+    @GET("/search/repositories")
+    suspend fun searchRepositories(
+        @Query("q") query: String,
+        @Query("page") page: Int,
+        @Query("per_page") pageSize: Int,
+    ): SearchRepository
 
     @GET("/users/{userName}")
     suspend fun getUserProfile(@Path("userName") userName: String): UserProfile
@@ -28,5 +38,11 @@ interface APIInterface {
 //        @Query("page") page: Int,
 //        @Query("per_page") pageSize: Int,
     ): List<UserRepo>
+
+    @GET("/repos/{owner}/{repo}")
+    suspend fun getRepositoryDetails(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String
+    ): RepositoryDetails
 
 }
