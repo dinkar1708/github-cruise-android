@@ -20,17 +20,20 @@ See **[Product Documentation](#product--business-documentation)** for detailed p
 
 ## Screenshots & Demo
 
-### Demo Video
-See the app in action: [Demo Video](screenshots/demo-video.mov)
+### App Screenshots (July 2026)
 
-### Screenshots
+<div align="center">
+  <img src="docs/images/app-screenshot-20260719.png" alt="Users Search Screen" width="250"/>
+  <img src="docs/images/app-screenshot-user-details-20260719.png" alt="User Profile & Repositories" width="250"/>
+  <img src="docs/images/app-screenshot-repo-details-20260719.png" alt="Repository Details" width="250"/>
+</div>
 
-<img width="260" height="600" alt="User search screen" src="https://github.com/user-attachments/assets/714cbf84-e99e-430a-81e1-e098183d6ba4" />
-<img width="260" height="600" alt="Profile view" src="https://github.com/user-attachments/assets/0f4e67af-f866-410c-ad8e-ea4315900a91" />
-<img width="260" height="600" alt="Repository list" src="https://github.com/user-attachments/assets/59bbeb7b-ce38-4b84-82fc-1a39f3978338" />
-<img width="260" height="600" alt="Dark mode" src="https://github.com/user-attachments/assets/dd747c73-1f24-4ca9-b8f2-eeabbf96ef34" />
+<div align="center">
+  <img src="docs/images/app-screenshot-favorites-20260719.png" alt="Favorites Screen" width="250"/>
+  <img src="docs/images/app-screenshot-settings-20260719.png" alt="Settings Screen" width="250"/>
+</div>
 
-**More screenshots available:** See [screenshots/](screenshots/) folder for English, Japanese, and dark mode variants
+*Current version featuring: Native screens, shared search component, unified spacing, favorites functionality, repository search, and Material Design 3 theming.*
 
 ---
 
