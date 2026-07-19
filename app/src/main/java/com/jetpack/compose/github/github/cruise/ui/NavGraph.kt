@@ -21,7 +21,6 @@ import com.jetpack.compose.github.github.cruise.ui.features.favorites.FavoritesV
 import com.jetpack.compose.github.github.cruise.ui.features.home.HomeScreen
 import com.jetpack.compose.github.github.cruise.ui.features.profile.ProfileScreen
 import com.jetpack.compose.github.github.cruise.ui.features.repodetails.EnhancedRepoDetailsScreen
-import com.jetpack.compose.github.github.cruise.ui.features.repodetails.RepoDetailsScreen
 import com.jetpack.compose.github.github.cruise.ui.features.repositorysearch.RepositorySearchScreen
 import com.jetpack.compose.github.github.cruise.ui.features.repositorysearch.RepositorySearchViewModel
 import com.jetpack.compose.github.github.cruise.ui.features.settings.SettingsScreen

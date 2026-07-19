@@ -72,13 +72,32 @@ Splash Screen → Search Users → View Profile → Browse Repos → View Repo D
 **1.3 User Profile Screen**
 **Feature ID:** 1.3
 
-- Profile header: avatar, username, full name
-- Stats: followers, following, public repos
-- Bio/description
-- Repository list (paginated, 100 items/page)
-- Fork filter toggle
-- Pull-to-refresh
-- Tap repo → View details
+**Implementation:** Native screen with user profile and repositories (not WebView)
+
+- **Profile Header Card:**
+  - Avatar image (100dp size)
+  - Full name (or username if name not available)
+  - Gradient background (primary container colors)
+  - Stats display:
+    - Followers count
+    - Following count
+- **Favorite Button:**
+  - Star icon in app bar
+  - Add/Remove user from favorites
+  - Visual indicator of favorite status
+- **Repository List Section:**
+  - Section header showing total repository count
+  - Fork filter toggle switch (show/hide forked repos)
+  - Repository cards with:
+    - Repository name and description
+    - Stars, forks, language indicator
+  - Paginated list (100 items/page)
+  - Pull-to-refresh functionality
+  - Loading/Error/Empty states
+  - Tap repo → Navigate to Repository Details (1.4)
+- **Navigation:**
+  - Back button in app bar
+  - Returns to User Search Screen
 
 **1.5 User Repository List Screen**
 **Feature ID:** 1.5
@@ -92,9 +111,28 @@ Splash Screen → Search Users → View Profile → Browse Repos → View Repo D
 **1.4 Repository Details Screen**
 **Feature ID:** 1.4
 
-- WebView showing GitHub repo page
-- Loading indicator
-- Error handling
+**Implementation:** Native screen with enhanced repository details (not WebView)
+
+- Repository header: owner avatar, full name
+- Description text
+- Statistics grid showing:
+  - Stars count
+  - Forks count
+  - Open issues count
+  - Watchers count
+- Topics/tags display (if available)
+- Repository information:
+  - Primary language
+  - License type
+  - Default branch
+  - Homepage link (if available)
+- Action buttons:
+  - Open in browser (launches external browser)
+  - Copy clone URL (copies to clipboard)
+  - Share repository (system share sheet)
+- Favorite button in app bar to save repository
+- Loading indicator while fetching data
+- Error handling with retry option
 - Back navigation
 
 **APIs Used:**
@@ -131,12 +169,16 @@ Search Repositories → View Repo List → View Details
 **2.2 Repository Details Screen**
 **Feature ID:** 2.2
 
-- Full repository information
-- Statistics grid
-- Action buttons (open browser, copy clone URL, share)
+**Note:** This uses the same enhanced repository details screen as Feature 1.4
+
+- Same implementation as Feature 1.4 (Repository Details Screen)
+- Accessible from repository search results
+- Shows full repository information with native UI
+- All features from 1.4 apply here
 
 **APIs Used:**
 - API-4: Search Repositories
+- API-5: Get Repository Details (for enhanced information)
 
 ---
 
