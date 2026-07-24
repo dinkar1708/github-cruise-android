@@ -47,10 +47,12 @@ fun UsersListView(
     onItemClick: (User) -> Unit,
     onListScrolledToEnd: (Int) -> Unit
 ) {
-    // Restore scroll position from ViewModel state (survives rotation)
-    val scrollState = rememberLazyListState(
-        initialFirstVisibleItemIndex = lastVisibleItemIndex.coerceAtLeast(0)
-    )
+    // Scroll State Management:
+    // rememberLazyListState() uses rememberSaveable internally with LazyListState.Saver
+    // This automatically saves and restores scroll position across rotation/configuration changes
+    // No need to manually pass initialFirstVisibleItemIndex - framework handles it automatically
+    // We only need scrollState reference for pagination detection in LaunchedEffect below
+    val scrollState = rememberLazyListState()
     var scrolledToEnd by rememberSaveable { mutableStateOf(false) }
     val tag = "UsersListView"
 
