@@ -11,6 +11,7 @@ import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
 data class UserRepoViewListState(
     val login: String = "",
     val userRepoList: List<UserRepo> = emptyList(),
+    val totalRepos: Int = 0,
     val isShowingForkRepo: Boolean = false,
     val isLoading: Boolean = false,
     val errorMessage: String = ""

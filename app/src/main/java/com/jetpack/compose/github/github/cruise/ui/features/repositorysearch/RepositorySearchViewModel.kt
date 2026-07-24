@@ -99,6 +99,7 @@ class RepositorySearchViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             repositories = newList,
+                            totalCount = searchResult.totalCount,
                             isLoading = false,
                             hasMorePages = hasMore
                         )

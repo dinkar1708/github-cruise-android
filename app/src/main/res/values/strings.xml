@@ -19,6 +19,7 @@
     <string name="user_repository_profile_followers">Followers</string>
     <string name="user_repository_profile_following">Following</string>
     <string name="user_repository_repo_list_language">Language: </string>
+    <string name="repo_list_results_count">Showing %1$d of %2$d repositories</string>
 
     <!--Repository Details screen-->
     <string name="repository_details_title">Repository Details</string>
@@ -27,6 +28,7 @@
     <!--Repository Search screen-->
     <string name="repository_search_title">Repository Search</string>
     <string name="repository_search_hint">Search repositories...</string>
+    <string name="repository_search_results_count">Showing %1$d of %2$d repositories</string>
 
     <!--Bottom Navigation-->
     <string name="bottom_nav_home">Users</string>

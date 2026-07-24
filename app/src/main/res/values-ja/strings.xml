@@ -19,10 +19,16 @@
     <string name="user_repository_profile_followers">フォロワー</string>
     <string name="user_repository_profile_following">フォロー中</string>
     <string name="user_repository_repo_list_language">言語: </string>
+    <string name="repo_list_results_count">%2$d件中%1$d件のリポジトリを表示</string>
 
     <!--Repository Details screen-->
     <string name="repository_details_title">リポジトリの詳細</string>
     <string name="user_repository_list_start">" Star: "</string>
+
+    <!--Repository Search screen-->
+    <string name="repository_search_title">リポジトリ検索</string>
+    <string name="repository_search_hint">リポジトリを検索...</string>
+    <string name="repository_search_results_count">%2$d件中%1$d件のリポジトリを表示</string>
 
     <!--Bottom Navigation-->
     <string name="bottom_nav_home">ホーム</string>

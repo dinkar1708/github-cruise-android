@@ -23,4 +23,6 @@ data class UserProfile(
     val name: String? = "",
     val followers: Int = 0,
     val following: Int = 0,
+    @Json(name = "public_repos")
+    val publicRepos: Int = 0,
 )

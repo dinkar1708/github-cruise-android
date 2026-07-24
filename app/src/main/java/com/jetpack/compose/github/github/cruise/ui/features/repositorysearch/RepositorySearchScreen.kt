@@ -1,6 +1,8 @@
 package com.jetpack.compose.github.github.cruise.ui.features.repositorysearch
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +32,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,6 +63,7 @@ fun RepositorySearchScreen(
     RepositorySearchScreenContent(
         isLoading = viewState.isLoading,
         repositories = viewState.repositories,
+        totalCount = viewState.totalCount,
         lastVisibleItemIndex = viewState.lastVisibleItemIndex,
         errorMessage = viewState.errorMessage,
         onItemClick = { repository ->
@@ -81,6 +85,7 @@ fun RepositorySearchScreen(
 fun RepositorySearchScreenContent(
     isLoading: Boolean,
     repositories: List<Repository>,
+    totalCount: Int,
     lastVisibleItemIndex: Int,
     errorMessage: String,
     onItemClick: (Repository) -> Unit,
@@ -106,6 +111,27 @@ fun RepositorySearchScreenContent(
             testTag = "repository_search_input"
         )
 
+        // Fixed header showing repository count
+        if (repositories.isNotEmpty() && totalCount > 0) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .padding(horizontal = Spacing.medium, vertical = Spacing.small)
+            ) {
+                Text(
+                    text = stringResource(
+                        R.string.repository_search_results_count,
+                        repositories.size,
+                        totalCount
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            }
+        }
+
         StateContentBox(
             modifier = Modifier
                 .fillMaxSize()
@@ -130,6 +156,7 @@ fun RepositorySearchScreenPreview() {
         RepositorySearchScreenContent(
             isLoading = false,
             repositories = emptyList(),
+            totalCount = 0,
             lastVisibleItemIndex = 0,
             errorMessage = "",
             onItemClick = {},

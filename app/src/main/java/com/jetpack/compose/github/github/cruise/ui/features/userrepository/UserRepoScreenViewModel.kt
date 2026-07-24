@@ -70,6 +70,10 @@ class UserRepoScreenViewModel @Inject constructor(
                     errorMessage = ""
                 )
             }
+            // Update repository state with total count from user profile
+            _uiStateRepository.update {
+                it.copy(totalRepos = userProfile.publicRepos)
+            }
         } catch (exception: Exception) {
             val errorMessage = handleError(exception, "loadUserProfile unexpected")
             _uiStateProfile.update {

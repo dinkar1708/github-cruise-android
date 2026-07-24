@@ -117,6 +117,7 @@ fun UserRepoScreen(
         UserRepoListScreenContents(
             isLoading = viewState.isLoading,
             userRepoList = viewState.userRepoList,
+            totalRepos = viewState.totalRepos,
             errorMessage = viewState.errorMessage,
             isShowForkRepo =
             {
@@ -135,6 +136,7 @@ fun UserRepoScreen(
 fun UserRepoListScreenContents(
     isLoading: Boolean,
     userRepoList: List<UserRepo>,
+    totalRepos: Int,
     errorMessage: String,
     isShowForkRepo: (Boolean) -> Unit,
     openRepoDetails: (String) -> Unit
@@ -171,6 +173,26 @@ fun UserRepoListScreenContents(
                 ),
                 style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.onBackground)
             )
+        }
+
+        // Fixed header showing repository count
+        if (userRepoList.isNotEmpty() && totalRepos > 0) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Text(
+                    text = stringResource(
+                        R.string.repo_list_results_count,
+                        userRepoList.size,
+                        totalRepos
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            }
         }
 
         StateContentBox(
@@ -246,6 +268,7 @@ fun UserRepoListHeaderPreview() {
                 UserRepoListScreenContents(
                     isLoading = false,
                     userRepoList = userRepoList,
+                    totalRepos = 50,
                     errorMessage = "Error occured.",
                     isShowForkRepo = {},
                     openRepoDetails = {}

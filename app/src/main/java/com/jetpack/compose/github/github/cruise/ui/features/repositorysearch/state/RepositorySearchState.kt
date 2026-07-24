@@ -11,6 +11,7 @@ import com.jetpack.compose.github.github.cruise.domain.model.Repository
 @Immutable
 data class RepositorySearchState(
     val repositories: List<Repository> = emptyList(),
+    val totalCount: Int = 0,
     val lastVisibleItemIndex: Int = 0,
     val isLoading: Boolean = false,
     val errorMessage: String = "",
