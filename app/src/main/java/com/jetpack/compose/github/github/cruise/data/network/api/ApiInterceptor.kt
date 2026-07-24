@@ -25,14 +25,35 @@ class ApiInterceptor(private val moshi: Moshi) : Interceptor {
             val response = chain.proceed(request)
 
             if (!response.isSuccessful) {
+                // Close response before throwing exception to prevent OkHttp leak
+                response.close()
+
                 when (response.code) {
-                    // handle github api exception as per documentation
-                    // https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-users--status-codes
-                    // https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-a-user--status-codes
-                    404 -> throw ApiError.ResourceNotFoundError("Resource not found")
+                    // 3xx Redirection
                     304 -> throw ApiError.NotModifiedError("Not modified")
+
+                    // 4xx Client Errors
+                    400 -> throw ApiError.BadRequestError("Bad request - check your parameters")
+                    401 -> throw ApiError.UnauthorizedError("Unauthorized - authentication required")
+                    403 -> throw ApiError.ForbiddenError("Forbidden - check your access permissions")
+                    404 -> throw ApiError.ResourceNotFoundError("Resource not found")
                     422 -> throw ApiError.ValidationFailedError("Validation failed or the endpoint has been spammed")
-                    503 -> throw ApiError.ServiceUnavailableError("Service unavailable")
+                    429 -> {
+                        // GitHub rate limit - extract retry-after header
+                        val retryAfter = response.header("X-RateLimit-Reset")?.toLongOrNull()
+                        throw ApiError.RateLimitExceededError(
+                            "GitHub API rate limit exceeded. Please try again later.",
+                            retryAfter
+                        )
+                    }
+
+                    // 5xx Server Errors
+                    500 -> throw ApiError.ServerError("Internal server error - please try again later")
+                    502 -> throw ApiError.BadGatewayError("Bad gateway - GitHub service issue")
+                    503 -> throw ApiError.ServiceUnavailableError("Service unavailable - GitHub may be down")
+                    504 -> throw ApiError.GatewayTimeoutError("Gateway timeout - request took too long")
+
+                    // Generic error handling for other status codes
                     else -> response.body?.let { responseBody ->
                         handleError(responseBody)
                     }

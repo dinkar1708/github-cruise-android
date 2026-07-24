@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -46,8 +47,11 @@ fun UsersListView(
     onItemClick: (User) -> Unit,
     onListScrolledToEnd: (Int) -> Unit
 ) {
-    val scrollState = rememberLazyListState()
-    var scrolledToEnd by remember { mutableStateOf(false) }
+    // Restore scroll position from ViewModel state (survives rotation)
+    val scrollState = rememberLazyListState(
+        initialFirstVisibleItemIndex = lastVisibleItemIndex.coerceAtLeast(0)
+    )
+    var scrolledToEnd by rememberSaveable { mutableStateOf(false) }
     val tag = "UsersListView"
 
     LazyColumn(modifier = modifier, state = scrollState) {
@@ -72,18 +76,6 @@ fun UsersListView(
                     onListScrolledToEnd(lastVisibleItemIndex)
                 }
             }
-    }
-    // TODO Handle restoring the scroll position of the list after the next page data is loaded.
-    LaunchedEffect(userList) {
-//        Timber.d("$TAG listen userList ...lastVisibleItemIndex $lastVisibleItemIndex user size ${userList.size} ")
-    }
-    LaunchedEffect(lastVisibleItemIndex) {
-//        Timber.d("$TAG listen lastVisibleItemIndex ...lastVisibleItemIndex $lastVisibleItemIndex user size ${userList.size} ")
-        if (lastVisibleItemIndex > 0) {
-            // This can scroll, but it is not accurate.
-            scrollState.scrollToItem(lastVisibleItemIndex)
-            Timber.d("$tag scrolled.......... ")
-        }
     }
 }
 

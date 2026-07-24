@@ -35,7 +35,7 @@ class SearchUserIntegrationTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         mockUseCase = mockk()
-        viewModel = UsersListViewModel(mockUseCase, testDispatcher)
+        viewModel = UsersListViewModel(mockUseCase)
     }
 
     @After

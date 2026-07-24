@@ -1,8 +1,10 @@
 package com.jetpack.compose.github.github.cruise.domain.usecase
 
+import com.jetpack.compose.github.github.cruise.domain.filter.RepositoryFilter
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
-import com.jetpack.compose.github.github.cruise.data.repository.user.UserRepository
+import com.jetpack.compose.github.github.cruise.domain.repository.UserRepository
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,13 +25,14 @@ import org.junit.Test
 class UserRepositoryUseCaseTest {
 
     private val mockRepository: UserRepository = mockk()
+    private val mockRepositoryFilter: RepositoryFilter = mockk()
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var userRepositoryUseCase: UserRepositoryUseCase
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        userRepositoryUseCase = UserRepositoryUseCase(mockRepository)
+        userRepositoryUseCase = UserRepositoryUseCase(mockRepository, mockRepositoryFilter)
     }
 
     @After
@@ -65,10 +68,14 @@ class UserRepositoryUseCaseTest {
                 fork = true
             )
         )
+        val nonForkedRepos = listOf(userRepoList[0])
+
         // Given
         coEvery { mockRepository.getUserRepositories("dinkar1708", 1, 20) } returns flowOf(
             userRepoList
         )
+        every { mockRepositoryFilter.filterByForkStatus(userRepoList, false) } returns nonForkedRepos
+
         // When
         val result = userRepositoryUseCase.filterUserRepositories(
             false,
@@ -112,10 +119,14 @@ class UserRepositoryUseCaseTest {
                 fork = true
             )
         )
+        val forkedRepos = listOf(userRepoList[1], userRepoList[2])
+
         // Given
         coEvery { mockRepository.getUserRepositories("dinkar1708", 1, 20) } returns flowOf(
             userRepoList
         )
+        every { mockRepositoryFilter.filterByForkStatus(userRepoList, true) } returns forkedRepos
+
         // When
         val result = userRepositoryUseCase.filterUserRepositories(
             true,

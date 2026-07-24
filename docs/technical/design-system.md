@@ -2,7 +2,7 @@
 
 This document outlines the comprehensive design system implemented for the GitHub Cruise Android app, following **Material Design 3** and **Google's official design guidelines**.
 
-## 📐 Design Principles
+## Design Principles
 
 The app follows these core Material Design 3 principles:
 
@@ -12,7 +12,7 @@ The app follows these core Material Design 3 principles:
 4. **Responsive** - Adapts to different screen sizes and orientations
 5. **Themeable** - Full support for light and dark modes
 
-## 🎨 Design System Structure
+## Design System Structure
 
 ### 1. **Spacing System** (`ui/theme/Spacing.kt`)
 
@@ -119,6 +119,37 @@ IconOnPrimary  // White
 
 // State colors
 ErrorDefault   // #F0A992 - Coral
+```
+
+#### Programming Language Colors
+Consistent colors for programming language chips/tags based on GitHub's language colors:
+
+```kotlin
+// Popular languages
+LanguageKotlin      // #A97BFF - Purple
+LanguageJava        // #B07219 - Orange-brown
+LanguagePython      // #3572A5 - Blue
+LanguageJavaScript  // #F1E05A - Yellow
+LanguageTypeScript  // #2B7489 - Teal
+LanguageSwift       // #FFAC45 - Orange
+LanguageGo          // #00ADD8 - Cyan
+LanguageRust        // #DEA584 - Tan
+LanguageCPlusPlus   // #F34B7D - Pink
+LanguageCSharp      // #178600 - Green
+LanguageRuby        // #701516 - Dark red
+LanguagePHP         // #4F5D95 - Purple-blue
+LanguageDart        // #00B4AB - Turquoise
+LanguageDefault     // #586069 - Gray (fallback)
+```
+
+**Usage Example:**
+```kotlin
+// In AppChip.kt
+AppChip(
+    text = "Kotlin",
+    backgroundColor = LanguageKotlin,  // Uses theme color
+    textColor = Color.White
+)
 ```
 
 ### 5. **Typography System** (`ui/theme/TextStyle.kt`)
@@ -271,26 +302,26 @@ StateContentBox(
 - Repository list with filtering
 - Cards with medium shape
 
-## 🎯 Best Practices
+## Best Practices
 
 ### 1. Always Use Design Tokens
-❌ **Don't:**
+**Don't:**
 ```kotlin
 Modifier.padding(16.dp)
 ```
 
-✅ **Do:**
+**Do:**
 ```kotlin
 Modifier.padding(Spacing.medium)
 ```
 
 ### 2. Use Semantic Colors
-❌ **Don't:**
+**Don't:**
 ```kotlin
 Color(0xFF893788)
 ```
 
-✅ **Do:**
+**Do:**
 ```kotlin
 MaterialTheme.colorScheme.primary
 // or
@@ -298,7 +329,7 @@ PrimaryPurple  // when you need the exact color
 ```
 
 ### 3. Use Typography Scale
-❌ **Don't:**
+**Don't:**
 ```kotlin
 Text(
     text = "Title",
@@ -307,7 +338,7 @@ Text(
 )
 ```
 
-✅ **Do:**
+**Do:**
 ```kotlin
 Text(
     text = "Title",
@@ -316,23 +347,23 @@ Text(
 ```
 
 ### 4. Use Shape Tokens
-❌ **Don't:**
+**Don't:**
 ```kotlin
 Modifier.clip(RoundedCornerShape(12.dp))
 ```
 
-✅ **Do:**
+**Do:**
 ```kotlin
 Modifier.clip(AppShapes.card)
 ```
 
 ### 5. Use Elevation Tokens
-❌ **Don't:**
+**Don't:**
 ```kotlin
 Modifier.shadow(3.dp)
 ```
 
-✅ **Do:**
+**Do:**
 ```kotlin
 Modifier.shadow(Elevation.appBar)
 ```
@@ -360,7 +391,7 @@ All components follow accessibility best practices:
 3. **Touch Targets** - Minimum 48dp for clickable elements
 4. **Text Scaling** - Supports user font size preferences
 
-## 📖 Migration Guide
+## Migration Guide
 
 If you're updating old code to use the new design system:
 

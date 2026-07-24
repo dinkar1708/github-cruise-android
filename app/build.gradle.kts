@@ -85,6 +85,7 @@ dependencies {
 
     // App dependencies
     implementation(libs.timber)
+    implementation(libs.androidx.datastore.preferences)
 
     // Architecture Components
     implementation(libs.androidx.material3.android)

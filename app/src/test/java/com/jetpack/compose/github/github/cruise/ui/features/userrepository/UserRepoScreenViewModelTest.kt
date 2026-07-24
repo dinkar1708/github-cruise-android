@@ -35,7 +35,7 @@ class UserRepoScreenViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = UserRepoScreenViewModel(mockUserRepositoryUseCase, testDispatcher)
+        viewModel = UserRepoScreenViewModel(mockUserRepositoryUseCase)
     }
 
     @After

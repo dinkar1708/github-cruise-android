@@ -38,8 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jetpack.compose.github.github.cruise.R
 import com.jetpack.compose.github.github.cruise.ui.MainDestinations.HOME_SCREEN_ROUTE
-import com.jetpack.compose.github.github.cruise.ui.theme.DarkColor
-import com.jetpack.compose.github.github.cruise.ui.theme.MediumDarkColor
+import com.jetpack.compose.github.github.cruise.ui.MainDestinations.SPLASH_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.theme.Spacing
 import kotlinx.coroutines.delay
 
@@ -47,11 +46,11 @@ import kotlinx.coroutines.delay
  * Professional splash screen with smooth animations
  *
  * Design principles:
- * - Brand gradient background
+ * - Material Design 3 theming with dynamic colors
  * - Icon and text animations for modern feel
  * - Fade and scale animations
  * - Material Design 3 typography
- * - Auto-navigates after 2.5 seconds
+ * - Auto-navigates after 2.5 seconds with proper cancellation handling
  */
 @Composable
 fun SplashScreen(navController: NavController) {
@@ -59,9 +58,13 @@ fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(Unit) {
         startAnimation = true
-        delay(2500)
-        navController.popBackStack()
-        navController.navigate(HOME_SCREEN_ROUTE)
+        delay(SPLASH_DURATION_MS)
+
+        // Only navigate if still on splash screen (handles back press during delay)
+        if (navController.currentDestination?.route == SPLASH_SCREEN_ROUTE) {
+            navController.popBackStack()
+            navController.navigate(HOME_SCREEN_ROUTE)
+        }
     }
 
     Box(
@@ -69,7 +72,10 @@ fun SplashScreen(navController: NavController) {
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(DarkColor, MediumDarkColor),
+                    colors = listOf(
+                        MaterialTheme.colorScheme.primary,
+                        MaterialTheme.colorScheme.primaryContainer
+                    ),
                 ),
             ),
         contentAlignment = Alignment.Center
@@ -124,7 +130,7 @@ fun SplashScreen(navController: NavController) {
                     .scale(iconScale.value)
                     .alpha(iconAlpha.value)
                     .border(
-                        border = BorderStroke(3.dp, Color.White),
+                        border = BorderStroke(3.dp, MaterialTheme.colorScheme.onPrimary),
                         shape = CircleShape
                     ),
                 contentAlignment = Alignment.Center
@@ -132,7 +138,7 @@ fun SplashScreen(navController: NavController) {
                 Icon(
                     imageVector = Icons.Filled.Search,
                     contentDescription = null,
-                    tint = Color.White,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(40.dp)
                 )
             }
@@ -142,7 +148,7 @@ fun SplashScreen(navController: NavController) {
             // Title
             Text(
                 text = stringResource(R.string.splash_animation_github_cruise),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.displayMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -156,7 +162,7 @@ fun SplashScreen(navController: NavController) {
             // Tagline
             Text(
                 text = stringResource(R.string.splash_tagline),
-                color = Color.White.copy(alpha = 0.9f),
+                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.9f),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center,
@@ -165,3 +171,8 @@ fun SplashScreen(navController: NavController) {
         }
     }
 }
+
+/**
+ * Constants for splash screen behavior
+ */
+private const val SPLASH_DURATION_MS = 2500L

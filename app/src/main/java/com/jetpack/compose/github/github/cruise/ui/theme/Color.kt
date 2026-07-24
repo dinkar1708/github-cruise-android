@@ -28,3 +28,20 @@ val Alert = Color(0xFFF0A992)              // Error/alert color
 val DarkSurface = Color(0xFF2C2C2E)        // Dark surface/cards
 val DarkSurfaceVariant = Color(0xFF3A3A3C) // Elevated dark surface
 val DarkBackground = Color(0xFF1C1C1E)     // Dark background
+
+// Programming Language Colors
+// Based on common GitHub language colors for consistent UI
+val LanguageKotlin = Color(0xFFA97BFF)
+val LanguageJava = Color(0xFFB07219)
+val LanguagePython = Color(0xFF3572A5)
+val LanguageJavaScript = Color(0xFFF1E05A)
+val LanguageTypeScript = Color(0xFF2B7489)
+val LanguageSwift = Color(0xFFFFAC45)
+val LanguageGo = Color(0xFF00ADD8)
+val LanguageRust = Color(0xFFDEA584)
+val LanguageCPlusPlus = Color(0xFFF34B7D)
+val LanguageCSharp = Color(0xFF178600)
+val LanguageRuby = Color(0xFF701516)
+val LanguagePHP = Color(0xFF4F5D95)
+val LanguageDart = Color(0xFF00B4AB)
+val LanguageDefault = Color(0xFF586069)

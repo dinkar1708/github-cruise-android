@@ -53,6 +53,10 @@ Search and browse GitHub users with a powerful, paginated list view.
 
 #### 2.2 User List Display
 **Features:**
+- Fixed header showing results count ("Showing X of Y results")
+  - Updates in real-time as user scrolls and loads more pages
+  - Material Design 3 themed with secondaryContainer background
+  - Internationalized (English & Japanese)
 - Vertically scrollable list of GitHub users
 - Each user item displays:
   - Avatar/profile image (circular)

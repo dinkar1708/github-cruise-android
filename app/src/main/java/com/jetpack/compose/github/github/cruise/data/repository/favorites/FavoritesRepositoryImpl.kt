@@ -4,6 +4,7 @@ import com.jetpack.compose.github.github.cruise.data.preferences.FavoritesPrefer
 import com.jetpack.compose.github.github.cruise.di.IoDispatcher
 import com.jetpack.compose.github.github.cruise.domain.model.FavoriteItem
 import com.jetpack.compose.github.github.cruise.domain.model.FavoriteType
+import com.jetpack.compose.github.github.cruise.domain.repository.FavoritesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext

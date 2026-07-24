@@ -1,7 +1,10 @@
 package com.jetpack.compose.github.github.cruise.ui.features.users
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,6 +33,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,6 +64,7 @@ fun UsersListScreen(
         userList = viewState.userList,
         lastVisibleItemIndex = viewState.lastVisibleItemIndex,
         errorMessage = viewState.errorMessage,
+        totalCount = viewState.totalCount,
         onItemClick = {
             navController.navigate("${USER_REPO_SCREEN_ROUTE}/${it.login}")
         },
@@ -89,6 +94,7 @@ fun UsersListScreenContent(
     userList: List<User>,
     lastVisibleItemIndex: Int,
     errorMessage: String,
+    totalCount: Int,
     onItemClick: (User) -> Unit,
     onSearchSubmitted: (String) -> Unit,
     onClearInput: () -> Unit,
@@ -111,6 +117,27 @@ fun UsersListScreenContent(
             onClearInput = onClearInput,
             testTag = "search_input"
         )
+
+        // Fixed header showing results count
+        if (userList.isNotEmpty() && totalCount > 0) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .padding(horizontal = Spacing.medium, vertical = Spacing.small)
+            ) {
+                Text(
+                    text = stringResource(
+                        R.string.user_list_results_count,
+                        userList.size,
+                        totalCount
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            }
+        }
 
         StateContentBox(
             modifier = Modifier.padding(top = Spacing.medium),
@@ -141,6 +168,7 @@ fun UserListScreenContentPreview() {
             userList = emptyList(),
             lastVisibleItemIndex = 0,
             errorMessage = "Error",
+            totalCount = 0,
             onItemClick = { }, onSearchSubmitted = {},
             onClearInput = {},
             onListScrolledToEnd = {},

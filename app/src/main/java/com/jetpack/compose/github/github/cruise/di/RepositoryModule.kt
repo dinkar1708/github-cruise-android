@@ -1,15 +1,15 @@
 package com.jetpack.compose.github.github.cruise.di
 
-import com.jetpack.compose.github.github.cruise.data.repository.favorites.FavoritesRepository
 import com.jetpack.compose.github.github.cruise.data.repository.favorites.FavoritesRepositoryImpl
 import com.jetpack.compose.github.github.cruise.data.repository.repositorydetails.RepositoryDetailsRepository
 import com.jetpack.compose.github.github.cruise.data.repository.repositorydetails.RepositoryDetailsRepositoryImpl
 import com.jetpack.compose.github.github.cruise.data.repository.repositorysearch.RepositorySearchRepository
 import com.jetpack.compose.github.github.cruise.data.repository.repositorysearch.RepositorySearchRepositoryImpl
-import com.jetpack.compose.github.github.cruise.data.repository.search.SearchRepository
 import com.jetpack.compose.github.github.cruise.data.repository.search.SearchRepositoryImpl
-import com.jetpack.compose.github.github.cruise.data.repository.user.UserRepository
 import com.jetpack.compose.github.github.cruise.data.repository.user.UserRepositoryImpl
+import com.jetpack.compose.github.github.cruise.domain.repository.FavoritesRepository
+import com.jetpack.compose.github.github.cruise.domain.repository.SearchRepository
+import com.jetpack.compose.github.github.cruise.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

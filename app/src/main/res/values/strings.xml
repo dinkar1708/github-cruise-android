@@ -11,6 +11,7 @@
     <string name="users_page_title">Users</string>
     <string name="user_search_field_help">Enter user name</string>
     <string name="user_list_score">Score: %1$s</string>
+    <string name="user_list_results_count">Showing %1$d of %2$d results</string>
 
     <!--User Repository screen-->
     <string name="user_repository_title_repositories">Repositories: %1$s </string>
@@ -73,6 +74,6 @@
 
     <!--Web View Screen-->
     <string name="webview_title">Loading…</string>
-    <string name="privacy_policy_url">https://www.google.com</string>
-    <string name="terms_url">https://www.google.com</string>
+    <string name="privacy_policy_url">https://github.com/dinkar1708/GithubCruise/blob/main/PRIVACY.md</string>
+    <string name="terms_url">https://github.com/dinkar1708/GithubCruise/blob/main/TERMS.md</string>
 </resources>

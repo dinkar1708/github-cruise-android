@@ -2,7 +2,7 @@ package com.jetpack.compose.github.github.cruise.ui.features.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jetpack.compose.github.github.cruise.data.repository.favorites.FavoritesRepository
+import com.jetpack.compose.github.github.cruise.domain.repository.FavoritesRepository
 import com.jetpack.compose.github.github.cruise.di.DefaultDispatcher
 import com.jetpack.compose.github.github.cruise.domain.model.FavoriteItem
 import com.jetpack.compose.github.github.cruise.domain.model.FavoriteType
@@ -22,11 +22,15 @@ import javax.inject.Inject
 
 /**
  * ViewModel for Favorites screen
+ *
+ * Threading:
+ * - viewModelScope runs on Dispatchers.Main by default (UI thread)
+ * - Repository layer handles threading for SharedPreferences (uses IoDispatcher)
+ * - Flow collection happens on Main thread (safe for UI updates)
  */
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val favoritesRepository: FavoritesRepository,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
+    private val favoritesRepository: FavoritesRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FavoritesState())
@@ -38,6 +42,7 @@ class FavoritesViewModel @Inject constructor(
 
     /**
      * Observe favorites from repository
+     * Collects on Main thread (viewModelScope)
      */
     private fun observeFavorites() {
         favoritesRepository.favorites
@@ -48,15 +53,15 @@ class FavoritesViewModel @Inject constructor(
                 Timber.e(e, "Error observing favorites")
                 _uiState.update { it.copy(error = e.message, isLoading = false) }
             }
-            .flowOn(dispatcher)
-            .launchIn(viewModelScope)
+            .launchIn(viewModelScope) // Collects on Main dispatcher
     }
 
     /**
      * Add item to favorites
+     * Repository handles IO thread switching
      */
     fun addFavorite(item: FavoriteItem) {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             try {
                 favoritesRepository.addFavorite(item)
             } catch (e: Exception) {
@@ -68,9 +73,10 @@ class FavoritesViewModel @Inject constructor(
 
     /**
      * Remove item from favorites
+     * Repository handles IO thread switching
      */
     fun removeFavorite(itemId: String, type: FavoriteType) {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             try {
                 favoritesRepository.removeFavorite(itemId, type)
             } catch (e: Exception) {
@@ -82,9 +88,10 @@ class FavoritesViewModel @Inject constructor(
 
     /**
      * Clear all favorites
+     * Repository handles IO thread switching
      */
     fun clearAllFavorites() {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             try {
                 favoritesRepository.clearFavorites()
             } catch (e: Exception) {

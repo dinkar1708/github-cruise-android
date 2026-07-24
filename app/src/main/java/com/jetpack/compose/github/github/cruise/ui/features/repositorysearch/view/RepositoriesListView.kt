@@ -24,7 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -55,8 +55,11 @@ fun RepositoriesListView(
     onItemClick: (Repository) -> Unit,
     onListScrolledToEnd: (Int) -> Unit
 ) {
-    val scrollState = rememberLazyListState()
-    var scrolledToEnd by remember { mutableStateOf(false) }
+    // Restore scroll position from ViewModel state (survives rotation)
+    val scrollState = rememberLazyListState(
+        initialFirstVisibleItemIndex = lastVisibleItemIndex.coerceAtLeast(0)
+    )
+    var scrolledToEnd by rememberSaveable { mutableStateOf(false) }
 
     LazyColumn(state = scrollState) {
         itemsIndexed(repositories) { _, repository ->

@@ -36,7 +36,7 @@ class UsersListViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = UsersListViewModel(mockSearchRepositoryUseCase, testDispatcher)
+        viewModel = UsersListViewModel(mockSearchRepositoryUseCase)
     }
 
     @After

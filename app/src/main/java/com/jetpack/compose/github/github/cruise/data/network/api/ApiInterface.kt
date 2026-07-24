@@ -34,9 +34,8 @@ interface APIInterface {
     @GET("/users/{userName}/repos")
     suspend fun getUserRepositories(
         @Path("userName") userName: String,
-        // TODO add pagination later
-//        @Query("page") page: Int,
-//        @Query("per_page") pageSize: Int,
+        @Query("page") page: Int,
+        @Query("per_page") pageSize: Int,
     ): List<UserRepo>
 
     @GET("/repos/{owner}/{repo}")

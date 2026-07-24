@@ -18,11 +18,15 @@ import javax.inject.Inject
 
 /**
  * ViewModel for Repository Details screen
+ *
+ * Threading:
+ * - viewModelScope runs on Dispatchers.Main by default (UI thread)
+ * - Repository layer handles switching to IO thread via flowOn()
+ * - Flow collection happens on Main thread (safe for UI updates)
  */
 @HiltViewModel
 class RepoDetailsViewModel @Inject constructor(
-    private val repositoryDetailsUseCase: RepositoryDetailsUseCase,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
+    private val repositoryDetailsUseCase: RepositoryDetailsUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RepoDetailsState())
@@ -40,7 +44,7 @@ class RepoDetailsViewModel @Inject constructor(
             return
         }
 
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             repositoryDetailsUseCase(owner, repo)
                 .onStart {
                     _uiState.update { it.copy(isLoading = true, error = null) }

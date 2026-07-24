@@ -60,12 +60,12 @@ See **[Product Documentation](#product--business-documentation)** for detailed p
 
 This project demonstrates comprehensive **product development skills** beyond technical implementation:
 
-**🎯 Problem Identification**
+**Problem Identification**
 - **User Pain Point:** Developers need quick GitHub profile access on mobile, but the GitHub mobile website is slow (3-5s load times)
 - **Market Research:** Identified target users (developers, recruiters, OSS contributors) and their specific needs
 - **Competitive Analysis:** Analyzed GitHub official app (45MB, slow startup) vs market opportunity (lightweight, focused tool)
 
-**📊 Business Requirements Translation**
+**Business Requirements Translation**
 - **User Need:** "Fast profile discovery" → **Technical Spec:** < 800ms search response, pagination, image caching
 - **Market Need:** "Support global users" → **Technical Spec:** i18n framework (en/ja), dark mode, accessibility (WCAG AA)
 - **Business Goal:** "99.5% reliability" → **Technical Spec:** Clean Architecture, 77% test coverage, comprehensive error handling
@@ -78,7 +78,7 @@ This project demonstrates comprehensive **product development skills** beyond te
 | **Japanese Localization** | Target 10M+ dev market in Japan | i18n strings, locale support | 20% addressable market increase |
 | **Dark Mode** | 70% of devs prefer dark UI | Material 3 dynamic theming | Higher user satisfaction, retention |
 
-**📈 Measurable Outcomes**
+**Measurable Outcomes**
 - **Performance:** 60% faster than mobile web (1.2s startup vs 3s+)
 - **Quality:** 77% repository layer coverage, 70% use case coverage, 39 tests
 - **Scale:** Supports 99.6% of Android devices (API 21+)
@@ -118,12 +118,12 @@ Technical Specification:
 ```
 
 **Key Skills Demonstrated:**
-- ✅ Stakeholder requirements gathering
-- ✅ User story creation with acceptance criteria
-- ✅ API design and error handling strategies
-- ✅ Performance SLAs (Service Level Agreements)
-- ✅ Security & privacy considerations
-- ✅ Scalability planning
+- Stakeholder requirements gathering
+- User story creation with acceptance criteria
+- API design and error handling strategies
+- Performance SLAs (Service Level Agreements)
+- Security & privacy considerations
+- Scalability planning
 
 **📖 Full Documentation:** [REQUIREMENTS_SPECIFICATION.md](documentation/REQUIREMENTS_SPECIFICATION.md)
 
@@ -275,15 +275,19 @@ GithubCruiseAndroid/
 │       │   └── repodetails/         # Repository details screen
 │       ├── shared/           # Reusable UI components
 │       └── theme/            # Material Design 3 theme & tokens
-├── documentation/             # Project documentation
-│   ├── FEATURES.md           # Detailed features documentation
-│   ├── ARCHITECTURE.md       # Technical architecture guide
-│   ├── DESIGN_SYSTEM.md      # Material Design 3 design system
-│   └── API.md                # GitHub API integration details
+├── docs/                      # Project documentation
+│   ├── technical/            # Technical documentation
+│   │   ├── ARCHITECTURE_BEST_PRACTICES.md  # Android best practices
+│   │   ├── API_CALL_CANCELLATION.md       # API cancellation patterns
+│   │   ├── features.md                     # Feature documentation
+│   │   ├── design-system.md               # Material Design 3
+│   │   └── testing-types.md               # Testing guide
+│   ├── product/              # Product documentation
+│   └── testing/              # Test documentation
 └── README.md                 # This file
 ```
 
-See detailed architecture in [architecture.md](docs/technical/architecture.md)
+See technical documentation in [docs/technical/](docs/technical/)
 
 ---
 
@@ -296,9 +300,20 @@ See detailed architecture in [architecture.md](docs/technical/architecture.md)
 - **[roadmap.md](docs/product/roadmap.md)** - 12-month strategic plan
 
 ### Technical Documentation
+- **[ARCHITECTURE_BEST_PRACTICES.md](docs/technical/ARCHITECTURE_BEST_PRACTICES.md)** - Android best practices guide
+  - Coroutines & Threading patterns
+  - MVVM Architecture implementation
+  - Memory leak prevention
+  - Scroll state restoration
+  - Higher-order functions usage
+  - Clean Architecture principles
+  - 20+ Official Android documentation references
+- **[API_CALL_CANCELLATION.md](docs/technical/API_CALL_CANCELLATION.md)** - API cancellation pattern
+  - Job-based cancellation for fast scrolling
+  - Response cleanup to prevent crashes
+  - Pagination vs search cancellation strategy
+  - OkHttp best practices
 - [features.md](docs/technical/features.md) - Complete feature documentation
-- [architecture.md](docs/technical/architecture.md) - Architecture patterns and data flow
-- [api.md](docs/technical/api.md) - GitHub API endpoints
 - [design-system.md](docs/technical/design-system.md) - Material Design 3 tokens
 - [testing-types.md](docs/technical/testing-types.md) - Comprehensive testing guide
 - [code-coverage.md](docs/technical/code-coverage.md) - Testing best practices
@@ -308,9 +323,9 @@ See detailed architecture in [architecture.md](docs/technical/architecture.md)
 
 ## Testing
 
-### 🎯 UI Testing - Core Journey Coverage
+### UI Testing - Core Journey Coverage
 
-**Test Status: ✅ 48/48 core journey tests passing (100%)**
+**Test Status: 48/48 core journey tests passing (100%)**
 
 <img src="docs/images/test-results-summary-20260719.png" alt="UI Test Results Summary - All Tests Passing" width="600"/>
 
@@ -323,16 +338,16 @@ See detailed architecture in [architecture.md](docs/technical/architecture.md)
 - **Framework** - Compose Testing (Google Official)
 
 **Core Journey Coverage (100% Passing):**
-- Journey 1: App Launch (3 tests) - ✅ All passing
-- Journey 2: User Search (4 tests) - ✅ All passing
-- Journey 3: View User Profile (3 tests) - ✅ All passing
-- Journey 4: View Repositories (4 tests) - ✅ All passing
-- Journey 5: Filter Repositories (4 tests) - ✅ All passing
-- Journey 6: View Repository Details (5 tests) - ✅ All passing
-- Journey 7: Empty Search (6 tests) - ✅ All passing
-- Journey 8: Error Handling (7 tests) - ✅ All passing
-- Journey 9: Pull to Refresh (6 tests) - ✅ All passing
-- Journey 10: Back Navigation (6 tests) - ✅ All passing
+- Journey 1: App Launch (3 tests) - All passing
+- Journey 2: User Search (4 tests) - All passing
+- Journey 3: View User Profile (3 tests) - All passing
+- Journey 4: View Repositories (4 tests) - All passing
+- Journey 5: Filter Repositories (4 tests) - All passing
+- Journey 6: View Repository Details (5 tests) - All passing
+- Journey 7: Empty Search (6 tests) - All passing
+- Journey 8: Error Handling (7 tests) - All passing
+- Journey 9: Pull to Refresh (6 tests) - All passing
+- Journey 10: Back Navigation (6 tests) - All passing
 
 **Additional Feature Tests (In Development):**
 - Journey 11: Repository Search Tab (6 tests) - Test cases created, pending integration
@@ -578,55 +593,55 @@ A: Wait for the limit to reset (60 requests/hour) or implement personal access t
 
 **Reference:** See [MASTER_FEATURE_SPECIFICATION.md](docs/master/MASTER_FEATURE_SPECIFICATION.md) for complete feature inventory across all platforms.
 
-### ✅ All Features Complete (100%)
+### All Features Complete (100%)
 
 **Priority 1: Core Features**
 
 | Feature ID | Feature | Status |
 |------------|---------|--------|
-| 1.1 | Splash Screen | ✅ Done |
-| 1.2 | User Search Screen | ✅ Done |
-| 1.3 | User Profile Screen (Native with Favorites) | ✅ Done |
-| 1.4 | Repository Details Screen (Native Enhanced) | ✅ Done |
-| 1.5 | User Repository List Screen | ✅ Done |
-| 2.1 | Repository Search Screen | ✅ Done |
-| 2.2 | Repository Details (Enhanced) | ✅ Done |
+| 1.1 | Splash Screen | Done |
+| 1.2 | User Search Screen | Done |
+| 1.3 | User Profile Screen (Native with Favorites) | Done |
+| 1.4 | Repository Details Screen (Native Enhanced) | Done |
+| 1.5 | User Repository List Screen | Done |
+| 2.1 | Repository Search Screen | Done |
+| 2.2 | Repository Details (Enhanced) | Done |
 
 **Priority 2: Advanced Features**
 
 | Feature ID | Feature | Status |
 |------------|---------|--------|
-| 3.1 | Favorite Users | ✅ Done |
-| 3.2 | Favorite Repositories | ✅ Done |
-| 3.3 | Favorites List Screen | ✅ Done |
-| 4.0 | Settings Screen | ✅ Done |
+| 3.1 | Favorite Users | Done |
+| 3.2 | Favorite Repositories | Done |
+| 3.3 | Favorites List Screen | Done |
+| 4.0 | Settings Screen | Done |
 
 **APIs Implemented:**
-- ✅ API-1: Search Users
-- ✅ API-2: Get User Profile
-- ✅ API-3: Get User Repositories
-- ✅ API-4: Search Repositories
-- ✅ API-5: Get Repository Details (Enhanced)
+- API-1: Search Users
+- API-2: Get User Profile
+- API-3: Get User Repositories
+- API-4: Search Repositories
+- API-5: Get Repository Details (Enhanced)
 
 ---
 
 ### Implementation Highlights
 
 **Current Status:**
-- ✅ **11/11 Features Complete (100%)**
-- ✅ **5/5 APIs Implemented (100%)**
-- ✅ **Native UI Implementation** - No WebViews, all native Compose screens
-- ✅ **Complete Favorites System** - Users and repositories
-- ✅ **Enhanced Repository Details** - Rich native UI with actions
+- **11/11 Features Complete (100%)**
+- **5/5 APIs Implemented (100%)**
+- **Native UI Implementation** - No WebViews, all native Compose screens
+- **Complete Favorites System** - Users and repositories
+- **Enhanced Repository Details** - Rich native UI with actions
 
 **Key Features:**
-- 🎨 Material Design 3 with dynamic theming
-- 🌙 Dark mode support
-- 🌐 Internationalization (English & Japanese)
-- ⭐ Complete favorites system
-- 🔍 Dual search (Users & Repositories)
-- 📱 Native screens throughout
-- ✅ 100% UI test coverage (48/48 core tests passing)
+- Material Design 3 with dynamic theming
+- Dark mode support
+- Internationalization (English & Japanese)
+- Complete favorites system
+- Dual search (Users & Repositories)
+- Native screens throughout
+- 100% UI test coverage (48/48 core tests passing)
 
 **Future Enhancements:**
 - Add more APIs (Repository Issues, Commits, Followers, etc.)
@@ -728,7 +743,7 @@ This project is available for educational and portfolio purposes.
 ---
 
 <p align="center">
-  <b>⭐ Star this repo if you find it helpful!</b>
+  <b>Star this repo if you find it helpful!</b>
 </p>
 
 <p align="center">

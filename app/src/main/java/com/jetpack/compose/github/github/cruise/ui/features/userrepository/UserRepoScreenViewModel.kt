@@ -1,10 +1,9 @@
 package com.jetpack.compose.github.github.cruise.ui.features.userrepository
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jetpack.compose.github.github.cruise.di.DefaultDispatcher
 import com.jetpack.compose.github.github.cruise.domain.usecase.UserRepositoryUseCase
-import com.jetpack.compose.github.github.cruise.data.network.model.ApiError
+import com.jetpack.compose.github.github.cruise.ui.base.BaseViewModel
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoScreenProfileState
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoViewListState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,24 +15,29 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
  * Created by Dinakar Maurya on 2024/05/14.
+ *
+ * Threading:
+ * - viewModelScope runs on Dispatchers.Main by default (UI thread)
+ * - Repository layer handles switching to IO thread via flowOn()
+ * - Flow collection happens on Main thread (safe for UI updates)
  */
 @HiltViewModel
 class UserRepoScreenViewModel @Inject constructor(
-    private val userRepositoryUseCase: UserRepositoryUseCase,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
-) : ViewModel() {
+    private val userRepositoryUseCase: UserRepositoryUseCase
+) : BaseViewModel() {
     private val _uiStateRepository = MutableStateFlow(UserRepoViewListState())
     val uiStateRepository: StateFlow<UserRepoViewListState> = _uiStateRepository.asStateFlow()
 
     private val _uiStateProfile = MutableStateFlow(UserRepoScreenProfileState())
     val uiStateProfile: StateFlow<UserRepoScreenProfileState> = _uiStateProfile.asStateFlow()
 
-    fun loadApiData(login: String) = viewModelScope.launch(dispatcher) {
+    override val TAG = "UserRepoScreenViewModel"
+
+    fun loadApiData(login: String) = viewModelScope.launch {
         _uiStateRepository.update { it.copy(login = login) }
 
         if (_uiStateProfile.value.userProfile == null) {
@@ -50,11 +54,10 @@ class UserRepoScreenViewModel @Inject constructor(
         try {
             val userProfile = userRepositoryUseCase.getUserProfile(login = login)
                 .catch { exception ->
-                    Timber.e("viewmodel loadUserProfile error $exception")
-                    val apiError = exception as ApiError
+                    val errorMessage = handleError(exception, "loadUserProfile")
                     _uiStateProfile.update {
                         it.copy(
-                            errorMessage = apiError.message,
+                            errorMessage = errorMessage,
                             isLoading = false
                         )
                     }
@@ -68,11 +71,10 @@ class UserRepoScreenViewModel @Inject constructor(
                 )
             }
         } catch (exception: Exception) {
-            Timber.e("viewmodel loadUserProfile unexpected $exception")
-            val apiError = exception as ApiError
+            val errorMessage = handleError(exception, "loadUserProfile unexpected")
             _uiStateProfile.update {
                 it.copy(
-                    errorMessage = apiError.message,
+                    errorMessage = errorMessage,
                     isLoading = false
                 )
             }
@@ -91,11 +93,10 @@ class UserRepoScreenViewModel @Inject constructor(
                     40
                 )
                     .catch { exception ->
-                        Timber.e("viewmodel loadUserRepositories $exception")
-                        val apiError = exception as ApiError
+                        val errorMessage = handleError(exception, "loadUserRepositories")
                         _uiStateRepository.update {
                             it.copy(
-                                errorMessage = apiError.message,
+                                errorMessage = errorMessage,
                                 isLoading = false
                             )
                         }
@@ -120,12 +121,11 @@ class UserRepoScreenViewModel @Inject constructor(
                 }
             }
         } catch (exception: Exception) {
-            Timber.e("viewmodel loadUserRepositories unexpected $exception")
-            val apiError = exception as ApiError
+            val errorMessage = handleError(exception, "loadUserRepositories unexpected")
 
             _uiStateRepository.update {
                 it.copy(
-                    errorMessage = apiError.message,
+                    errorMessage = errorMessage,
                     isLoading = false
                 )
             }
@@ -133,7 +133,7 @@ class UserRepoScreenViewModel @Inject constructor(
     }
 
     fun filterRepositories(isShowingForkRepo: Boolean, login: String) =
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             _uiStateRepository.update {
                 it.copy(isShowingForkRepo = isShowingForkRepo, login = login)
             }

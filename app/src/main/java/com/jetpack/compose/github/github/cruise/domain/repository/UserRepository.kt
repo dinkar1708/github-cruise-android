@@ -1,14 +1,15 @@
-package com.jetpack.compose.github.github.cruise.data.repository.user
+package com.jetpack.compose.github.github.cruise.domain.repository
 
 import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
 import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Created by Dinakar Maurya on 2024/05/14.
+ * Repository interface for user operations
+ *
+ * Located in domain layer following Clean Architecture principles
  */
 interface UserRepository {
-
     suspend fun getUserProfile(userName: String): Flow<UserProfile>
 
     suspend fun getUserRepositories(

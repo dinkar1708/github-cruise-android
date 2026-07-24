@@ -11,6 +11,7 @@
     <string name="users_page_title">ユーザー</string>
     <string name="user_search_field_help">ユーザー名を入力してください</string>
     <string name="user_list_score">スコア: %1$s</string>
+    <string name="user_list_results_count">%2$d件中%1$d件を表示</string>
 
     <!--User Repository screen-->
     <string name="user_repository_title_repositories">リポジトリ: %1$s</string>
@@ -58,6 +59,6 @@
 
     <!--Web View Screen-->
     <string name="webview_title">読み込み中…</string>
-    <string name="privacy_policy_url">https://www.google.com</string>
-    <string name="terms_url">https://www.google.com</string>
+    <string name="privacy_policy_url">https://github.com/dinkar1708/GithubCruise/blob/main/PRIVACY.md</string>
+    <string name="terms_url">https://github.com/dinkar1708/GithubCruise/blob/main/TERMS.md</string>
 </resources>
