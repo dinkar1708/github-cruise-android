@@ -55,27 +55,37 @@ fun RepositoriesListView(
     onItemClick: (Repository) -> Unit,
     onListScrolledToEnd: (Int) -> Unit
 ) {
-    // No explicit scroll state - let LazyColumn handle it internally
+    // Scroll State Management:
+    // rememberLazyListState() uses rememberSaveable internally with LazyListState.Saver
+    // This automatically saves and restores scroll position across rotation/configuration changes
+    // No need to manually pass initialFirstVisibleItemIndex - framework handles it automatically
+    // We only need scrollState reference for pagination detection in LaunchedEffect below
+    val scrollState = rememberLazyListState()
     var scrolledToEnd by rememberSaveable { mutableStateOf(false) }
 
-    LazyColumn {
+    LazyColumn(state = scrollState) {
         itemsIndexed(repositories) { index, repository ->
             key(repository.id) {
                 RepositoryCard(
                     repository = repository,
                     onItemClick = onItemClick
                 )
-
-                // Detect when scrolled to end
-                if (index == repositories.size - 1 && !scrolledToEnd) {
-                    LaunchedEffect(Unit) {
-                        Timber.d("Scrolled to end, loading next page. Last index: $index")
-                        scrolledToEnd = true
-                        onListScrolledToEnd(index)
-                    }
-                }
             }
         }
+    }
+
+    // Detect when scrolled to end for pagination
+    LaunchedEffect(scrollState) {
+        snapshotFlow { scrollState.layoutInfo.visibleItemsInfo }
+            .distinctUntilChanged()
+            .collect { visibleItems ->
+                if (visibleItems.lastOrNull()?.index == (repositories.size - 1) && !scrolledToEnd) {
+                    val lastIndex = scrollState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+                    Timber.d("Scrolled to end, loading next page. Last index: $lastIndex")
+                    scrolledToEnd = true
+                    onListScrolledToEnd(lastIndex)
+                }
+            }
     }
 
     LaunchedEffect(repositories) {
