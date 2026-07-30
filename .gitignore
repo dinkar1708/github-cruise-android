@@ -28,3 +28,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Documentation - Research folder (reference only, not for commit)
+docs/research/
