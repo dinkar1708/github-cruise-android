@@ -22,7 +22,7 @@ class UserRepositoryImpl @Inject constructor(
     private val networkDataSource: NetworkDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : UserRepository {
-    override suspend fun getUserProfile(userName: String): Flow<UserProfile> = flow {
+    override fun getUserProfile(userName: String): Flow<UserProfile> = flow {
         // Network call executed on IO thread via flowOn below
         val users = networkDataSource.getUserProfile(userName)
         emit(users)
@@ -31,7 +31,7 @@ class UserRepositoryImpl @Inject constructor(
         throw e
     }.flowOn(ioDispatcher) // Execute network call on IO dispatcher
 
-    override suspend fun getUserRepositories(
+    override fun getUserRepositories(
         userName: String, page: Int,
         pageSize: Int,
     ): Flow<List<UserRepo>> = flow {

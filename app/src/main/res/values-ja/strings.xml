@@ -31,8 +31,9 @@
     <string name="repository_search_results_count">%2$d件中%1$d件のリポジトリを表示</string>
 
     <!--Bottom Navigation-->
-    <string name="bottom_nav_home">ホーム</string>
-    <string name="bottom_nav_profile">プロフィール</string>
+    <string name="bottom_nav_home">ユーザー</string>
+    <string name="bottom_nav_repositories">リポジトリ</string>
+    <string name="bottom_nav_favorites">お気に入り</string>
     <string name="bottom_nav_settings">設定</string>
 
     <!--Profile Screen-->
@@ -43,6 +44,16 @@
     <string name="profile_email_value">dinkar1708@gmail.com</string>
     <string name="profile_github_label">GitHubユーザー名</string>
     <string name="profile_github_value">dinkar1708</string>
+
+    <!--Favorites Screen-->
+    <string name="favorites_title">お気に入り</string>
+    <string name="favorites_empty_title">お気に入りがありません</string>
+    <string name="favorites_empty_message">ユーザーやリポジトリをお気に入りに追加すると、ここに表示されます</string>
+    <string name="favorites_clear_all">すべてクリア</string>
+    <string name="favorites_add">お気に入りに追加</string>
+    <string name="favorites_remove">お気に入りから削除</string>
+    <string name="favorites_type_user">ユーザー</string>
+    <string name="favorites_type_repository">リポジトリ</string>
 
     <!--Settings Screen-->
     <string name="settings_title">設定</string>

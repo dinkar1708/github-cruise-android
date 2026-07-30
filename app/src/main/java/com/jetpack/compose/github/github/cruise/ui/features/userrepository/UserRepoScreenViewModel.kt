@@ -1,13 +1,11 @@
 package com.jetpack.compose.github.github.cruise.ui.features.userrepository
 
 import androidx.lifecycle.viewModelScope
-import com.jetpack.compose.github.github.cruise.di.DefaultDispatcher
 import com.jetpack.compose.github.github.cruise.domain.usecase.UserRepositoryUseCase
 import com.jetpack.compose.github.github.cruise.ui.base.BaseViewModel
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoScreenProfileState
 import com.jetpack.compose.github.github.cruise.ui.features.userrepository.state.UserRepoViewListState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

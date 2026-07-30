@@ -8,11 +8,13 @@ import kotlinx.coroutines.flow.Flow
  * Repository interface for user operations
  *
  * Located in domain layer following Clean Architecture principles
+ *
+ * Note: Flow is already asynchronous, so suspend modifier is not needed
  */
 interface UserRepository {
-    suspend fun getUserProfile(userName: String): Flow<UserProfile>
+    fun getUserProfile(userName: String): Flow<UserProfile>
 
-    suspend fun getUserRepositories(
+    fun getUserRepositories(
         userName: String,
         page: Int,
         pageSize: Int,

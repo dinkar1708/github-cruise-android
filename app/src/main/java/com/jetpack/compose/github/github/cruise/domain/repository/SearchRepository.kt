@@ -8,9 +8,11 @@ import kotlinx.coroutines.flow.Flow
  *
  * Located in domain layer following Clean Architecture principles
  * This ensures the domain layer doesn't depend on data layer
+ *
+ * Note: Flow is already asynchronous, so suspend modifier is not needed
  */
 interface SearchRepository {
-    suspend fun searchUsers(
+    fun searchUsers(
         userName: String,
         page: Int,
         pageSize: Int,

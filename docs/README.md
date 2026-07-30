@@ -9,6 +9,7 @@ This folder contains all project documentation organized by type.
 ```
 docs/
 ├── README.md                           # This file
+├── REFERENCES.md                       # Official Android docs & resources
 │
 ├── master/                             # Cross-platform master specs
 │   ├── MASTER_FEATURE_SPECIFICATION.md # Feature inventory (all platforms)
@@ -93,6 +94,7 @@ These master specs define features, APIs, and standards for the entire portfolio
 - **Check cross-platform features** → [MASTER_FEATURE_SPECIFICATION.md](master/MASTER_FEATURE_SPECIFICATION.md)
 - **See all available APIs** → [GITHUB_API_SPECIFICATION.md](master/GITHUB_API_SPECIFICATION.md)
 - **Follow engineering standards** → [BEST_PRACTICES.md](master/BEST_PRACTICES.md)
+- **Check official Android docs** → [REFERENCES.md](REFERENCES.md)
 - Understand the product → [case-study.md](product/case-study.md)
 - See business thinking → [product-development.md](product/product-development.md)
 - Setup the project → [../README.md](../README.md)

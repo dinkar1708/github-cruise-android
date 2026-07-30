@@ -24,7 +24,7 @@ class SearchRepositoryImpl @Inject constructor(
     private val networkDataSource: NetworkDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : SearchRepository {
-    override suspend fun searchUsers(
+    override fun searchUsers(
         userName: String, page: Int,
         pageSize: Int,
     ): Flow<SearchUser> = flow {

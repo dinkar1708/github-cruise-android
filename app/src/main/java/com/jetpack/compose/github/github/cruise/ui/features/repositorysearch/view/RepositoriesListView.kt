@@ -88,9 +88,14 @@ fun RepositoriesListView(
             }
     }
 
-    LaunchedEffect(repositories) {
-        if (scrolledToEnd && repositories.isNotEmpty()) {
+    // Track last item count to detect actual pagination changes
+    var lastItemCount by rememberSaveable { mutableStateOf(0) }
+
+    LaunchedEffect(repositories.size) {
+        // Only reset scrolledToEnd flag when new items are added (pagination occurred)
+        if (repositories.size > lastItemCount) {
             scrolledToEnd = false
+            lastItemCount = repositories.size
         }
     }
 }

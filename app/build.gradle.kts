@@ -29,13 +29,14 @@ android {
     buildTypes {
         release {
             manifestPlaceholders += mapOf("app_name" to "GithubCruise")
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
             buildConfigField("boolean", "DEBUG", "false")
-            buildConfigField("String", "API_BASE_URL", "\"https://release.api.github.com\"")
+            buildConfigField("String", "API_BASE_URL", "\"https://api.github.com\"")
             buildConfigField("String", "API_VERSION", "\"2022-11-28\"")
             // un comment it to run release build to test only using android studio
 //            signingConfig = signingConfigs.getByName("debug")

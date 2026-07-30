@@ -31,3 +31,6 @@ google-services.json
 
 # Documentation - Research folder (reference only, not for commit)
 docs/research/
+
+# Outputs folder (personal notes and analysis, not for commit)
+outputs/
