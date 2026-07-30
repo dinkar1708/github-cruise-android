@@ -159,6 +159,19 @@
 -keep class androidx.datastore.*.** { *; }
 
 # ================================
+# Room Database
+# ================================
+-keep class * extends androidx.room.RoomDatabase
+-keep @androidx.room.Entity class *
+-dontwarn androidx.room.paging.**
+
+# Keep Room DAOs
+-keep interface * extends androidx.room.Dao { *; }
+
+# Keep Room entities
+-keep class com.jetpack.compose.github.github.cruise.data.local.entity.** { *; }
+
+# ================================
 # JUnit & Test Libraries (exclude from release)
 # ================================
 -dontwarn org.junit.**

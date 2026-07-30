@@ -17,7 +17,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
-import com.jetpack.compose.github.github.cruise.data.preferences.ThemePreferences
+import androidx.lifecycle.lifecycleScope
+import com.jetpack.compose.github.github.cruise.data.datastore.ThemeDataStore
 import com.jetpack.compose.github.github.cruise.ui.GithubCruiseRootComposable
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 import com.jetpack.compose.github.github.cruise.ui.theme.White
@@ -28,7 +29,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var themePreferences: ThemePreferences
+    lateinit var themeDataStore: ThemeDataStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val isDarkMode by themePreferences.isDarkMode.collectAsState()
+            val isDarkMode by themeDataStore.isDarkMode.collectAsState(initial = false)
 
             GithubCruiseTheme(darkTheme = isDarkMode) {
                 // Configure system bars based on theme

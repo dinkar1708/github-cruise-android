@@ -279,9 +279,14 @@ GithubCruiseAndroid/
 │   ├── technical/            # Technical documentation
 │   │   ├── ARCHITECTURE_BEST_PRACTICES.md  # Android best practices
 │   │   ├── API_CALL_CANCELLATION.md       # API cancellation patterns
+│   │   ├── API_CALL_PATTERNS.md           # Serial vs Parallel APIs
+│   │   ├── OFFLINE_CACHE_STATUS.md        # Offline-first cache status
+│   │   ├── FAVORITES_IMPLEMENTATION.md    # Favorites with Room
 │   │   ├── features.md                     # Feature documentation
 │   │   ├── design-system.md               # Material Design 3
-│   │   └── testing-types.md               # Testing guide
+│   │   ├── testing-types.md               # Testing guide (107 tests)
+│   │   ├── code-coverage.md               # Coverage best practices
+│   │   └── coverage-report.md             # Coverage analysis
 │   ├── product/              # Product documentation
 │   └── testing/              # Test documentation
 └── README.md                 # This file
@@ -300,6 +305,8 @@ See technical documentation in [docs/technical/](docs/technical/)
 - **[roadmap.md](docs/product/roadmap.md)** - 12-month strategic plan
 
 ### Technical Documentation
+
+**Architecture & Best Practices:**
 - **[ARCHITECTURE_BEST_PRACTICES.md](docs/technical/ARCHITECTURE_BEST_PRACTICES.md)** - Android best practices guide
   - Coroutines & Threading patterns
   - MVVM Architecture implementation
@@ -308,6 +315,8 @@ See technical documentation in [docs/technical/](docs/technical/)
   - Higher-order functions usage
   - Clean Architecture principles
   - 20+ Official Android documentation references
+
+**API & Network Patterns:**
 - **[API_CALL_CANCELLATION.md](docs/technical/API_CALL_CANCELLATION.md)** - API cancellation pattern
   - Job-based cancellation for fast scrolling
   - Response cleanup to prevent crashes
@@ -318,11 +327,37 @@ See technical documentation in [docs/technical/](docs/technical/)
   - Performance comparison (serial: 1972ms vs parallel: 1654ms)
   - When to use each pattern
   - async/await examples with official Kotlin docs
-- [features.md](docs/technical/features.md) - Complete feature documentation
-- [design-system.md](docs/technical/design-system.md) - Material Design 3 tokens
-- [testing-types.md](docs/technical/testing-types.md) - Comprehensive testing guide
-- [code-coverage.md](docs/technical/code-coverage.md) - Testing best practices
-- [coverage-report.md](docs/technical/coverage-report.md) - Detailed coverage analysis
+
+**Data & Persistence:**
+- **[OFFLINE_CACHE_STATUS.md](docs/technical/OFFLINE_CACHE_STATUS.md)** - Offline-first cache implementation
+  - Room Database with 4 entities (Users, Repos, Search, Favorites)
+  - Network-first with cache fallback strategy
+  - 80% offline coverage (4/5 features cached)
+  - Cache retention policies (7 days, 24 hours, permanent)
+- **[FAVORITES_IMPLEMENTATION.md](docs/technical/FAVORITES_IMPLEMENTATION.md)** - Favorites with Room Database
+  - Room Database implementation
+  - CRUD operations (add, remove, check, list, clear)
+  - Reactive Flow updates
+  - Cache vs Favorites comparison
+
+**Features & Design:**
+- **[features.md](docs/technical/features.md)** - Complete feature documentation (107 tests)
+  - Core features, UI features, technical features
+  - Offline-first architecture
+  - Testing & quality assurance
+- **[design-system.md](docs/technical/design-system.md)** - Material Design 3 tokens
+  - Spacing, elevation, shape, colors
+  - Typography system
+  - Component dimensions
+
+**Testing & Quality:**
+- **[testing-types.md](docs/technical/testing-types.md)** - Comprehensive testing guide (107 tests)
+  - Unit tests (55 tests including 19 offline cache tests)
+  - UI tests (48 tests - 10 user journeys)
+  - Integration tests (4 tests)
+  - Testing tools and frameworks
+- **[code-coverage.md](docs/technical/code-coverage.md)** - Testing best practices
+- **[coverage-report.md](docs/technical/coverage-report.md)** - Detailed coverage analysis
 
 ---
 
@@ -373,10 +408,13 @@ See technical documentation in [docs/technical/](docs/technical/)
 **Summary:** Our test suite ensures critical business logic reliability with focused coverage on repositories (77-79%), use cases (70%), and state management (100%). While overall coverage is 10% due to the large Compose UI codebase, all business-critical code paths are well-tested.
 
 **Test Types Implemented:**
-- Unit Tests (35 tests) - Business logic, ViewModels, Repositories, Use Cases
+- Unit Tests (55 tests) - Business logic, ViewModels, Repositories, Use Cases
+  - Includes 19 offline cache tests (cache hits, misses, network failures, pagination)
 - Integration Tests (4 tests) - ViewModel + UseCase flow testing
 - Code Coverage with JaCoCo
 - Screenshot Testing (Paparazzi configured, ready to use)
+
+**Total: 107 tests** (55 unit + 48 UI + 4 integration)
 
 **For comprehensive testing guide:** See [testing-types.md](docs/technical/testing-types.md) for all Android test types, implementation status, and official documentation links.
 
@@ -427,7 +465,10 @@ open app/build/reports/androidTests/connected/debug/index.html
 
 ### Test Structure
 
-**Current Test Suite: 8 test files, 39 test methods**
+**Current Test Suite: 107 tests**
+- 55 Unit Tests (ViewModels, Repositories, Use Cases, Offline Cache)
+- 48 UI Tests (10 user journeys)
+- 4 Integration Tests (Multi-layer flows)
 
 **ViewModel Tests:**
 - `UsersListViewModelTest` - 12 test cases
@@ -559,7 +600,7 @@ You can install both debug and release builds on the same device simultaneously 
 A: Android 5.0 (API 21) - Supporting 99.6% of Android devices.
 
 **Q: Does the app work offline?**
-A: Currently, the app requires an internet connection to fetch data from GitHub API. Offline caching is planned for future releases.
+A: Yes! The app uses an offline-first architecture with Room Database. It caches user profiles, repositories, and search results locally. You can browse previously viewed content offline. See [OFFLINE_CACHE_STATUS.md](docs/technical/OFFLINE_CACHE_STATUS.md) for details.
 
 **Q: How do I switch between light and dark themes?**
 A: The app automatically follows your system theme settings. Change your device theme to switch.

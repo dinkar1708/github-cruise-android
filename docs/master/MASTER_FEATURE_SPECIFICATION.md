@@ -254,9 +254,10 @@ enum class FavoriteType {
 ```
 
 **Storage:**
-- Use SharedPreferences (Android), UserDefaults (iOS), or equivalent
+- Use local persistent storage (SharedPreferences/Room on Android, UserDefaults on iOS, SharedPreferences on Flutter)
 - Store as JSON array for easy serialization
 - Example key: `favorites_list`
+- Data must persist across app restarts
 
 ---
 
@@ -293,4 +294,5 @@ This document contains:
 
 ---
 
+*Last Updated: July 30, 2026*
 *End of Document*

@@ -1,10 +1,12 @@
 package com.jetpack.compose.github.github.cruise.data.repository.user
 
-import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
-import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
+import com.jetpack.compose.github.github.cruise.data.local.dao.RepositoryDao
+import com.jetpack.compose.github.github.cruise.data.local.dao.UserDao
 import com.jetpack.compose.github.github.cruise.data.network.NetworkDataSource
 import com.jetpack.compose.github.github.cruise.data.network.model.ApiError
 import com.jetpack.compose.github.github.cruise.data.network.model.ApiErrorResponse
+import com.jetpack.compose.github.github.cruise.domain.model.UserProfile
+import com.jetpack.compose.github.github.cruise.domain.model.UserRepo
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase
@@ -28,6 +30,8 @@ import org.junit.Test
 class UserRepositoryImplTest {
 
     private val mockNetworkDataSource: NetworkDataSource = mockk()
+    private val mockUserDao: UserDao = mockk(relaxed = true)
+    private val mockRepositoryDao: RepositoryDao = mockk(relaxed = true)
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var repository: UserRepositoryImpl
 
@@ -54,7 +58,10 @@ class UserRepositoryImplTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        repository = UserRepositoryImpl(mockNetworkDataSource, testDispatcher)
+        // Mock empty cache by default
+        coEvery { mockUserDao.getUserByLoginOneShot(any()) } returns null
+        coEvery { mockRepositoryDao.getRepositoriesByOwnerOneShot(any()) } returns emptyList()
+        repository = UserRepositoryImpl(mockNetworkDataSource, mockUserDao, mockRepositoryDao, testDispatcher)
     }
 
     @After

@@ -88,6 +88,11 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.androidx.datastore.preferences)
 
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
     // Architecture Components
     implementation(libs.androidx.material3.android)
     implementation(libs.retrofit)
@@ -123,6 +128,7 @@ dependencies {
     testImplementation(composeBom)
     testImplementation(libs.junit4)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.room.testing)
 
     // Dependencies for Android unit tests
     androidTestImplementation(composeBom)

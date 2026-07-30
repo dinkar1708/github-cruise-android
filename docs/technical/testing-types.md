@@ -16,11 +16,12 @@ Android officially supports multiple test types organized into two main categori
 
 | Test Type | Status | Coverage | Location |
 |-----------|--------|----------|----------|
-| Unit Tests | Implemented (35 tests) | 10% overall, 70-100% business logic | `app/src/test/` |
+| Unit Tests | Implemented (55 tests) | 10% overall, 70-100% business logic | `app/src/test/` |
+| Offline Cache Tests | Implemented (19 tests) | 100% cache scenarios | `app/src/test/` |
 | Integration Tests | Implemented (4 tests) | ViewModel + UseCase flows | `app/src/test/integration/` |
+| UI Tests (Compose) | Implemented (48 tests) | 10 user journeys | `app/src/androidTest/` |
 | Screenshot Tests | Configured (Paparazzi ready) | 0% (not written yet) | Ready to use |
 | Instrumented Tests | Not Implemented | 0% | N/A |
-| UI Tests (Compose) | Not Implemented | 0% | N/A |
 | End-to-End Tests | Not Implemented | 0% | N/A |
 
 ---
@@ -31,13 +32,14 @@ Android officially supports multiple test types organized into two main categori
 
 **Description:** Tests that run on your local JVM without needing an Android device. Fast and ideal for testing business logic.
 
-**Status:** ✓ Implemented (30 tests)
+**Status:** ✓ Implemented (55 tests)
 
 **What we test:**
 - ViewModels (pagination, error handling, state management)
 - Repositories (data fetching, transformations)
 - Use Cases (business logic)
 - Domain Models (data classes)
+- **Offline Cache Behavior** (cache hits, cache misses, network failures, pagination)
 
 **Tools Used:**
 - JUnit 4 - Test framework
@@ -71,6 +73,63 @@ fun `test searchUsers() for valid user list on API success`() = runTest {
 ```
 
 **Official Docs:** https://developer.android.com/training/testing/local-tests
+
+#### Offline Cache Tests (19 tests)
+
+**Specialized unit tests for offline-first caching behavior**
+
+**Location:** `app/src/test/java/.../repository/`
+- `UserRepositoryOfflineCacheTest.kt` (10 tests)
+- `SearchRepositoryOfflineCacheTest.kt` (9 tests)
+
+**What we test:**
+- Cache hit + network success (shows cached data first, then fresh data)
+- Cache miss + network success (fetches from network, saves to cache)
+- Cache hit + network failure (uses cached data when offline)
+- Cache miss + network failure (throws error as expected)
+- Pagination behavior (only page 1 uses cache)
+- Query normalization (lowercase matching for search)
+
+**Test Scenarios Covered:**
+```kotlin
+@Test
+fun `getUserProfile - cache hit then network update`() = runTest {
+    // Verifies offline-first: cache first, then network update
+    coEvery { mockUserDao.getUserByLoginOneShot(userName) } returns cachedUserEntity
+    coEvery { mockNetworkDataSource.getUserProfile(userName) } returns networkUserProfile
+
+    val results = repository.getUserProfile(userName).toList()
+
+    assertEquals(2, results.size) // Cache + Network
+    assertEquals("Cached User", results[0].name)
+    assertEquals("Fresh User", results[1].name)
+}
+
+@Test
+fun `searchUsers - network failure with cache fallback`() = runTest {
+    // Verifies app works offline with cached data
+    coEvery { mockSearchUserDao.getSearchResultsOneShot(query) } returns cachedUserEntities
+    coEvery { mockNetworkDataSource.searchUser(query, 1, 30) } throws IOException("Network error")
+
+    val results = repository.searchUsers(query, 1, 30).toList()
+
+    assertEquals(1, results.size) // Only cached data
+    assertEquals("cached-user", results[0].users[0].login)
+}
+```
+
+**Coverage:**
+- ✅ User profile caching: 100%
+- ✅ User repositories caching: 100%
+- ✅ User search caching: 100%
+- ❌ Repository search caching: 0% (not implemented yet)
+
+**Run Command:**
+```bash
+./gradlew testDebugUnitTest --tests "*OfflineCacheTest"
+```
+
+**See also:** `docs/technical/OFFLINE_CACHE_STATUS.md` for implementation details
 
 ---
 
@@ -121,11 +180,11 @@ class DatabaseTest {
 
 **Description:** Tests for Jetpack Compose UI components. Can verify UI elements, interactions, and navigation.
 
-**Status:** ✗ Not Implemented (Planned - Compose Testing recommended)
+**Status:** ✓ Implemented (48 tests - 10 user journeys)
 
 **Decision:** Use **Compose Testing** (Google's official recommendation for Jetpack Compose apps)
 
-**What can be tested:**
+**What we test:**
 - Compose screens and components
 - User interactions (clicks, scrolls, input)
 - Navigation flows
@@ -144,24 +203,30 @@ class DatabaseTest {
 - Compose Test Rules
 - Semantics matchers
 
-**Dependencies Needed:**
-```kotlin
-androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-debugImplementation("androidx.compose.ui:ui-test-manifest")
-```
+**Location:** `app/src/androidTest/java/.../journeys/`
+
+**Test Coverage (10 Journeys):**
+1. App Launch (3 tests)
+2. User Search (4 tests)
+3. View User Profile (3 tests)
+4. View Repositories (4 tests)
+5. Filter Repositories (4 tests)
+6. View Repository Details (5 tests)
+7. Empty Search (6 tests)
+8. Error Handling (7 tests)
+9. Pull to Refresh (6 tests)
+10. Back Navigation (6 tests)
 
 **Example:**
 ```kotlin
 @RunWith(AndroidJUnit4::class)
-class SearchScreenTest {
+class Journey2_UserSearchTest {
     @get:Rule
-    val composeTestRule = createComposeRule()
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Test
-    fun searchUser_displaysResults() {
-        composeTestRule.setContent {
-            SearchScreen()
-        }
+    fun journey2_userCanSearchAndSeeResults() {
+        composeTestRule.waitForIdle()
 
         composeTestRule
             .onNodeWithTag("search_input")
@@ -182,6 +247,8 @@ class SearchScreenTest {
 ```bash
 ./gradlew connectedDebugAndroidTest
 ```
+
+**Test Results:** ✅ All 48 tests passing (100%)
 
 **Comprehensive Guide:** See [../testing/ui-testing-guide.md](../testing/ui-testing-guide.md) for complete setup and usage instructions.
 
@@ -365,9 +432,10 @@ fun startupCompilationNone() = macrobenchmark(
 - 5% E2E Tests - Test critical user journeys
 
 **Current Project:**
-- 100% Unit Tests
-- 0% Integration Tests
-- 0% E2E Tests
+- Unit Tests: 55 tests (including 19 offline cache tests)
+- UI Tests: 48 tests (10 user journeys)
+- Integration Tests: 4 tests
+- Total: 107 tests
 
 ---
 
@@ -484,24 +552,30 @@ open app/build/reports/jacoco/jacocoTestReport/html/index.html
 ## Summary
 
 **Currently Implemented:**
-- Unit Tests (35 tests, 10% overall coverage, 70-100% business logic)
+- Unit Tests (55 tests, 10% overall coverage, 70-100% business logic)
+- Offline Cache Tests (19 tests, 100% cache scenarios)
+- UI Tests (48 tests, 10 user journeys with Compose Testing)
 - Integration Tests (4 tests, ViewModel + UseCase flows)
 - Screenshot Tests (Paparazzi configured, ready to use)
 - JaCoCo code coverage
 - MockK for mocking
 - Coroutines testing
+- **Total: 107 tests**
 
 **Not Implemented (Recommended):**
 1. Screenshot Tests Implementation (High ROI, low effort) - Tool ready, just need to write tests
-2. UI Tests (Low ROI for Compose, high effort)
+2. Repository Search Offline Caching (to complete 100% offline coverage)
 3. E2E Tests (Low ROI, high effort)
-4. Instrumented Tests (Only if needed for database/framework)
+4. Performance Tests (Macrobenchmark/Microbenchmark)
 
 **Philosophy:**
-Focus on high-value tests (unit + integration + screenshot) rather than comprehensive coverage. UI testing for Compose apps has low ROI due to brittleness and maintenance cost.
+Focus on high-value tests across all layers: unit tests for business logic, offline cache tests for data layer reliability, and UI tests for critical user journeys. This provides comprehensive coverage without excessive maintenance burden.
 
 ---
 
-**Last Updated:** July 15, 2026
+**Last Updated:** July 30, 2026
 **Project Coverage:** 10% overall, 70-100% business logic
-**Test Count:** 39 tests across 8 test files (35 unit + 4 integration)
+**Test Count:** 107 tests
+- 55 unit tests (including 19 offline cache tests)
+- 48 UI tests (10 user journeys)
+- 4 integration tests

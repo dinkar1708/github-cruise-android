@@ -29,6 +29,8 @@ docs/
 │   ├── coverage-report.md
 │   ├── design-system.md
 │   ├── features.md
+│   ├── OFFLINE_CACHE_STATUS.md         # Offline-first cache implementation status
+│   ├── FAVORITES_IMPLEMENTATION.md     # Favorites with Room Database
 │   └── testing-types.md
 │
 └── testing/                            # Testing guides
@@ -78,6 +80,8 @@ These master specs define features, APIs, and standards for the entire portfolio
 **Development:**
 - [design-system.md](technical/design-system.md) - UI guidelines and Material Design 3
 - [GITHUB_API_SPECIFICATION.md](master/GITHUB_API_SPECIFICATION.md) - GitHub API endpoints (see master docs)
+- [OFFLINE_CACHE_STATUS.md](technical/OFFLINE_CACHE_STATUS.md) - Offline cache implementation tracking
+- [FAVORITES_IMPLEMENTATION.md](technical/FAVORITES_IMPLEMENTATION.md) - Favorites implementation with Room
 - [code-coverage.md](technical/code-coverage.md) - Coverage setup and best practices
 - [coverage-report.md](technical/coverage-report.md) - Detailed coverage analysis
 
@@ -95,6 +99,8 @@ These master specs define features, APIs, and standards for the entire portfolio
 - **See all available APIs** → [GITHUB_API_SPECIFICATION.md](master/GITHUB_API_SPECIFICATION.md)
 - **Follow engineering standards** → [BEST_PRACTICES.md](master/BEST_PRACTICES.md)
 - **Check official Android docs** → [REFERENCES.md](REFERENCES.md)
+- **Check offline cache status** → [OFFLINE_CACHE_STATUS.md](technical/OFFLINE_CACHE_STATUS.md)
+- **Check favorites implementation** → [FAVORITES_IMPLEMENTATION.md](technical/FAVORITES_IMPLEMENTATION.md)
 - Understand the product → [case-study.md](product/case-study.md)
 - See business thinking → [product-development.md](product/product-development.md)
 - Setup the project → [../README.md](../README.md)

@@ -1,10 +1,12 @@
 package com.jetpack.compose.github.github.cruise.data.repository.search
 
-import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
-import com.jetpack.compose.github.github.cruise.domain.model.User
+import com.jetpack.compose.github.github.cruise.data.local.dao.SearchUserDao
 import com.jetpack.compose.github.github.cruise.data.network.NetworkDataSource
 import com.jetpack.compose.github.github.cruise.data.network.model.ApiError
+import com.jetpack.compose.github.github.cruise.domain.model.SearchUser
+import com.jetpack.compose.github.github.cruise.domain.model.User
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
@@ -27,6 +29,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchRepositoryImplTest {
     private val mockNetworkDataSource: NetworkDataSource = mockk()
+    private val mockSearchUserDao: SearchUserDao = mockk(relaxed = true)
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var repository: SearchRepositoryImpl
 
@@ -41,7 +44,9 @@ class SearchRepositoryImplTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        repository = SearchRepositoryImpl(mockNetworkDataSource, testDispatcher)
+        // Mock empty cache by default
+        coEvery { mockSearchUserDao.getSearchResultsOneShot(any()) } returns emptyList()
+        repository = SearchRepositoryImpl(mockNetworkDataSource, mockSearchUserDao, testDispatcher)
     }
 
     @After

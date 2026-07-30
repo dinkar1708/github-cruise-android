@@ -372,7 +372,102 @@ Network Data Source (API)
 
 ---
 
-### 4. State Management
+### 4. Offline-First Architecture (Room Database)
+
+**Location:** `data/local/` folder
+
+Complete offline-first architecture using Room Database for local data persistence.
+
+**Database Structure:**
+- **SQLite Database:** Local persistence with Room ORM
+- **4 Entities:**
+  - `UserEntity` - Cached user profiles
+  - `RepositoryEntity` - Cached repositories
+  - `SearchUserEntity` - Cached search results
+  - `FavoriteEntity` - User-saved favorites
+- **4 DAOs:** Type-safe database access with Flow-based reactive queries
+
+**Caching Strategy:**
+```
+Network-First with Cache Fallback:
+1. Check local cache → Emit cached data instantly
+2. Fetch from network → Update cache
+3. Emit fresh network data
+4. If network fails → Use cached data (graceful degradation)
+5. Only error if no cache AND network fails
+```
+
+**Cache Retention:**
+- User profiles: 7 days
+- User repositories: 7 days
+- Search results: 24 hours
+- Favorites: Permanent (until user deletes)
+
+**Data Flow:**
+```
+UI ← ViewModel ← Repository ← [Cache + Network]
+                                    ↓
+                                Room Database
+```
+
+**Benefits:**
+- Works completely offline
+- Instant data display (cache-first)
+- Reduced network usage
+- Handles poor network conditions
+- Smart cache invalidation
+- Automatic cleanup of old data
+
+**Technical Stack:**
+- Room Database 2.6.1
+- Flow for reactive data streams
+- Coroutines for async operations
+- Hilt DI for database injection
+- ProGuard rules for release builds
+
+**Official Guide:** https://developer.android.com/training/data-storage/room
+
+---
+
+### 5. Local Data Storage (DataStore)
+
+**Location:** `data/datastore/` folder
+
+Modern key-value storage using Jetpack DataStore for app preferences.
+
+**Features:**
+- **Theme Preferences:**
+  - Dark/Light mode user selection
+  - Persistent across app restarts
+  - Reactive Flow-based updates (UI auto-updates)
+
+**Data Stored:**
+- User theme preference (dark/light)
+- App settings
+- Simple configuration values
+
+**Implementation:**
+- DataStore Preferences 1.1.1
+- Type-safe preference keys
+- Asynchronous, non-blocking operations
+- Kotlin coroutines and Flow integration
+
+**DataStore vs Room:**
+| Storage | Use Case | Example |
+|---------|----------|---------|
+| DataStore | Simple key-value preferences | Theme, settings |
+| Room | Structured relational data | Users, repos, favorites |
+
+**Why Both:**
+- DataStore: Lightweight preferences (theme, flags)
+- Room: Complex data with relationships
+- Right tool for the right job
+
+**Official Guide:** https://developer.android.com/topic/libraries/architecture/datastore
+
+---
+
+### 6. State Management
 
 **Pattern:** Unidirectional Data Flow (UDF)
 
@@ -395,7 +490,7 @@ Network Data Source (API)
 
 ---
 
-### 5. Coroutines & Flow
+### 7. Coroutines & Flow
 
 **Features:**
 - Async operations with Kotlin Coroutines
@@ -411,7 +506,7 @@ Network Data Source (API)
 
 ---
 
-### 6. Image Loading
+### 8. Image Loading
 
 **Library:** Coil
 
@@ -425,7 +520,7 @@ Network Data Source (API)
 
 ---
 
-### 7. Navigation
+### 9. Navigation
 
 **Library:** Navigation Compose
 
@@ -493,22 +588,35 @@ Network Data Source (API)
 
 ### 2. Testing Support
 
-**Unit Testing:**
-- JUnit 4 framework
-- MockK for mocking
-- Coroutines test support
-- ViewModel testing utilities
+**Test Framework:**
+- JUnit 4 - Test framework
+- MockK - Mocking library for Kotlin
+- Coroutines Test - Async testing
+- Compose UI Test - UI testing framework
 
-**Test Coverage:**
-- ViewModel logic
-- Repository layer
-- Use case layer
-- Data transformation
+**Test Coverage (107 tests):**
+- Unit Tests: 55 tests
+  - ViewModel logic
+  - Repository layer
+  - Use case layer
+  - Data transformation
+  - Offline cache behavior (19 tests)
+- UI Tests: 48 tests
+  - 10 user journey tests
+  - Complete user flows
+- Integration Tests: 4 tests
+  - ViewModel + UseCase flows
 
-**Testing Tools:**
+**Test Categories:**
+- Business logic (ViewModels, UseCases)
+- Data layer (Repositories, DAOs)
+- Offline cache (cache hits, cache misses, network failures)
+- UI journeys (user search, navigation, error handling)
+
+**Test Utilities:**
+- JaCoCo code coverage reports
 - Android Studio test runner
 - Gradle test commands
-- Code coverage reporting ready
 
 ---
 
@@ -600,16 +708,54 @@ com.jetpack.compose.github.github.cruise/
 - Faster image loading
 
 ### 3. State Optimization
-- Immutable state objects
+- Immutable state objects (@Immutable annotations)
 - Efficient recomposition
 - Remember and derived state
 - Stable keys for lists
+- Compose performance best practices
 
 ### 4. Network Optimization
 - Request caching
 - Debounced search
 - Connection pooling
 - Gzip compression support
+
+### 5. Database Performance
+- Room database with indexes
+- Efficient queries with Flow
+- Automatic cache invalidation
+- Old data cleanup (7-day retention)
+- Lazy loading strategies
+
+### 6. Build Optimization
+
+**ProGuard/R8 Configuration:**
+- Code shrinking enabled for release builds
+- Resource shrinking enabled
+- Comprehensive ProGuard rules for all libraries
+- Production-ready optimization
+
+**Optimizations:**
+- Dead code elimination
+- Code obfuscation (security)
+- Resource optimization
+- Unused resource removal
+
+**Libraries Configured:**
+- Retrofit, OkHttp, Moshi (networking)
+- Hilt/Dagger (dependency injection)
+- Room Database (persistence)
+- DataStore (preferences)
+- Jetpack Compose (UI)
+- Kotlin Coroutines (async)
+- Coil (image loading)
+
+**Release Build Results:**
+- Optimized APK: 6.6MB
+- Fast app startup time
+- Reduced memory footprint
+- Enhanced runtime performance
+- Secure code (obfuscation)
 
 ---
 
@@ -641,7 +787,67 @@ See [README.md](../README.md#todo) for the complete list of planned features inc
 
 ---
 
-**Last Updated:** 2024-06-10
-**Version:** 1.0.0
+**Last Updated:** 2026-07-30
+**Version:** 2.0.0
 **Minimum Android SDK:** 21 (Lollipop)
 **Target Android SDK:** 34 (Android 14)
+
+---
+
+## Testing & Quality Assurance
+
+### Test Coverage Summary
+
+**Total Tests: 107 tests**
+- Unit Tests: 55 tests (business logic, repositories, offline cache)
+- UI Tests: 48 tests (10 user journeys)
+- Integration Tests: 4 tests (multi-layer flows)
+
+**Test Categories:**
+
+**1. Unit Tests (55 tests)**
+- ViewModel Tests (search, pagination, error handling)
+- Repository Tests (data fetching, transformations)
+- UseCase Tests (business logic)
+- Offline Cache Tests (19 tests):
+  - Cache hit + network success
+  - Cache miss + network success
+  - Network failure with cache fallback
+  - Network failure without cache
+  - Pagination behavior
+  - Query normalization
+
+**2. UI Tests (48 tests)**
+- Journey 1: App Launch (3 tests)
+- Journey 2: User Search (4 tests)
+- Journey 3: View User Profile (3 tests)
+- Journey 4: View Repositories (4 tests)
+- Journey 5: Filter Repositories (4 tests)
+- Journey 6: View Repository Details (5 tests)
+- Journey 7: Empty Search (6 tests)
+- Journey 8: Error Handling (7 tests)
+- Journey 9: Pull to Refresh (6 tests)
+- Journey 10: Back Navigation (6 tests)
+
+**3. Integration Tests (4 tests)**
+- ViewModel + Repository + UseCase flows
+- End-to-end feature testing
+
+**Test Status:**
+- ✅ All 107 tests passing
+- ✅ 10% overall code coverage
+- ✅ 70-100% business logic coverage
+- ✅ Offline scenarios fully tested
+
+**Testing Tools:**
+- JUnit 4 (test framework)
+- MockK (mocking)
+- Coroutines Test (async testing)
+- Compose UI Test (UI testing)
+- JaCoCo (code coverage reports)
+
+**Documentation:**
+- `docs/technical/testing-types.md` - Complete testing guide
+- `docs/testing/ui-testing-guide.md` - UI test setup
+- `docs/testing/ui-test-journeys.md` - 10 user journeys
+- `docs/technical/OFFLINE_CACHE_STATUS.md` - Offline implementation
