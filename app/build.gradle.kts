@@ -87,6 +87,7 @@ dependencies {
     // App dependencies
     implementation(libs.timber)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.security.crypto)
 
     // Room
     implementation(libs.androidx.room.runtime)

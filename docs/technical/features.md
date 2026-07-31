@@ -184,24 +184,33 @@ Complete light and dark mode support following Material Design 3 guidelines.
 
 **Location:** `app/src/main/res/values/strings.xml` and `values-ja/strings.xml`
 
-Multi-language support for international users.
+Multi-language support with user-selectable languages.
 
 **Supported Languages:**
 - English (default)
 - Japanese (日本語)
+- System Default (auto-detect)
 
 **Features:**
 - Complete UI text localization
+- In-app language selector (Settings screen)
+- Persistent language preference via DataStore
 - Automatic language detection from device settings
-- Manual language switching capability
 - RTL layout support ready
 - Localized error messages
 - Localized date/time formats
+- No hardcoded strings
+
+**Implementation:**
+- `LocaleManager` handles locale switching
+- `LocaleDataStore` persists user preference
+- Settings screen provides Material 3 language selection dialog
+- App restart applies language changes
 
 **Coverage:**
-- All screen titles
-- Button labels
-- Error messages
+- All screen titles and labels
+- Button and dialog text
+- Error and validation messages
 - Search hints
 - Empty state messages
 
@@ -715,17 +724,27 @@ com.jetpack.compose.github.github.cruise/
 - Compose performance best practices
 
 ### 4. Network Optimization
-- Request caching
-- Debounced search
+- Offline-first caching (100% feature coverage)
+- Smart retry logic with exponential backoff
+- Debounced search input
 - Connection pooling
 - Gzip compression support
+- Network-first with cache fallback
+
+**Offline Support:**
+- User search: 24-hour cache
+- User profiles: 7-day cache
+- User repositories: 7-day cache
+- Repository search: 24-hour cache
+- Favorites: Permanent storage
 
 ### 5. Database Performance
-- Room database with indexes
-- Efficient queries with Flow
-- Automatic cache invalidation
-- Old data cleanup (7-day retention)
-- Lazy loading strategies
+- Room database v2 with 5 entities
+- Efficient queries with Flow for reactive updates
+- Automatic cache invalidation based on TTL
+- Cleanup strategies: 24 hours (search), 7 days (profiles), permanent (favorites)
+- Network-first with transparent cache fallback
+- Lazy loading with pagination support
 
 ### 6. Build Optimization
 
@@ -762,15 +781,23 @@ com.jetpack.compose.github.github.cruise/
 ## Security Features
 
 ### 1. API Security
-- HTTPS only
-- API version headers
-- Rate limiting awareness
-- Personal access token support ready
+- HTTPS only communication
+- API version headers (X-GitHub-Api-Version: 2022-11-28)
+- GitHub personal access token support with Android Keystore
+- Secure token storage using EncryptedSharedPreferences (AES256-GCM)
+- Token validation for GitHub formats (ghp_, gho_, ghu_, ghs_, ghr_)
+- Rate limit optimization: 60/hour unauthenticated, 5,000/hour with token
+
+**Implementation:**
+- `SecureTokenManager` class handles encrypted token storage
+- `ApiInterceptor` automatically injects Authorization headers
+- Tokens stored in Android Keystore (hardware-backed when available)
 
 ### 2. Data Handling
-- No sensitive data storage
-- Secure network communication
-- ProGuard ready for code obfuscation
+- Encrypted token storage (Android Keystore + EncryptedSharedPreferences)
+- Secure network communication (HTTPS only)
+- No sensitive data in logs (production mode)
+- ProGuard rules for security obfuscation
 
 ---
 

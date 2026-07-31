@@ -1,12 +1,10 @@
 package com.jetpack.compose.github.github.cruise
 
-import android.os.Build
+import android.content.Context
 import android.os.Bundle
-import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -17,11 +15,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.lifecycleScope
+import com.jetpack.compose.github.github.cruise.data.datastore.LocaleDataStore
 import com.jetpack.compose.github.github.cruise.data.datastore.ThemeDataStore
 import com.jetpack.compose.github.github.cruise.ui.GithubCruiseRootComposable
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
-import com.jetpack.compose.github.github.cruise.ui.theme.White
+import com.jetpack.compose.github.github.cruise.utils.LocaleManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -30,6 +28,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var themeDataStore: ThemeDataStore
+
+    @Inject
+    lateinit var localeDataStore: LocaleDataStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +54,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        // Apply saved locale before activity is created
+        val prefs = newBase.getSharedPreferences("locale_prefs", Context.MODE_PRIVATE)
+        val locale = prefs.getString("locale", LocaleDataStore.LOCALE_SYSTEM_DEFAULT)
+            ?: LocaleDataStore.LOCALE_SYSTEM_DEFAULT
+
+        val context = LocaleManager.setLocale(newBase, locale)
+        super.attachBaseContext(context)
     }
 
     @Composable

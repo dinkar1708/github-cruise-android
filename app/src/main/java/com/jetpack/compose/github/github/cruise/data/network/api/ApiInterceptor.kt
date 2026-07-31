@@ -2,24 +2,40 @@ package com.jetpack.compose.github.github.cruise.data.network.api
 
 import com.jetpack.compose.github.github.cruise.data.network.model.ApiError
 import com.jetpack.compose.github.github.cruise.data.network.model.ApiErrorResponse
+import com.jetpack.compose.github.github.cruise.data.security.SecureTokenManager
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.ResponseBody
+import timber.log.Timber
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 /**
  * Created by Dinakar Maurya on 2024/05/12.
+ *
+ * Updated to support GitHub personal access tokens for authenticated requests
+ * - Unauthenticated: 60 requests/hour
+ * - Authenticated: 5,000 requests/hour
  */
-class ApiInterceptor(private val moshi: Moshi) : Interceptor {
+class ApiInterceptor(
+    private val moshi: Moshi,
+    private val tokenManager: SecureTokenManager
+) : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder()
+        val requestBuilder = chain.request().newBuilder()
             .addHeader("X-GitHub-Api-Version", ApiConstants.API_VERSION)
-            .build()
+
+        // Add authorization header if token exists
+        tokenManager.getToken()?.let { token ->
+            requestBuilder.addHeader("Authorization", "Bearer $token")
+            Timber.d("Adding GitHub token to API request")
+        }
+
+        val request = requestBuilder.build()
 
         try {
             val response = chain.proceed(request)

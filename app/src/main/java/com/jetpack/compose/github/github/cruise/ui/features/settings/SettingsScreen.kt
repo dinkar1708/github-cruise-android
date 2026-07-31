@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -22,12 +23,15 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.navigation.NavHostController
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,6 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,6 +55,7 @@ import com.jetpack.compose.github.github.cruise.ui.theme.Dimension
 import com.jetpack.compose.github.github.cruise.ui.theme.Elevation
 import com.jetpack.compose.github.github.cruise.ui.theme.GithubCruiseTheme
 import com.jetpack.compose.github.github.cruise.ui.theme.Spacing
+import com.jetpack.compose.github.github.cruise.utils.LocaleManager
 
 /**
  * Settings screen with app preferences
@@ -59,8 +65,21 @@ fun SettingsScreen(
     navController: androidx.navigation.NavHostController,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     var notificationsEnabled by remember { mutableStateOf(true) }
+    var showLanguageDialog by remember { mutableStateOf(false) }
+    var shouldRecreate by remember { mutableStateOf(false) }
     val darkModeEnabled by viewModel.isDarkMode.collectAsState()
+    val currentLocale by viewModel.currentLocale.collectAsState()
+
+    // Handle activity recreation after locale change
+    androidx.compose.runtime.LaunchedEffect(shouldRecreate) {
+        if (shouldRecreate) {
+            // Small delay to ensure SharedPreferences is written
+            kotlinx.coroutines.delay(100)
+            (context as? android.app.Activity)?.recreate()
+        }
+    }
 
     // Extract string resources at Composable level
     val privacyTitle = stringResource(R.string.settings_privacy)
@@ -108,9 +127,22 @@ fun SettingsScreen(
             SettingsItem(
                 icon = Icons.Filled.Build,
                 title = stringResource(R.string.settings_language),
-                subtitle = stringResource(R.string.settings_language_subtitle),
-                onClick = { /* TODO: Open language selector */ }
+                subtitle = LocaleManager.getLocaleDisplayName(currentLocale),
+                onClick = { showLanguageDialog = true }
             )
+
+            // Language Selection Dialog
+            if (showLanguageDialog) {
+                LanguageSelectionDialog(
+                    currentLocale = currentLocale,
+                    onLocaleSelected = { locale ->
+                        viewModel.setLocale(locale)
+                        showLanguageDialog = false
+                        shouldRecreate = true
+                    },
+                    onDismiss = { showLanguageDialog = false }
+                )
+            }
 
             // Legal Section
             SectionHeader(title = stringResource(R.string.settings_section_legal))
@@ -303,6 +335,72 @@ fun SettingsItemSwitch(
             )
         }
     }
+}
+
+/**
+ * Language Selection Dialog
+ * Allows user to select app language (English, Japanese, or System Default)
+ */
+@Composable
+fun LanguageSelectionDialog(
+    currentLocale: String,
+    onLocaleSelected: (String) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val locales = LocaleManager.getSupportedLocales()
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = stringResource(R.string.dialog_select_language),
+                style = MaterialTheme.typography.headlineSmall
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                locales.forEach { (code, name) ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .selectable(
+                                selected = (code == currentLocale),
+                                onClick = { onLocaleSelected(code) },
+                                role = Role.RadioButton
+                            )
+                            .padding(vertical = Spacing.small),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = (code == currentLocale),
+                            onClick = null // handled by Row
+                        )
+                        Text(
+                            text = name,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(start = Spacing.medium)
+                        )
+                    }
+                }
+
+                // Note about app restart
+                Spacer(modifier = Modifier.padding(top = Spacing.medium))
+                Text(
+                    text = stringResource(R.string.dialog_language_note),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(horizontal = Spacing.small)
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.dialog_close))
+            }
+        }
+    )
 }
 
 @Preview(showBackground = true)

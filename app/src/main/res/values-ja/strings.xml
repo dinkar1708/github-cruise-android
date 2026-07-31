@@ -78,4 +78,9 @@
     <string name="webview_title">読み込み中…</string>
     <string name="privacy_policy_url">https://github.com/dinkar1708/GithubCruise/blob/main/PRIVACY.md</string>
     <string name="terms_url">https://github.com/dinkar1708/GithubCruise/blob/main/TERMS.md</string>
+
+    <!--Language Dialog-->
+    <string name="dialog_select_language">言語を選択</string>
+    <string name="dialog_language_note">注：言語の変更を適用するため、アプリが再起動されます。</string>
+    <string name="dialog_close">閉じる</string>
 </resources>

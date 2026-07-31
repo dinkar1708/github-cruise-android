@@ -6,6 +6,7 @@ import com.jetpack.compose.github.github.cruise.data.network.api.APIInterface
 import com.jetpack.compose.github.github.cruise.data.network.api.ApiConstants
 import com.jetpack.compose.github.github.cruise.data.network.api.ApiInterceptor
 import com.jetpack.compose.github.github.cruise.data.network.interceptor.RetryInterceptor
+import com.jetpack.compose.github.github.cruise.data.security.SecureTokenManager
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -33,11 +34,14 @@ object NetworkDataSourceModule {
 
     @Singleton
     @Provides
-    fun provideNetworkDataSource(moshi: Moshi): NetworkDataSource {
+    fun provideNetworkDataSource(
+        moshi: Moshi,
+        tokenManager: SecureTokenManager
+    ): NetworkDataSource {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
-        val apiInterceptor = ApiInterceptor(moshi)
+        val apiInterceptor = ApiInterceptor(moshi, tokenManager)
         val retryInterceptor = RetryInterceptor()
 
         val okHttpClient = OkHttpClient.Builder()

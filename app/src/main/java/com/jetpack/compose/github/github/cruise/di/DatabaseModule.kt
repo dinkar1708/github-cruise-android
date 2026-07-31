@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.jetpack.compose.github.github.cruise.data.local.GithubCruiseDatabase
 import com.jetpack.compose.github.github.cruise.data.local.dao.FavoriteDao
 import com.jetpack.compose.github.github.cruise.data.local.dao.RepositoryDao
+import com.jetpack.compose.github.github.cruise.data.local.dao.SearchRepositoryDao
 import com.jetpack.compose.github.github.cruise.data.local.dao.SearchUserDao
 import com.jetpack.compose.github.github.cruise.data.local.dao.UserDao
 import dagger.Module
@@ -59,5 +60,11 @@ object DatabaseModule {
     @Singleton
     fun provideSearchUserDao(database: GithubCruiseDatabase): SearchUserDao {
         return database.searchUserDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchRepositoryDao(database: GithubCruiseDatabase): SearchRepositoryDao {
+        return database.searchRepositoryDao()
     }
 }
