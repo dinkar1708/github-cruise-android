@@ -21,6 +21,7 @@ class SecureTokenManager @Inject constructor(
     companion object {
         private const val PREFS_FILENAME = "github_cruise_secure_prefs"
         private const val KEY_GITHUB_TOKEN = "github_personal_access_token"
+        private const val KEY_API_KEY_EXTRA_SECURE = "api_key_extra_secure"
     }
 
     private val masterKey: MasterKey by lazy {
@@ -113,5 +114,73 @@ class SecureTokenManager @Inject constructor(
     fun isValidTokenFormat(token: String): Boolean {
         val validPrefixes = listOf("ghp_", "gho_", "ghu_", "ghs_", "ghr_")
         return token.isNotBlank() && validPrefixes.any { token.startsWith(it) }
+    }
+
+    // ========================================
+    // SECURE API KEY MANAGEMENT (Example)
+    // ========================================
+    // This demonstrates the CORRECT way to handle sensitive API keys
+    // Unlike BuildConfig, these values are:
+    // 1. NOT compiled into the APK
+    // 2. Encrypted using AES256-GCM
+    // 3. Stored in Android Keystore (hardware-backed)
+    // 4. Only accessible at runtime after user sets it
+    // ========================================
+
+    /**
+     * Save a secure API key (e.g., for third-party services)
+     *
+     * Example: API keys for payment processors, analytics, etc.
+     * The key is encrypted and stored securely, NOT extractable from APK.
+     *
+     * @param apiKey The API key to store securely
+     */
+    fun saveSecureApiKey(apiKey: String) {
+        try {
+            encryptedPrefs.edit()
+                .putString(KEY_API_KEY_EXTRA_SECURE, apiKey)
+                .apply()
+            Timber.d("Secure API key saved successfully")
+        } catch (e: Exception) {
+            Timber.e(e, "Error saving secure API key")
+            throw e
+        }
+    }
+
+    /**
+     * Get the secure API key
+     *
+     * @return Encrypted API key if exists, null otherwise
+     */
+    fun getSecureApiKey(): String? {
+        return try {
+            encryptedPrefs.getString(KEY_API_KEY_EXTRA_SECURE, null)
+        } catch (e: Exception) {
+            Timber.e(e, "Error retrieving secure API key")
+            null
+        }
+    }
+
+    /**
+     * Check if secure API key exists
+     *
+     * @return true if key is saved, false otherwise
+     */
+    fun hasSecureApiKey(): Boolean {
+        return !getSecureApiKey().isNullOrBlank()
+    }
+
+    /**
+     * Remove stored secure API key
+     */
+    fun clearSecureApiKey() {
+        try {
+            encryptedPrefs.edit()
+                .remove(KEY_API_KEY_EXTRA_SECURE)
+                .apply()
+            Timber.d("Secure API key cleared")
+        } catch (e: Exception) {
+            Timber.e(e, "Error clearing secure API key")
+        }
     }
 }

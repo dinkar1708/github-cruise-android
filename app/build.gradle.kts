@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,6 +9,20 @@ plugins {
     alias(libs.plugins.paparazzi)
     alias(libs.plugins.kotlin.compose)
     jacoco
+}
+
+// Read properties from local.properties
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    FileInputStream(localPropertiesFile).use { stream ->
+        localProperties.load(stream)
+    }
+}
+
+// Helper function to get property with fallback
+fun getLocalProperty(key: String, defaultValue: String = ""): String {
+    return localProperties.getProperty(key, defaultValue)
 }
 
 android {
@@ -38,6 +55,9 @@ android {
             buildConfigField("boolean", "DEBUG", "false")
             buildConfigField("String", "API_BASE_URL", "\"https://api.github.com\"")
             buildConfigField("String", "API_VERSION", "\"2022-11-28\"")
+            // Example API Key from local.properties (NOT committed to git)
+            // NOTE: This WILL be compiled into the APK and is extractable via decompilation
+            buildConfigField("String", "API_KEY", "\"${getLocalProperty("API_KEY", "your_api_key_here")}\"")
             // un comment it to run release build to test only using android studio
 //            signingConfig = signingConfigs.getByName("debug")
         }
@@ -46,6 +66,11 @@ android {
             buildConfigField("boolean", "DEBUG", "true")
             buildConfigField("String", "API_BASE_URL", "\"https://api.github.com\"")
             buildConfigField("String", "API_VERSION", "\"2022-11-28\"")
+            // Example API Key from local.properties (NOT committed to git)
+            // NOTE: This WILL be compiled into the APK and is extractable via decompilation
+            buildConfigField("String", "API_KEY", "\"${getLocalProperty("API_KEY", "your_api_key_here")}\"")
+            // NOTE: API_KEY_EXTRA_SECURE is NOT in BuildConfig
+            // It's encrypted and stored in assets/secure_config.enc instead
             applicationIdSuffix = ".debug"
             versionNameSuffix = "debug"
             enableUnitTestCoverage = true

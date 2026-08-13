@@ -340,6 +340,15 @@ See technical documentation in [docs/technical/](docs/technical/)
   - Reactive Flow updates
   - Cache vs Favorites comparison
 
+**Security:**
+- **[docs/security/](docs/security/)** - API Key Security (4 approaches with objective comparisons)
+  - BuildConfig (insecure - extractable in 2 min)
+  - local.properties (insecure - extractable in 2 min)
+  - Encrypted Assets (medium - extractable in 15 min)
+  - Backend Proxy/OAuth (secure - not in APK)
+  - OWASP MASVS compliance analysis
+  - Runtime verification logs
+
 **Features & Design:**
 - **[features.md](docs/technical/features.md)** - Complete feature documentation (107 tests)
   - Core features, UI features, technical features

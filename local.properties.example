@@ -1,0 +1,41 @@
+## This file is COMMITTED TO GIT as an EXAMPLE
+##
+## Copy this file to local.properties and add your actual values
+## local.properties is gitignored and will NOT be committed
+##
+## This example file shows the format for API keys (all values are FAKE/demo keys)
+
+# Android SDK location (required for build)
+sdk.dir=/Users/yourname/Library/Android/sdk
+
+# ========================================
+# EXAMPLE API KEYS (Demo/Non-functional)
+# ========================================
+# These are FAKE keys for demonstration only
+# Replace with your actual keys when needed
+
+# Example: Insecure BuildConfig approach (Approach 1 & 2)
+API_KEY=sk_test_example_1234567890_secret_key_demo
+
+# Example: Encrypted assets approach (Approach 3)
+# This key will be encrypted and stored in assets/secure_config.enc
+API_KEY_EXTRA_SECURE=sk_secure_9876543210_encrypted_storage_demo
+
+# ========================================
+# PRODUCTION USAGE (NOT RECOMMENDED)
+# ========================================
+# DO NOT put real production keys here
+# Use backend proxy (Approach 4) or OAuth instead
+
+# For learning: Uncomment and add your own keys
+# MY_STRIPE_KEY=your_stripe_key_here
+# MY_MAPS_KEY=your_google_maps_key_here
+
+# ========================================
+# NOTES
+# ========================================
+# - Keys in local.properties are read by build.gradle.kts
+# - They are compiled into BuildConfig as plain text
+# - Anyone can decompile APK and extract these keys
+# - Only use for non-sensitive configuration or demo purposes
+# - See docs/security/ for secure alternatives

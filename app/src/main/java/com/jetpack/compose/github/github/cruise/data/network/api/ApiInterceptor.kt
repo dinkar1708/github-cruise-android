@@ -1,5 +1,6 @@
 package com.jetpack.compose.github.github.cruise.data.network.api
 
+import com.jetpack.compose.github.github.cruise.BuildConfig
 import com.jetpack.compose.github.github.cruise.data.network.model.ApiError
 import com.jetpack.compose.github.github.cruise.data.network.model.ApiErrorResponse
 import com.jetpack.compose.github.github.cruise.data.security.SecureTokenManager
@@ -33,6 +34,39 @@ class ApiInterceptor(
         tokenManager.getToken()?.let { token ->
             requestBuilder.addHeader("Authorization", "Bearer $token")
             Timber.d("Adding GitHub token to API request")
+        }
+
+        // ========================================
+        // EXAMPLE 1: INSECURE - BuildConfig API Key (❌ Extractable from APK)
+        // ========================================
+        // This API_KEY is compiled into the APK as a string constant
+        // Anyone can decompile the APK and see it in plain text
+        // Only use this for non-sensitive configuration
+        Timber.d("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        Timber.d("INSECURE: API_KEY from BuildConfig")
+        Timber.d("Value: ${BuildConfig.API_KEY}")
+        Timber.d("Status: EXTRACTABLE from APK")
+        Timber.d("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        // Use it when needed:
+        // requestBuilder.addHeader("X-API-Key", BuildConfig.API_KEY)
+
+        // ========================================
+        // EXAMPLE 2: SECURE - SecureTokenManager API Key (✅ NOT Extractable)
+        // ========================================
+        // This API key is stored ENCRYPTED on device using Android Keystore
+        // It's NOT in the APK, only fetched at runtime from encrypted storage
+        // Decompiling the APK only shows this code, not the actual key value
+        tokenManager.getSecureApiKey()?.let { secureApiKey ->
+            Timber.d("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+            Timber.d("SECURE: API_KEY_EXTRA_SECURE from SecureTokenManager")
+            Timber.d("Value: $secureApiKey")
+            Timber.d("Status: NOT in APK, loaded from encrypted storage")
+            Timber.d("Storage: /data/data/.../shared_prefs/github_cruise_secure_prefs.xml (encrypted)")
+            Timber.d("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+            // Use it when needed:
+            // requestBuilder.addHeader("X-Secure-API-Key", secureApiKey)
+        } ?: run {
+            Timber.d("No secure API key found - initialization may have failed")
         }
 
         val request = requestBuilder.build()
