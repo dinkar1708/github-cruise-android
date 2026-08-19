@@ -1,5 +1,9 @@
 package com.jetpack.compose.github.github.cruise.ui
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -19,7 +23,6 @@ import com.jetpack.compose.github.github.cruise.ui.MainDestinationsParams.WEBVIE
 import com.jetpack.compose.github.github.cruise.ui.features.favorites.FavoritesScreen
 import com.jetpack.compose.github.github.cruise.ui.features.favorites.FavoritesViewModel
 import com.jetpack.compose.github.github.cruise.ui.features.home.HomeScreen
-import com.jetpack.compose.github.github.cruise.ui.features.profile.ProfileScreen
 import com.jetpack.compose.github.github.cruise.ui.features.repodetails.RepoDetailsScreen
 import com.jetpack.compose.github.github.cruise.ui.features.repositorysearch.RepositorySearchScreen
 import com.jetpack.compose.github.github.cruise.ui.features.repositorysearch.RepositorySearchViewModel
@@ -30,6 +33,7 @@ import com.jetpack.compose.github.github.cruise.ui.features.userrepository.UserR
 import com.jetpack.compose.github.github.cruise.ui.features.users.UsersListScreen
 import com.jetpack.compose.github.github.cruise.ui.features.users.UsersListViewModel
 import com.jetpack.compose.github.github.cruise.ui.features.webview.CommonWebViewScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.samplesNavGraph
 import com.jetpack.compose.github.github.cruise.ui.shared.utils.CommonUtils
 
 /**
@@ -50,13 +54,42 @@ object MainDestinationsParams {
     const val WEBVIEW_TITLE_PARAM = "title"
 }
 
+private const val DEFAULT_TRANSITION_MS = 300
+private const val DETAIL_MODAL_TRANSITION_MS = 350
+
 @Composable
 fun NavGraph(
     navController: NavHostController,
     startDestination: String = SPLASH_SCREEN_ROUTE
 ) {
-
-    NavHost(navController = navController, startDestination = startDestination) {
+    NavHost(
+        navController = navController,
+        startDestination = startDestination,
+        enterTransition = {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(DEFAULT_TRANSITION_MS)
+            ) + fadeIn(animationSpec = tween(DEFAULT_TRANSITION_MS))
+        },
+        exitTransition = {
+            slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(DEFAULT_TRANSITION_MS)
+            ) + fadeOut(animationSpec = tween(DEFAULT_TRANSITION_MS))
+        },
+        popEnterTransition = {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(DEFAULT_TRANSITION_MS)
+            ) + fadeIn(animationSpec = tween(DEFAULT_TRANSITION_MS))
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(DEFAULT_TRANSITION_MS)
+            ) + fadeOut(animationSpec = tween(DEFAULT_TRANSITION_MS))
+        }
+    ) {
         composable(SPLASH_SCREEN_ROUTE) {
             SplashScreen(navController)
         }
@@ -67,6 +100,7 @@ fun NavGraph(
             val favoritesViewModel: FavoritesViewModel = hiltViewModel()
 
             HomeScreen(
+                navController = navController,
                 usersListContent = {
                     UsersListScreen(navController, viewModel = usersViewModel)
                 },
@@ -96,11 +130,24 @@ fun NavGraph(
             )
         }
 
+        // Details Screen: Custom Bottom-Up Modal Transition
         composable(
             "$USER_REPO_DETAILS_SCREEN_ROUTE/{$USER_REPO_DETAILS_SCREEN_PARAM}",
             arguments = listOf(navArgument(USER_REPO_DETAILS_SCREEN_PARAM) {
                 type = NavType.StringType
-            })
+            }),
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Up,
+                    animationSpec = tween(DETAIL_MODAL_TRANSITION_MS)
+                ) + fadeIn(animationSpec = tween(DETAIL_MODAL_TRANSITION_MS))
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Down,
+                    animationSpec = tween(DETAIL_MODAL_TRANSITION_MS)
+                ) + fadeOut(animationSpec = tween(DETAIL_MODAL_TRANSITION_MS))
+            }
         ) { backStackEntry ->
             val decodedUrl = CommonUtils.decodeUrl(
                 backStackEntry.arguments?.getString(USER_REPO_DETAILS_SCREEN_PARAM) ?: ""
@@ -108,12 +155,25 @@ fun NavGraph(
             RepoDetailsScreen(navController, htmlUrl = decodedUrl)
         }
 
+        // Web Viewer Screen: Custom Bottom-Up Modal Transition
         composable(
             "$WEBVIEW_SCREEN_ROUTE/{$WEBVIEW_URL_PARAM}/{$WEBVIEW_TITLE_PARAM}",
             arguments = listOf(
                 navArgument(WEBVIEW_URL_PARAM) { type = NavType.StringType },
                 navArgument(WEBVIEW_TITLE_PARAM) { type = NavType.StringType }
-            )
+            ),
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Up,
+                    animationSpec = tween(DETAIL_MODAL_TRANSITION_MS)
+                ) + fadeIn(animationSpec = tween(DETAIL_MODAL_TRANSITION_MS))
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Down,
+                    animationSpec = tween(DETAIL_MODAL_TRANSITION_MS)
+                ) + fadeOut(animationSpec = tween(DETAIL_MODAL_TRANSITION_MS))
+            }
         ) { backStackEntry ->
             val url = CommonUtils.decodeUrl(
                 backStackEntry.arguments?.getString(WEBVIEW_URL_PARAM) ?: ""
@@ -121,5 +181,8 @@ fun NavGraph(
             val title = backStackEntry.arguments?.getString(WEBVIEW_TITLE_PARAM) ?: ""
             CommonWebViewScreen(navController, url, title)
         }
+
+        // Samples Navigation Graph
+        samplesNavGraph(navController)
     }
 }

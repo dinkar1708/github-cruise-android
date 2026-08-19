@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jetpack.compose.github.github.cruise.data.datastore.LocaleDataStore
 import com.jetpack.compose.github.github.cruise.data.datastore.ThemeDataStore
+import com.jetpack.compose.github.github.cruise.data.security.SecureTokenManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -13,12 +14,13 @@ import javax.inject.Inject
 
 /**
  * ViewModel for Settings screen
- * Migrated to DataStore for better performance
+ * Manages preferences, theme, language, and session state
  */
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val themeDataStore: ThemeDataStore,
-    private val localeDataStore: LocaleDataStore
+    private val localeDataStore: LocaleDataStore,
+    private val secureTokenManager: SecureTokenManager
 ) : ViewModel() {
 
     val isDarkMode: StateFlow<Boolean> = themeDataStore.isDarkMode
@@ -45,5 +47,13 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             localeDataStore.setLocale(locale)
         }
+    }
+
+    /**
+     * Clear all user tokens and secure session data on logout
+     */
+    fun logout() {
+        secureTokenManager.clearToken()
+        secureTokenManager.clearSecureApiKey()
     }
 }

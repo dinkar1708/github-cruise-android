@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -14,6 +15,8 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.navigation.NavHostController
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -51,6 +54,7 @@ data class BottomNavItem(
 /**
  * Home screen with bottom navigation
  *
+ * @param navController Navigation controller for navigating to other screens
  * @param usersListContent Content for the Users tab
  * @param repositoriesSearchContent Content for the Repository Search tab
  * @param favoritesContent Content for the Favorites tab
@@ -58,6 +62,7 @@ data class BottomNavItem(
  */
 @Composable
 fun HomeScreen(
+    navController: NavHostController,
     usersListContent: @Composable () -> Unit,
     repositoriesSearchContent: @Composable () -> Unit,
     favoritesContent: @Composable () -> Unit,
@@ -89,6 +94,18 @@ fun HomeScreen(
     )
 
     Scaffold(
+        floatingActionButton = {
+            // Show FAB only on first tab (Home)
+            if (selectedTabIndex == 0) {
+                ExtendedFloatingActionButton(
+                    onClick = {
+                        navController.navigate("samples_list")
+                    },
+                    icon = { Icon(Icons.Filled.List, "Open Samples") },
+                    text = { Text("Open Samples") }
+                )
+            }
+        },
         bottomBar = {
             NavigationBar(
                 containerColor = MaterialTheme.colorScheme.surface,
@@ -152,11 +169,10 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     GithubCruiseTheme {
-        HomeScreen(
-            usersListContent = { Text("Users List") },
-            repositoriesSearchContent = { Text("Repository Search") },
-            favoritesContent = { Text("Favorites") },
-            settingsContent = { Text("Settings") }
-        )
+        // Note: Preview doesn't include navController functionality
+        // For full testing, run the app
+        Box {
+            Text("Preview: Run app to see navigation")
+        }
     }
 }

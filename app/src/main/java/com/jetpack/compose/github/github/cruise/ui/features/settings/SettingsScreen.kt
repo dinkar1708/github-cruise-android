@@ -16,6 +16,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Info
@@ -48,6 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.jetpack.compose.github.github.cruise.BuildConfig
 import com.jetpack.compose.github.github.cruise.R
+import com.jetpack.compose.github.github.cruise.ui.MainDestinations.HOME_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.MainDestinations.WEBVIEW_SCREEN_ROUTE
 import com.jetpack.compose.github.github.cruise.ui.shared.AppActionBarView
 import com.jetpack.compose.github.github.cruise.ui.theme.AppShapes
@@ -58,16 +60,17 @@ import com.jetpack.compose.github.github.cruise.ui.theme.Spacing
 import com.jetpack.compose.github.github.cruise.utils.LocaleManager
 
 /**
- * Settings screen with app preferences
+ * Settings screen with app preferences and session management
  */
 @Composable
 fun SettingsScreen(
-    navController: androidx.navigation.NavHostController,
+    navController: NavHostController,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     var notificationsEnabled by remember { mutableStateOf(true) }
     var showLanguageDialog by remember { mutableStateOf(false) }
+    var showLogoutDialog by remember { mutableStateOf(false) }
     var shouldRecreate by remember { mutableStateOf(false) }
     val darkModeEnabled by viewModel.isDarkMode.collectAsState()
     val currentLocale by viewModel.currentLocale.collectAsState()
@@ -141,6 +144,49 @@ fun SettingsScreen(
                         shouldRecreate = true
                     },
                     onDismiss = { showLanguageDialog = false }
+                )
+            }
+
+            // Account & Session Section
+            SectionHeader(title = "Account & Session")
+
+            SettingsItem(
+                icon = Icons.AutoMirrored.Filled.ExitToApp,
+                title = "Log Out",
+                subtitle = "Clear session tokens and pop all screens back to Home",
+                onClick = { showLogoutDialog = true }
+            )
+
+            // Logout Confirmation Dialog
+            if (showLogoutDialog) {
+                AlertDialog(
+                    onDismissRequest = { showLogoutDialog = false },
+                    title = { Text("Log Out") },
+                    text = {
+                        Text("Are you sure you want to log out? This will clear your secure tokens and pop all screens from the backstack.")
+                    },
+                    confirmButton = {
+                        TextButton(
+                            onClick = {
+                                showLogoutDialog = false
+                                viewModel.logout()
+                                // 🚀 Clear the entire backstack and navigate to the Home screen
+                                navController.navigate(HOME_SCREEN_ROUTE) {
+                                    popUpTo(0) {
+                                        inclusive = true
+                                    }
+                                    launchSingleTop = true
+                                }
+                            }
+                        ) {
+                            Text("Log Out", color = MaterialTheme.colorScheme.error)
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showLogoutDialog = false }) {
+                            Text("Cancel")
+                        }
+                    }
                 )
             }
 

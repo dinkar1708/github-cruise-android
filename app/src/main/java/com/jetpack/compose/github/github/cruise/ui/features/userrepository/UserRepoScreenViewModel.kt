@@ -37,15 +37,16 @@ class UserRepoScreenViewModel @Inject constructor(
     override val TAG = "UserRepoScreenViewModel"
 
     /**
-     * SERIAL API CALLS - Currently active (intentional for demonstration)
+     * PATTERN 1: SERIAL / SEQUENTIAL API CALLS
      *
-     * Loads profile first, then repositories (one after another).
+     * Single coroutine: Loads profile first, then repositories (one after another).
+     * Use case: When API #2 depends on data from API #1.
      * See docs/technical/API_CALL_PATTERNS.md for comparison.
      */
-    fun loadApiData(login: String) = viewModelScope.launch {
+    fun loadApiDataSerial(login: String) = viewModelScope.launch {
         _uiStateRepository.update { it.copy(login = login) }
 
-        // Sequential/Serial API calls - one waits for the other
+        // Sequential API calls - second waits for first to complete
         if (_uiStateProfile.value.userProfile == null) {
             loadUserProfile(login)
         }
@@ -55,19 +56,18 @@ class UserRepoScreenViewModel @Inject constructor(
     }
 
     /**
-     * PARALLEL API CALLS - Alternative implementation
+     * PATTERN 2: PARALLEL VIA ASYNC / AWAIT (Coordinated Execution)
      *
-     * Both APIs load at the same time - ~16% faster than serial.
-     * To use: Comment out loadApiData() above and update LaunchedEffect call.
-     * See docs/technical/API_CALL_PATTERNS.md for details.
+     * Single coroutine with async: Dispatches both calls concurrently and awaits completion.
+     * Use case: When you need data from both APIs before proceeding to the next step.
      */
-    fun loadApiDataParallel(login: String) = viewModelScope.launch {
+    fun loadApiDataParallelAsync(login: String) = viewModelScope.launch {
         _uiStateRepository.update { it.copy(login = login) }
 
-        // Parallel API calls - both start at the same time
+        // Parallel API calls using async/await
         if (_uiStateProfile.value.userProfile == null ||
-            _uiStateRepository.value.userRepoList.isEmpty()) {
-
+            _uiStateRepository.value.userRepoList.isEmpty()
+        ) {
             val profileDeferred = async {
                 if (_uiStateProfile.value.userProfile == null) {
                     loadUserProfile(login)
@@ -85,6 +85,38 @@ class UserRepoScreenViewModel @Inject constructor(
             reposDeferred.await()
         }
     }
+
+    /**
+     * PATTERN 3: PARALLEL VIA SEPARATE LAUNCH (Independent / Progressive Loading)
+     *
+     * Two separate coroutines: Profile and Repositories run completely independently.
+     * Best UX: Profile renders immediately when ready without waiting for repositories.
+     * Error Isolation: Failure in one API call does not cancel or block the other.
+     */
+    fun loadApiDataParallelSeparateLaunch(login: String) {
+        _uiStateRepository.update { it.copy(login = login) }
+
+        // 🚀 Coroutine 1: Load profile independently
+        viewModelScope.launch {
+            if (_uiStateProfile.value.userProfile == null) {
+                loadUserProfile(login)
+            }
+        }
+
+        // 🚀 Coroutine 2: Load repositories in parallel
+        viewModelScope.launch {
+            if (_uiStateRepository.value.userRepoList.isEmpty()) {
+                loadUserRepositories()
+            }
+        }
+    }
+
+    /**
+     * Default convenience methods
+     */
+    fun loadApiData(login: String) = loadApiDataSerial(login)
+    fun loadApiDataParallel(login: String) = loadApiDataParallelSeparateLaunch(login)
+
 
 
     private suspend fun loadUserProfile(login: String) {

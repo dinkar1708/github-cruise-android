@@ -113,6 +113,20 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.security.crypto)
+    implementation(libs.play.billing.ktx)
+
+    // Media3 & Live Streaming (ExoPlayer & RTMP)
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.ui)
+    implementation(libs.media3.datasource.rtmp)
+
+    // CameraX
+    implementation(libs.camera.core)
+    implementation(libs.camera.camera2)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.view)
+
+
 
     // Room
     implementation(libs.androidx.room.runtime)
