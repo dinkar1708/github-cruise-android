@@ -5,6 +5,8 @@ import com.jetpack.compose.github.github.cruise.data.network.NetworkDataSourceIm
 import com.jetpack.compose.github.github.cruise.data.network.api.APIInterface
 import com.jetpack.compose.github.github.cruise.data.network.api.ApiConstants
 import com.jetpack.compose.github.github.cruise.data.network.api.ApiInterceptor
+import com.jetpack.compose.github.github.cruise.data.network.authenticator.TokenAuthenticator
+import com.jetpack.compose.github.github.cruise.data.network.circuitbreaker.CircuitBreaker
 import com.jetpack.compose.github.github.cruise.data.network.interceptor.RetryInterceptor
 import com.jetpack.compose.github.github.cruise.data.security.SecureTokenManager
 import com.squareup.moshi.Moshi
@@ -17,6 +19,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
@@ -34,20 +37,48 @@ object NetworkDataSourceModule {
 
     @Singleton
     @Provides
+    fun provideCircuitBreaker(): CircuitBreaker {
+        return CircuitBreaker()
+    }
+
+    @Singleton
+    @Provides
+    fun provideTokenAuthenticator(
+        tokenManager: SecureTokenManager
+    ): TokenAuthenticator {
+        return TokenAuthenticator(tokenManager)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetryInterceptor(
+        circuitBreaker: CircuitBreaker
+    ): RetryInterceptor {
+        return RetryInterceptor(circuitBreaker)
+    }
+
+    @Singleton
+    @Provides
     fun provideNetworkDataSource(
         moshi: Moshi,
-        tokenManager: SecureTokenManager
+        tokenManager: SecureTokenManager,
+        tokenAuthenticator: TokenAuthenticator,
+        retryInterceptor: RetryInterceptor
     ): NetworkDataSource {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        val loggingInterceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
 
         val apiInterceptor = ApiInterceptor(moshi, tokenManager)
-        val retryInterceptor = RetryInterceptor()
 
         val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(interceptor)
-            .addInterceptor(retryInterceptor) // Add retry before API interceptor
+            .authenticator(tokenAuthenticator) // Mutex-protected token refresh on 401
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(retryInterceptor) // Resilient retries with full jitter + circuit breaker
             .addInterceptor(apiInterceptor)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
             .build()
 
         val retrofitBuilder: Retrofit.Builder =
@@ -63,5 +94,4 @@ object NetworkDataSourceModule {
             api = retrofit.create(APIInterface::class.java),
         )
     }
-
 }

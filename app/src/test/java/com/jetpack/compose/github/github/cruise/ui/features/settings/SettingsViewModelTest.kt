@@ -24,14 +24,19 @@ class SettingsViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var mockThemeDataStore: ThemeDataStore
+    private lateinit var mockLocaleDataStore: com.jetpack.compose.github.github.cruise.data.datastore.LocaleDataStore
+    private lateinit var mockSecureTokenManager: com.jetpack.compose.github.github.cruise.data.security.SecureTokenManager
     private lateinit var viewModel: SettingsViewModel
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         mockThemeDataStore = mockk(relaxed = true)
+        mockLocaleDataStore = mockk(relaxed = true)
+        mockSecureTokenManager = mockk(relaxed = true)
         every { mockThemeDataStore.isDarkMode } returns flowOf(false)
-        viewModel = SettingsViewModel(mockThemeDataStore)
+        every { mockLocaleDataStore.currentLocale } returns flowOf(com.jetpack.compose.github.github.cruise.data.datastore.LocaleDataStore.LOCALE_SYSTEM_DEFAULT)
+        viewModel = SettingsViewModel(mockThemeDataStore, mockLocaleDataStore, mockSecureTokenManager)
         testDispatcher.scheduler.advanceUntilIdle()
     }
 
@@ -46,7 +51,7 @@ class SettingsViewModelTest {
         every { mockThemeDataStore.isDarkMode } returns flowOf(true)
 
         // When
-        val viewModel = SettingsViewModel(mockThemeDataStore)
+        val viewModel = SettingsViewModel(mockThemeDataStore, mockLocaleDataStore, mockSecureTokenManager)
 
         // Then
         Assert.assertNotNull(viewModel.isDarkMode)
@@ -101,7 +106,7 @@ class SettingsViewModelTest {
         every { mockThemeDataStore.isDarkMode } returns flowOf(false)
 
         // When
-        val viewModel = SettingsViewModel(mockThemeDataStore)
+        val viewModel = SettingsViewModel(mockThemeDataStore, mockLocaleDataStore, mockSecureTokenManager)
 
         // Then
         Assert.assertNotNull(viewModel.isDarkMode)

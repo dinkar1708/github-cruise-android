@@ -110,7 +110,14 @@ sealed class ErrorState {
          */
         fun fromException(exception: Exception): ErrorState {
             return when {
-                exception.message?.contains("unable to resolve host", ignoreCase = true) == true ->
+                exception is com.jetpack.compose.github.github.cruise.data.network.circuitbreaker.CircuitBreakerOpenException ||
+                exception.message?.contains("circuit breaker", ignoreCase = true) == true ->
+                    ServerError(
+                        message = "Circuit breaker open",
+                        userMessage = "GitHub servers are temporarily unavailable. Please try again shortly."
+                    )
+                exception.message?.contains("unable to resolve host", ignoreCase = true) == true ||
+                exception.message?.contains("no address associated", ignoreCase = true) == true ->
                     NetworkError()
                 exception.message?.contains("timeout", ignoreCase = true) == true ->
                     TimeoutError()
