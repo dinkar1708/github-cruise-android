@@ -1,5 +1,6 @@
 package com.jetpack.compose.github.github.cruise.ui.samples.intermediate
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -389,12 +390,13 @@ private fun DerivedStateOfInteractiveCard() {
 // =========================================================================
 // 7. produceState(initial)
 // =========================================================================
+@SuppressLint("ProduceStateDoesNotAssignValue")
 @Composable
 private fun ProduceStateInteractiveCard() {
     var userId by remember { mutableIntStateOf(101) }
 
     // Converts async network simulation into Compose State:
-    val userProfileState by produceState<String>(initialValue = "Loading profile...", key1 = userId) {
+    val userProfileState by produceState(initialValue = "Loading profile...", userId) {
         value = "Loading profile for User #$userId..."
         delay(1200L) // Simulating network API call
         value = "✅ Profile Loaded: Developer #$userId (Senior Android Engineer)"

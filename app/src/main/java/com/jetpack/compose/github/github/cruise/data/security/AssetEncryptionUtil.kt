@@ -1,8 +1,8 @@
 package com.jetpack.compose.github.github.cruise.data.security
 
 import android.content.Context
+import android.util.Base64
 import timber.log.Timber
-import java.util.Base64
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 
@@ -55,10 +55,10 @@ object AssetEncryptionUtil {
         val secretKey = SecretKeySpec(key.toByteArray().copyOf(16), "AES")
         cipher.init(Cipher.DECRYPT_MODE, secretKey)
 
-        val decodedBytes = Base64.getDecoder().decode(encryptedData)
+        val decodedBytes = Base64.decode(encryptedData, Base64.DEFAULT)
         val decryptedBytes = cipher.doFinal(decodedBytes)
 
-        return String(decryptedBytes)
+        return String(decryptedBytes, Charsets.UTF_8)
     }
 
     /**
@@ -72,7 +72,7 @@ object AssetEncryptionUtil {
         val secretKey = SecretKeySpec(key.toByteArray().copyOf(16), "AES")
         cipher.init(Cipher.ENCRYPT_MODE, secretKey)
 
-        val encryptedBytes = cipher.doFinal(plainText.toByteArray())
-        return Base64.getEncoder().encodeToString(encryptedBytes)
+        val encryptedBytes = cipher.doFinal(plainText.toByteArray(Charsets.UTF_8))
+        return Base64.encodeToString(encryptedBytes, Base64.NO_WRAP)
     }
 }
