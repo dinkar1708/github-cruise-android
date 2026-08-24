@@ -84,6 +84,8 @@ fun FavoriteAction(onSave: suspend () -> Unit) {
 
 ## Code Reference & Interactive Demo
 
-- **Interactive Sample Screen**: [`LaunchedEffectExampleScreen.kt`](../../../../app/src/main/java/com/jetpack/compose/github/github/cruise/ui/samples/intermediate/LaunchedEffectExampleScreen.kt)
+- **Full Compose Side Effects Master Guide**: [`compose_side_effects_guide.md`](compose_side_effects_guide.md)
+- **Interactive Side Effects Suite Screen**: [`ComposeSideEffectsSampleScreen.kt`](../../../../app/src/main/java/com/jetpack/compose/github/github/cruise/ui/samples/intermediate/ComposeSideEffectsSampleScreen.kt)
+- **Interactive LaunchedEffect Screen**: [`LaunchedEffectExampleScreen.kt`](../../../../app/src/main/java/com/jetpack/compose/github/github/cruise/ui/samples/intermediate/LaunchedEffectExampleScreen.kt)
 - **ViewModel Effect/Event Flows**: [`BaseViewModel.kt`](../../../../app/src/main/java/com/jetpack/compose/github/github/cruise/ui/base/BaseViewModel.kt)
 - **Sample Event Handling**: [`ViewModelFlowExampleViewModel.kt`](../../../../app/src/main/java/com/jetpack/compose/github/github/cruise/ui/samples/intermediate/ViewModelFlowExampleViewModel.kt)

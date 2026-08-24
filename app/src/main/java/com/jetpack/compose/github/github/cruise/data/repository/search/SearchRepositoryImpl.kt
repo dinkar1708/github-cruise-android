@@ -59,12 +59,13 @@ class SearchRepositoryImpl @Inject constructor(
         try {
             val searchResult = networkDataSource.searchUser(userName, page, pageSize)
 
-            // Clear old cache and insert new data for first page
+            val userEntities = searchResult.users.map { it.toEntity(normalizedQuery) }
+
+            // Clear old cache and insert new data atomically for first page
             if (page == 1) {
-                searchUserDao.deleteSearchResults(normalizedQuery)
-                searchUserDao.insertSearchResults(
-                    searchResult.users.map { it.toEntity(normalizedQuery) }
-                )
+                searchUserDao.replaceSearchResults(normalizedQuery, userEntities)
+            } else {
+                searchUserDao.insertSearchResults(userEntities)
             }
 
             emit(searchResult)

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.jetpack.compose.github.github.cruise.data.local.entity.SearchRepositoryEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -15,6 +16,15 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface SearchRepositoryDao {
+
+    /**
+     * Atomically replace cached search results for a query
+     */
+    @Transaction
+    suspend fun replaceSearchResults(query: String, searchRepositories: List<SearchRepositoryEntity>) {
+        deleteSearchResults(query)
+        insertSearchResults(searchRepositories)
+    }
 
     /**
      * Get search results by query (reactive)

@@ -101,6 +101,7 @@ fun FavoritesScreen(viewModel: FavoritesViewModel = hiltViewModel()) {
 
 ## Code Reference & Interactive Demo
 
+- **Interactive Master Comparison Screen & ViewModel**: [`StateFlowVsSharedFlowExampleScreen.kt`](../../../../app/src/main/java/com/jetpack/compose/github/github/cruise/ui/samples/intermediate/StateFlowVsSharedFlowExampleScreen.kt)
 - **Interactive Sample Screen**: [`ViewModelFlowExampleScreen.kt`](../../../../app/src/main/java/com/jetpack/compose/github/github/cruise/ui/samples/intermediate/ViewModelFlowExampleScreen.kt)
 - **Interactive Sample ViewModel**: [`ViewModelFlowExampleViewModel.kt`](../../../../app/src/main/java/com/jetpack/compose/github/github/cruise/ui/samples/intermediate/ViewModelFlowExampleViewModel.kt)
 - **DataStore Reactive Flow**: [`ThemeDataStore.kt`](../../../../app/src/main/java/com/jetpack/compose/github/github/cruise/data/datastore/ThemeDataStore.kt)

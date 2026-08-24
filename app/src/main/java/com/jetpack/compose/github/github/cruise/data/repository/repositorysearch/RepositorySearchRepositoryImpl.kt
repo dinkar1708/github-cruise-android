@@ -52,17 +52,17 @@ class RepositorySearchRepositoryImpl @Inject constructor(
                 pageSize = pageSize
             )
 
-            // Cache the results for offline access
-            if (page == 1) {
-                // For first page, clear old results for this query
-                searchRepositoryDao.deleteSearchResults(query.lowercase())
-            }
-
-            // Cache new results
+            // Cache new results atomically for offline access
             val searchEntities = networkResult.repositories.map { repo ->
                 repo.toSearchEntity(query)
             }
-            searchRepositoryDao.insertSearchResults(searchEntities)
+
+            if (page == 1) {
+                // Atomically clear old results and insert new ones in a single transaction
+                searchRepositoryDao.replaceSearchResults(query.lowercase(), searchEntities)
+            } else {
+                searchRepositoryDao.insertSearchResults(searchEntities)
+            }
 
             emit(networkResult)
 
