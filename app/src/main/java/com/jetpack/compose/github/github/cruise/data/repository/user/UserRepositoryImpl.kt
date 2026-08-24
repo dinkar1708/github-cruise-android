@@ -79,11 +79,13 @@ class UserRepositoryImpl @Inject constructor(
         try {
             val repos = networkDataSource.getUserRepositories(userName, page, pageSize)
 
-            // Clear old cache and insert new data for first page
+            val repoEntities = repos.map { it.toEntity() }
             if (page == 1) {
-                repositoryDao.deleteRepositoriesByOwner(userName)
+                // Atomically clear old cache and insert new data for first page
+                repositoryDao.replaceRepositoriesByOwner(userName, repoEntities)
+            } else {
+                repositoryDao.insertRepositories(repoEntities)
             }
-            repositoryDao.insertRepositories(repos.map { it.toEntity() })
 
             emit(repos)
         } catch (e: Exception) {

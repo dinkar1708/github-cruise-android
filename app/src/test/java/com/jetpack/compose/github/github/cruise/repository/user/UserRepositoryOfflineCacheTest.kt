@@ -232,8 +232,7 @@ class UserRepositoryOfflineCacheTest {
         assertEquals("fresh-repo", results[1][0].name)
 
         // Verify cache was cleared and updated
-        coVerify { mockRepositoryDao.deleteRepositoriesByOwner(userName) }
-        coVerify { mockRepositoryDao.insertRepositories(any()) }
+        coVerify { mockRepositoryDao.replaceRepositoriesByOwner(userName, any()) }
     }
 
     @Test
@@ -251,7 +250,7 @@ class UserRepositoryOfflineCacheTest {
         assertEquals("fresh-repo", results[0][0].name)
 
         // Verify cache was updated but not deleted (page > 1)
-        coVerify(exactly = 0) { mockRepositoryDao.deleteRepositoriesByOwner(any()) }
+        coVerify(exactly = 0) { mockRepositoryDao.replaceRepositoriesByOwner(any(), any()) }
         coVerify { mockRepositoryDao.insertRepositories(any()) }
     }
 
@@ -271,7 +270,7 @@ class UserRepositoryOfflineCacheTest {
         assertEquals("cached-repo", results[0][0].name)
 
         // Verify cache was NOT deleted (network failed)
-        coVerify(exactly = 0) { mockRepositoryDao.deleteRepositoriesByOwner(any()) }
+        coVerify(exactly = 0) { mockRepositoryDao.replaceRepositoriesByOwner(any(), any()) }
     }
 
     @Test

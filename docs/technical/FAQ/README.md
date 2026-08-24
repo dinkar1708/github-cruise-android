@@ -16,8 +16,11 @@ Comprehensive technical documentation and architecture reference for Android dev
 - [State and Recomposition](beginner/state_recomposition.md)
 - [Modifier Order and Layout Behavior](beginner/modifier_order.md)
 
-### Android Fundamentals
-- [Activity Lifecycle](beginner/activity_lifecycle.md)
+### Android & Architecture Lifecycles
+- [Activity Lifecycle & OS Transitions](beginner/lifecycle_activity.md)
+- [Composable Lifecycle & Phases](beginner/lifecycle_compose.md)
+- [ViewModel Lifecycle & Scopes](beginner/lifecycle_viewmodel.md)
+- [Lifecycle Observer & Sensor Safety (Composable Lifecycle)](beginner/lifecycle_observer_component.md)
 
 ---
 
@@ -25,6 +28,9 @@ Comprehensive technical documentation and architecture reference for Android dev
 
 ### State Management & Architecture
 - [ViewModel and State Flow](intermediate/viewmodel.md)
+- [When to Use Coroutine Scopes (Usage Guide)](intermediate/when_to_use_coroutine_scopes.md)
+- [Coroutines Execution Order Quiz & Interview Puzzles](intermediate/coroutines_execution_order_quiz.md)
+- [Compose Side Effects Master Guide (8 Handlers)](intermediate/compose_side_effects_guide.md)
 - [StateFlow vs SharedFlow vs Flow](intermediate/flow_types.md)
 - [Hilt Dependency Injection](intermediate/hilt_di.md)
 - [LaunchedEffect and Side Effects](intermediate/launched_effect.md)
@@ -39,8 +45,12 @@ Comprehensive technical documentation and architecture reference for Android dev
 ## 3. Advanced Topics
 
 ### Performance & Memory
+- [ANR (Application Not Responding): Causes & Fixes](advanced/anr_causes_and_fixes.md)
 - [Memory Leak Detection and LeakCanary](advanced/memory_leak_detection.md)
 - [Performance Monitoring and Recomposition Tracing](advanced/performance_monitoring.md)
+
+### Background Processing & System Services
+- [AlarmManager Timing Guarantees, Doze Mode & Exact Alarms](advanced/alarm_manager_guarantees.md)
 
 ### Video & Live Streaming Systems
 - [RTMP/S Live Video Broadcasting and Adaptive Bitrate (Creator Uplink)](advanced/rtmp_live_broadcasting.md)

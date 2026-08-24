@@ -67,13 +67,61 @@ private val ALL_SAMPLES = listOf(
         category = "Beginner",
         route = SamplesDestinations.COROUTINES_ROUTE
     ),
+    SampleItem(
+        title = "Activity Lifecycle & Transitions",
+        description = "onCreate to onDestroy, finish() in onCreate trap, onPause vs onStop scenarios",
+        category = "Beginner",
+        route = SamplesDestinations.LIFECYCLE_ACTIVITY_ROUTE
+    ),
+    SampleItem(
+        title = "Compose Lifecycle & Phases",
+        description = "Enter/Leave Composition, Recomposition, remember vs rememberSaveable, DisposableEffect",
+        category = "Beginner",
+        route = SamplesDestinations.LIFECYCLE_COMPOSE_ROUTE
+    ),
+    SampleItem(
+        title = "ViewModel Lifecycle & Scopes",
+        description = "Configuration change survival, SavedStateHandle, viewModelScope auto-cancellation",
+        category = "Beginner",
+        route = SamplesDestinations.LIFECYCLE_VIEWMODEL_ROUTE
+    ),
+    SampleItem(
+        title = "Lifecycle Observer & Sensors",
+        description = "LocalLifecycleOwner, LifecycleEventObserver, sensor registration & battery cleanup",
+        category = "Beginner",
+        route = SamplesDestinations.LIFECYCLE_OBSERVER_ROUTE
+    ),
 
     // Intermediate
+    SampleItem(
+        title = "Coroutines Execution Order Quiz",
+        description = "runBlocking, launch, async, await, join, Dispatchers print order simulator",
+        category = "Intermediate",
+        route = SamplesDestinations.COROUTINES_EXECUTION_ORDER_ROUTE
+    ),
+    SampleItem(
+        title = "Coroutine Scopes Usage",
+        description = "viewModelScope vs rememberCoroutineScope vs lifecycleScope vs ApplicationScope",
+        category = "Intermediate",
+        route = SamplesDestinations.COROUTINE_SCOPES_USAGE_ROUTE
+    ),
+    SampleItem(
+        title = "Compose Side Effects Master",
+        description = "LaunchedEffect, DisposableEffect, SideEffect, rememberUpdatedState, derivedStateOf, produceState, snapshotFlow",
+        category = "Intermediate",
+        route = SamplesDestinations.COMPOSE_SIDE_EFFECTS_ROUTE
+    ),
     SampleItem(
         title = "LaunchedEffect",
         description = "Side effects, keys, timer, debounce patterns",
         category = "Intermediate",
         route = SamplesDestinations.LAUNCHED_EFFECT_ROUTE
+    ),
+    SampleItem(
+        title = "StateFlow vs SharedFlow vs Channel",
+        description = "StateFlow (state), SharedFlow (events), Channel (one-off), Cold Flow comparison",
+        category = "Intermediate",
+        route = SamplesDestinations.STATE_FLOW_VS_SHARED_FLOW_ROUTE
     ),
     SampleItem(
         title = "ViewModel & Flow Types",
@@ -118,6 +166,12 @@ private val ALL_SAMPLES = listOf(
         description = "Floating hearts canvas, live chat ticker, digital gifts & Super Chat",
         category = "Advanced",
         route = SamplesDestinations.LIVE_STREAM_ROOM_ROUTE
+    ),
+    SampleItem(
+        title = "Multi-Tab Dynamic Feed",
+        description = "HorizontalPager windowing (beyondViewportPageCount = 1), LRU image cache & low-memory trim",
+        category = "Advanced",
+        route = SamplesDestinations.MULTI_TAB_FEED_ROUTE
     )
 )
 

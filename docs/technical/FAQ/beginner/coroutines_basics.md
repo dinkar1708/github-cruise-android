@@ -83,6 +83,8 @@ viewModelScope.launch {
 
 ## Coroutine Scopes
 
+> 📘 **Comprehensive Deep Dive:** See the dedicated [When to Use Coroutine Scopes (Complete Usage Guide)](../intermediate/when_to_use_coroutine_scopes.md) for full comparison matrices, decision trees, and structured concurrency patterns.
+
 ### viewModelScope
 Tied to ViewModel lifecycle:
 

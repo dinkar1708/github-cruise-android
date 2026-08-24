@@ -6,15 +6,23 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.jetpack.compose.github.github.cruise.ui.samples.beginner.CoroutinesExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.beginner.DataClassesExampleScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.beginner.LifecycleActivityExampleScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.beginner.LifecycleComposeExampleScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.beginner.LifecycleObserverExampleScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.beginner.LifecycleViewModelExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.beginner.NullSafetyExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.beginner.SealedClassesExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.beginner.StateRecompositionExampleScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.ComposeSideEffectsSampleScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.CoroutineScopesUsageScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.CoroutinesExecutionOrderScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.HiltDIExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.LaunchedEffectExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.PassingDataDetailsScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.PassingDataExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.PassingDataProfileScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.PassingDataSharedScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.StateFlowVsSharedFlowExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.ViewModelFlowExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.advanced.MemoryLeakExamplesScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.advanced.PerformanceMonitoringScreen
@@ -32,8 +40,16 @@ object SamplesDestinations {
     const val DATA_CLASSES_ROUTE = "data_classes"
     const val SEALED_CLASSES_ROUTE = "sealed_classes"
     const val COROUTINES_ROUTE = "coroutines"
+    const val LIFECYCLE_ACTIVITY_ROUTE = "lifecycle_activity"
+    const val LIFECYCLE_OBSERVER_ROUTE = "lifecycle_observer"
+    const val LIFECYCLE_COMPOSE_ROUTE = "lifecycle_compose"
+    const val LIFECYCLE_VIEWMODEL_ROUTE = "lifecycle_viewmodel"
 
     // Intermediate
+    const val COROUTINE_SCOPES_USAGE_ROUTE = "coroutine_scopes_usage"
+    const val COROUTINES_EXECUTION_ORDER_ROUTE = "coroutines_execution_order"
+    const val COMPOSE_SIDE_EFFECTS_ROUTE = "compose_side_effects"
+    const val STATE_FLOW_VS_SHARED_FLOW_ROUTE = "state_flow_vs_shared_flow"
     const val LAUNCHED_EFFECT_ROUTE = "launched_effect"
     const val VIEWMODEL_FLOW_ROUTE = "viewmodel_flow"
     const val HILT_DI_ROUTE = "hilt_di"
@@ -47,6 +63,7 @@ object SamplesDestinations {
     const val PERFORMANCE_MONITORING_ROUTE = "performance_monitoring"
     const val LIVE_BROADCASTING_ROUTE = "live_broadcasting"
     const val LIVE_STREAM_ROOM_ROUTE = "live_stream_room"
+    const val MULTI_TAB_FEED_ROUTE = "multi_tab_feed"
 }
 
 
@@ -115,7 +132,55 @@ fun NavGraphBuilder.samplesNavGraph(
             )
         }
 
+        composable(SamplesDestinations.LIFECYCLE_ACTIVITY_ROUTE) {
+            LifecycleActivityExampleScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        composable(SamplesDestinations.LIFECYCLE_OBSERVER_ROUTE) {
+            LifecycleObserverExampleScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        composable(SamplesDestinations.LIFECYCLE_COMPOSE_ROUTE) {
+            LifecycleComposeExampleScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        composable(SamplesDestinations.LIFECYCLE_VIEWMODEL_ROUTE) {
+            LifecycleViewModelExampleScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
         // Intermediate Examples
+        composable(SamplesDestinations.COROUTINE_SCOPES_USAGE_ROUTE) {
+            CoroutineScopesUsageScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        composable(SamplesDestinations.COROUTINES_EXECUTION_ORDER_ROUTE) {
+            CoroutinesExecutionOrderScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        composable(SamplesDestinations.COMPOSE_SIDE_EFFECTS_ROUTE) {
+            ComposeSideEffectsSampleScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        composable(SamplesDestinations.STATE_FLOW_VS_SHARED_FLOW_ROUTE) {
+            StateFlowVsSharedFlowExampleScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
         composable(SamplesDestinations.LAUNCHED_EFFECT_ROUTE) {
             LaunchedEffectExampleScreen(
                 onBackClick = { navController.navigateUp() }
@@ -197,6 +262,13 @@ fun NavGraphBuilder.samplesNavGraph(
         // Live Stream Room & Audience Interaction (Floating Hearts & Chat Ticker)
         composable(SamplesDestinations.LIVE_STREAM_ROOM_ROUTE) {
             com.jetpack.compose.github.github.cruise.ui.samples.advanced.LiveStreamRoomScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        // Multi-Tab Dynamic Feed Example (HorizontalPager 3-page windowing & Low-Memory Cache Trim)
+        composable(SamplesDestinations.MULTI_TAB_FEED_ROUTE) {
+            MultiTabFeedSampleScreen(
                 onBackClick = { navController.navigateUp() }
             )
         }
