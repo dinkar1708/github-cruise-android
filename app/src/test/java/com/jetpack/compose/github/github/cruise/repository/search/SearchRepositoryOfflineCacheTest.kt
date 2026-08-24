@@ -120,8 +120,7 @@ class SearchRepositoryOfflineCacheTest {
         assertEquals("fresh-user-2", results[1].users[1].login)
 
         // Verify cache was cleared and updated
-        coVerify { mockSearchUserDao.deleteSearchResults(query) }
-        coVerify { mockSearchUserDao.insertSearchResults(any()) }
+        coVerify { mockSearchUserDao.replaceSearchResults(query, any()) }
     }
 
     @Test
@@ -137,7 +136,7 @@ class SearchRepositoryOfflineCacheTest {
 
         // Then: Should normalize to lowercase for cache lookup
         coVerify { mockSearchUserDao.getSearchResultsOneShot("dinkar") }
-        coVerify { mockSearchUserDao.deleteSearchResults("dinkar") }
+        coVerify { mockSearchUserDao.replaceSearchResults("dinkar", any()) }
     }
 
     @Test
@@ -157,7 +156,7 @@ class SearchRepositoryOfflineCacheTest {
         assertEquals("fresh-user", results[0].users[0].login)
 
         // Verify cache was updated
-        coVerify { mockSearchUserDao.insertSearchResults(any()) }
+        coVerify { mockSearchUserDao.replaceSearchResults(query, any()) }
     }
 
     @Test
@@ -177,7 +176,7 @@ class SearchRepositoryOfflineCacheTest {
         assertEquals("cached-user", results[0].users[0].login)
 
         // Verify cache was NOT deleted (network failed)
-        coVerify(exactly = 0) { mockSearchUserDao.deleteSearchResults(any()) }
+        coVerify(exactly = 0) { mockSearchUserDao.replaceSearchResults(any(), any()) }
     }
 
     @Test
@@ -216,7 +215,8 @@ class SearchRepositoryOfflineCacheTest {
         coVerify(exactly = 0) { mockSearchUserDao.getSearchResultsOneShot(any()) }
 
         // Verify cache was updated but not deleted (page > 1)
-        coVerify(exactly = 0) { mockSearchUserDao.deleteSearchResults(any()) }
+        coVerify(exactly = 0) { mockSearchUserDao.replaceSearchResults(any(), any()) }
+        coVerify { mockSearchUserDao.insertSearchResults(any()) }
     }
 
     @Test
