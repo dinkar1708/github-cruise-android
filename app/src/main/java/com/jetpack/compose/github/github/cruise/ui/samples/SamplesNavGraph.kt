@@ -14,6 +14,7 @@ import com.jetpack.compose.github.github.cruise.ui.samples.beginner.NullSafetyEx
 import com.jetpack.compose.github.github.cruise.ui.samples.beginner.SealedClassesExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.beginner.StateRecompositionExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.ComposeSideEffectsSampleScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.ComposeSwipingPatternsSampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.CoroutineScopesUsageScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.CoroutinesExecutionOrderScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.HiltDIExampleScreen
@@ -24,6 +25,7 @@ import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.PassingD
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.PassingDataSharedScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.StateFlowVsSharedFlowExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.ViewModelFlowExampleScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.WorkManagerSampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.advanced.MemoryLeakExamplesScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.advanced.PerformanceMonitoringScreen
 
@@ -53,6 +55,8 @@ object SamplesDestinations {
     const val LAUNCHED_EFFECT_ROUTE = "launched_effect"
     const val VIEWMODEL_FLOW_ROUTE = "viewmodel_flow"
     const val HILT_DI_ROUTE = "hilt_di"
+    const val WORK_MANAGER_ROUTE = "work_manager"
+    const val COMPOSE_SWIPING_PATTERNS_ROUTE = "compose_swiping_patterns"
     const val PASSING_DATA_ROUTE = "passing_data"
     const val PASSING_DATA_DETAILS_ROUTE = "passing_data/details/{itemId}"
     const val PASSING_DATA_PROFILE_ROUTE = "passing_data/profile/{userId}/{userName}"
@@ -195,6 +199,18 @@ fun NavGraphBuilder.samplesNavGraph(
 
         composable(SamplesDestinations.HILT_DI_ROUTE) {
             HiltDIExampleScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        composable(SamplesDestinations.WORK_MANAGER_ROUTE) {
+            WorkManagerSampleScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        composable(SamplesDestinations.COMPOSE_SWIPING_PATTERNS_ROUTE) {
+            ComposeSwipingPatternsSampleScreen(
                 onBackClick = { navController.navigateUp() }
             )
         }

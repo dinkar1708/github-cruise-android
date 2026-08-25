@@ -136,6 +136,18 @@ private val ALL_SAMPLES = listOf(
         route = SamplesDestinations.HILT_DI_ROUTE
     ),
     SampleItem(
+        title = "WorkManager Background Sync",
+        description = "CoroutineWorker, Constraints (Wi-Fi, Charging), OneTime vs Periodic, live progress & Logcat logs",
+        category = "Intermediate",
+        route = SamplesDestinations.WORK_MANAGER_ROUTE
+    ),
+    SampleItem(
+        title = "Compose Swiping & Paging Patterns",
+        description = "3D Cube Pager, Centered Card Snapping, Tinder Drag Deck & Hero Carousel (100% XML-Free)",
+        category = "Intermediate",
+        route = SamplesDestinations.COMPOSE_SWIPING_PATTERNS_ROUTE
+    ),
+    SampleItem(
         title = "Passing Data Between Screens",
         description = "Route args, Type-safe nav, SharedViewModel, multiple methods",
         category = "Intermediate",

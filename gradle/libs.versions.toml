@@ -30,6 +30,7 @@ androidxSecurity = "1.1.0-alpha06"
 playBilling = "7.1.1"
 androidxMedia3 = "1.4.1"
 androidxCamera = "1.4.1"
+androidxWork = "2.9.1"
 
 
 
@@ -80,6 +81,9 @@ camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "
 camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "androidxCamera" }
 camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCamera" }
 camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidxCamera" }
+
+# WorkManager
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWork" }
 
 
 

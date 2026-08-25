@@ -41,14 +41,34 @@ viewModelScope.launch {
 ```
 
 ### async
-Returns result - use with await:
+Returns a `Deferred<T>` result — used for parallel decomposition:
 
 ```kotlin
 val deferred = async {
-    fetchData()
+    api.fetchUserData() // 🚀 EXECUTES IMMEDIATELY in background!
 }
-val result = deferred.await()
+val result = deferred.await() // Suspends only to retrieve the result
 ```
+
+> [!IMPORTANT]
+> **Does code inside `async { ... }` run if you NEVER call `.await()`?**
+>
+> **YES! By default, `async` starts executing immediately (eagerly).**
+> - `.await()` does **NOT** start the task; it only **suspends the caller to wait for the returned value**.
+> - Whether you call `.await()` or not, the network call or calculation inside `async` **will execute**.
+>
+> **The Exception: `CoroutineStart.LAZY`**
+> If you explicitly pass `start = CoroutineStart.LAZY`, the coroutine will **NOT** run until `.await()` or `.start()` is called:
+> ```kotlin
+> val lazyDeferred = async(start = CoroutineStart.LAZY) {
+>     api.fetchUserData() // 🛑 Waits! Will ONLY run when .await() or .start() is called
+> }
+> ```
+>
+> **⚠️ Staff Trap — Exceptions without `.await()`:**
+> In structured concurrency, if an `async` block fails with an unhandled exception, **it will crash/cancel the parent CoroutineScope**, even if you never called `.await()`!
+> - If you **need a result**: Use `async` + `.await()`.
+> - If you **don't care about the result (fire-and-forget)**: Use `launch`, **not** `async`.
 
 ### runBlocking
 Blocks thread - use only in tests/main:

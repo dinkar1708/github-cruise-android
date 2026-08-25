@@ -37,6 +37,13 @@ import timber.log.Timber
  * - Instant tab switching with preserved state
  * - Smooth horizontal swipe gestures
  * - ComponentCallbacks2 integration to aggressively trim L1/L2 caches under memory pressure
+ *
+ * 4. TODO: Alternative Modern Jetpack Compose Swiping & Paging Options (100% XML-Free):
+ * - TODO 1: Material 3 HorizontalMultiBrowseCarousel (Adaptive Hero item expanding/shrinking carousel)
+ * - TODO 2: 3D Cube / Depth Page Transformations via Modifier.graphicsLayer on HorizontalPager
+ * - TODO 3: Centered Card Snapping with LazyRow + rememberSnapFlingBehavior
+ * - TODO 4: Custom Gesture Dragging via Modifier.anchoredDraggable() (Tinder-style card swipe deck)
+ * - TODO 5: Custom SubcomposeLayout / Layout for Physics-based Cover Flow
  */
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable

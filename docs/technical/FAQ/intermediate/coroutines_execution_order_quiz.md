@@ -96,6 +96,38 @@ E
 
 ---
 
+### Puzzle 3.0: `println` INSIDE the `async` Coroutine Body (Why Async 2 Prints First Here)
+
+#### 📝 Code:
+```kotlin
+println("Start")
+val d1 = async { delay(200L); println("Async 1 (200ms)"); "Result 1" }
+val d2 = async { delay(100L); println("Async 2 (100ms)"); "Result 2" }
+println("Between Launch and Await")
+d1.await()
+d2.await()
+println("End")
+```
+
+#### 🎯 Output:
+```
+Start
+Between Launch and Await
+Async 2 (100ms)
+Async 1 (200ms)
+End
+```
+
+#### 💡 Staff Explanation:
+1. `"Start"` prints first sequentially.
+2. Both `d1` and `d2` are launched into the background immediately.
+3. `"Between Launch and Await"` prints immediately (at `0ms`) because `async` does not block the caller.
+4. At `100ms`, `d2` finishes its delay and executes its own `println("Async 2 (100ms)")` **inside its own coroutine thread**!
+5. At `200ms`, `d1` finishes its delay and executes its own `println("Async 1 (200ms)")`.
+6. `d1.await()` and `d2.await()` finish $\implies$ `"End"` prints.
+
+---
+
 ### Puzzle 3.1: Short Classic `async` with `await()` Ordering
 
 #### 📝 Code:

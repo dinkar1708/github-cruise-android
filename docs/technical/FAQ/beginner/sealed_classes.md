@@ -46,7 +46,7 @@ fun handleState(state: UiState) {
 sealed class ScreenState {
     object Initial : ScreenState()
     object Loading : ScreenState()
-    data class Content(val users: List<User>) : ScreenState()
+    data class Content(val users: List<User>) : ScreenState() 
     data class Empty(val message: String) : ScreenState()
     data class Error(val error: Throwable) : ScreenState()
 }

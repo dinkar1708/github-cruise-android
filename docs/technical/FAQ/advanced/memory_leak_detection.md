@@ -39,21 +39,42 @@ class MyHandler : Handler() {
 }
 ```
 
-### 2. Uncancelled Coroutines
+### 2. Uncancelled Coroutines & Swallowing `CancellationException`
+
+> [!CAUTION]
+> **Staff Trap: Never swallow `CancellationException`!**
+> When a Coroutine Scope is cancelled (e.g. user leaves the screen and `viewModelScope` cancels), Kotlin Coroutines cancel active suspend functions (like `delay()` or `suspendCancellableCoroutine`) by throwing a **`CancellationException`**.
+>
+> If you catch generic `Exception` or `Throwable` and do **NOT** rethrow `CancellationException`:
+> 1. The coroutine **fails to stop** and continues looping in the background forever.
+> 2. The coroutine keeps strong references to ViewModel, View, Composable closures, and Context in memory.
+> 3. Result: **Severe Silent Memory Leak + Battery Drain + Background CPU Usage**.
+
 ```kotlin
-// BAD - Coroutine continues after screen is destroyed
-GlobalScope.launch {
+// ❌ BAD: Swallows CancellationException -> Coroutine NEVER dies -> Leaks Memory!
+viewModelScope.launch {
     while (true) {
-        delay(1000)
-        updateUI() // Holds reference to destroyed Activity/Composable
+        try {
+            delay(1000)
+            val data = api.fetchData()
+            updateUI(data) // Retains reference to Composable / View after screen destruction!
+        } catch (e: Exception) { // 💥 Intercepts CancellationException and ignores it!
+            Timber.e(e, "Error occurred")
+            // Loop continues forever in the background!
+        }
     }
 }
 
-// GOOD - Use viewModelScope
-class MyViewModel : ViewModel() {
-    fun startWork() {
-        viewModelScope.launch {
-            // Automatically cancelled when ViewModel is cleared
+// ✅ GOOD: Always check and rethrow CancellationException!
+viewModelScope.launch {
+    while (isActive) {
+        try {
+            delay(1000)
+            val data = api.fetchData()
+            updateUI(data)
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e // 🚀 Allows coroutine to cancel & release memory!
+            Timber.e(e, "Network error occurred")
         }
     }
 }
