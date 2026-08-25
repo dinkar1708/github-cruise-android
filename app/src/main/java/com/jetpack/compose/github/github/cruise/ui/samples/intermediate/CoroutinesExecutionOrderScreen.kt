@@ -198,6 +198,45 @@ println("E")
             // =========================================================================
             // PUZZLE 3.1: Short Classic async vs await() Order
             // =========================================================================
+            // PUZZLE 3.0: async with println INSIDE the Coroutine Body
+            // =========================================================================
+            item {
+                QuizCard(
+                    title = "Puzzle 3.0: println INSIDE async Body",
+                    difficulty = "Junior / Mid (Internal Prints)",
+                    codeSnippet = """
+println("Start")
+val d1 = async { delay(200L); println("Async 1 (200ms)"); "Result 1" }
+val d2 = async { delay(100L); println("Async 2 (100ms)"); "Result 2" }
+println("Between Launch and Await")
+d1.await()
+d2.await()
+println("End")
+                    """.trimIndent(),
+                    explanation = "Because `println` is INSIDE the coroutine body, Async 2 finishes its delay at 100ms and prints BEFORE Async 1 (200ms)!\n👉 Expected: Start ➔ Between Launch and Await ➔ Async 2 (100ms) ➔ Async 1 (200ms) ➔ End",
+                    onRun = { log ->
+                        log("Start")
+                        val d1 = async {
+                            delay(200L)
+                            log("Async 1 (200ms)")
+                            "Result 1"
+                        }
+                        val d2 = async {
+                            delay(100L)
+                            log("Async 2 (100ms)")
+                            "Result 2"
+                        }
+                        log("Between Launch and Await")
+                        d1.await()
+                        d2.await()
+                        log("End")
+                    }
+                )
+            }
+
+            // =========================================================================
+            // PUZZLE 3.1: Short Classic async with await() on Caller Thread
+            // =========================================================================
             item {
                 QuizCard(
                     title = "Puzzle 3.1: Short Classic async / await()",
@@ -210,7 +249,7 @@ println(d1.await())
 println(d2.await())
 println("End")
                     """.trimIndent(),
-                    explanation = "Both async tasks start in parallel. d2 finishes first (100ms), but we call `d1.await()` first (200ms). The caller waits 200ms, prints 'Result 1', and then 'Result 2' returns instantly with 0ms wait!\n👉 Expected: Start ➔ Result 1 ➔ Result 2 ➔ End",
+                    explanation = "Both async tasks start in parallel. d2 finishes first (100ms), but the caller calls `println(d1.await())` first (200ms). The caller thread waits 200ms, prints 'Result 1', and then 'Result 2' returns instantly with 0ms wait!\n👉 Expected: Start ➔ Result 1 ➔ Result 2 ➔ End",
                     onRun = { log ->
                         val d1 = async {
                             delay(200L)

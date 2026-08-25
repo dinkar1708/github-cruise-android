@@ -126,6 +126,9 @@ dependencies {
     implementation(libs.camera.lifecycle)
     implementation(libs.camera.view)
 
+    // WorkManager
+    implementation(libs.androidx.work.runtime.ktx)
+
 
 
     // Room

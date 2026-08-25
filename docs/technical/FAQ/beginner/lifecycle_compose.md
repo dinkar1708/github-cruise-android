@@ -61,23 +61,40 @@ val userSearchInput = rememberSaveable { mutableStateOf("") }
 
 ---
 
-### 2. `DisposableEffect` (Setup & Cleanup)
-Used when a Composable needs to acquire an external resource when entering composition and **safely release it** when leaving composition:
+### 2. `DisposableEffect` (Setup & Cleanup for Callbacks/Listeners)
+Used when a Composable needs to acquire an external resource (Listener, Callback, Observer, BroadcastReceiver) when entering composition and **safely and synchronously release it** when leaving composition:
 
 ```kotlin
 @Composable
 fun SensorMonitor(sensorManager: SensorManager, listener: SensorEventListener) {
     DisposableEffect(sensorManager) {
-        // 1. Enter Composition: Register sensor listener
-        sensorManager.registerListener(listener, ...)
+        // 1. Enter Composition: Register sensor listener (Setup)
+        sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI)
 
         onDispose {
-            // 2. Leave Composition: Unregister sensor to prevent battery drain & memory leak
+            // 2. Leave Composition: Unregister sensor to prevent memory leak & battery drain (Cleanup)
             sensorManager.unregisterListener(listener)
         }
     }
 }
 ```
+
+> [!TIP]
+> **In Short: Why `DisposableEffect` instead of `LaunchedEffect` for Listeners?**
+> * **`DisposableEffect`** ➔ **Setup on Enter** + **Guaranteed `onDispose` Cleanup on Exit** (for Sensors, Callbacks, BroadcastReceivers).
+> * **`LaunchedEffect`** ➔ **Runs Coroutines** (has **NO `onDispose` block**; listeners registered here cannot be cleanly unregistered and cause memory leaks & battery drain!).
+
+> [!IMPORTANT]
+> **Why NOT `LaunchedEffect` for registering listeners?**
+> - `LaunchedEffect` is designed for **asynchronous suspend coroutines** (network calls, timers, collecting Flows). It does **NOT** provide a compile-time `onDispose` block.
+> - `DisposableEffect` is designed for **synchronous setup and teardown of non-coroutine objects**. It **forces** you to define `onDispose { ... }` at compile time so you can NEVER forget to unregister your listener, preventing memory leaks and background battery drain.
+
+| Feature | `DisposableEffect` | `LaunchedEffect` |
+| :--- | :--- | :--- |
+| **Primary Purpose** | Synchronous setup & cleanup (Listeners, Observers) | Asynchronous suspend Coroutines (Network, Delays) |
+| **Cleanup Hook** | **`onDispose { ... }` (Mandatory & Synchronous)** | Coroutine cancellation (via `Job.cancel()`) |
+| **Runs Coroutine?** | ❌ No (Synchronous block) | ✅ Yes (`CoroutineScope`) |
+| **Best For** | `SensorManager`, `BroadcastReceiver`, `ExoPlayer.Listener` | `api.fetchData()`, `delay(1000)`, `snapshotFlow` |
 
 ---
 
@@ -99,14 +116,74 @@ fun AutoRefreshFeed(categoryId: String, onRefresh: suspend () -> Unit) {
 ---
 
 ### 4. `SideEffect` (Publishing Compose State to Non-Compose Code)
-Executes after **every successful recomposition**:
+Executes **after every successful composition/recomposition**. It is used to publish Compose state to external objects (SDKs, hardware, system UI, or non-Compose controllers) that are not managed by Compose.
 
+#### 🎯 Top 5 Use Cases for `SideEffect`:
+
+##### 1. Synchronizing System Status Bar & Navigation Bar (System UI)
+Sync the OS status bar color or light/dark icon theme with dynamic Compose theme changes:
 ```kotlin
 @Composable
-fun AnalyticsTracker(screenName: String) {
+fun SystemBarThemeSync(darkTheme: Boolean) {
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+        }
+    }
+}
+```
+
+##### 2. Updating Crashlytics & Analytics Breadcrumbs
+Ensure Crashlytics keys always reflect the latest successfully rendered UI state:
+```kotlin
+@Composable
+fun CrashlyticsStateTracker(currentCategory: String, isPremium: Boolean) {
     SideEffect {
-        // Reports latest rendered state to external analytics SDK
-        AnalyticsSdk.setCurrentScreen(screenName)
+        FirebaseCrashlytics.getInstance().apply {
+            setCustomKey("active_feed_category", currentCategory)
+            setCustomKey("user_is_premium", isPremium)
+        }
+    }
+}
+```
+
+##### 3. Syncing State with External Hardware / Bluetooth SDK
+Push the latest slider or toggle state to a connected Bluetooth device or external peripheral:
+```kotlin
+@Composable
+fun SmartLightControl(brightness: Float, lightController: BluetoothLightSdk) {
+    SideEffect {
+        // Keeps the external Bluetooth controller in sync with Compose UI
+        lightController.setBrightness(brightness)
+    }
+}
+```
+
+##### 4. Updating Non-Compose Custom Views & Map Controllers
+Bridge state updates to a legacy View, MapView, or Game Engine controller:
+```kotlin
+@Composable
+fun MapLocationSync(mapController: GoogleMapController, userLocation: LatLng) {
+    SideEffect {
+        // Directly updates the non-Compose map camera without re-creating the map
+        mapController.updateTargetPosition(userLocation)
+    }
+}
+```
+
+##### 5. APM Telemetry & Recomposition Profiling
+Report UI render breadcrumbs or measure recomposition count for performance monitoring:
+```kotlin
+@Composable
+fun FeedRecompositionTelemetry(feedId: String) {
+    SideEffect {
+        PerformanceMonitor.recordRenderEvent(
+            screen = "MultiTabFeed",
+            tag = feedId,
+            timestamp = System.currentTimeMillis()
+        )
     }
 }
 ```

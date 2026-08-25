@@ -10,7 +10,8 @@ Comprehensive technical documentation and architecture reference for Android dev
 - [Nullable Types and Null Safety](beginner/null_safety.md)
 - [Data Classes vs Regular Classes](beginner/data_classes.md)
 - [Sealed Classes and When Expressions](beginner/sealed_classes.md)
-- [Coroutines Basics and Dispatchers](beginner/coroutines_basics.md)
+- [Coroutines Basics](beginner/coroutines_basics.md)
+- [Coroutine Dispatchers Types & Use Cases](beginner/dispatchers_types.md)
 
 ### Jetpack Compose Basics
 - [State and Recomposition](beginner/state_recomposition.md)
@@ -28,14 +29,20 @@ Comprehensive technical documentation and architecture reference for Android dev
 
 ### State Management & Architecture
 - [ViewModel and State Flow](intermediate/viewmodel.md)
+- [StateFlow vs SharedFlow (Master Comparison)](intermediate/stateflow_vs_sharedflow.md)
 - [When to Use Coroutine Scopes (Usage Guide)](intermediate/when_to_use_coroutine_scopes.md)
+- [Coroutines Error Handling & SupervisorJob Guide](intermediate/coroutines_error_handling.md)
 - [Coroutines Execution Order Quiz & Interview Puzzles](intermediate/coroutines_execution_order_quiz.md)
 - [Compose Side Effects Master Guide (8 Handlers)](intermediate/compose_side_effects_guide.md)
 - [StateFlow vs SharedFlow vs Flow](intermediate/flow_types.md)
 - [Hilt Dependency Injection](intermediate/hilt_di.md)
+- [WorkManager Guaranteed Background Sync & Processing](intermediate/workmanager_background_sync.md)
+- [Managing WorkManager Repeated Failures & Circuit Breaker](intermediate/workmanager_failure_management.md)
 - [LaunchedEffect and Side Effects](intermediate/launched_effect.md)
 
 ### Navigation & UI Lists
+- [Modern Compose Swiping & Paging Patterns (3D, Cards, Hero, Tinder)](intermediate/compose_swiping_patterns.md)
+- [HorizontalPager vs ViewPager vs ViewPager2 (Paging Standards)](intermediate/horizontal_pager_vs_viewpager.md)
 - [Passing Data Between Screens](intermediate/passing_data_between_screens.md)
 - [Type-Safe Navigation](intermediate/type_safe_navigation.md)
 - [LazyColumn Performance and Keys](intermediate/lazy_column_performance.md)
