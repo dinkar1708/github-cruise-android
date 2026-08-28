@@ -11,6 +11,10 @@ plugins {
     jacoco
 }
 
+hilt {
+    enableAggregatingTask = false
+}
+
 // Read properties from local.properties
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
@@ -110,6 +114,7 @@ android {
 dependencies {
 
     // App dependencies
+    implementation(project(path = ":cruise-apm-sdk", configuration = "debugRuntimeElements"))
     implementation(libs.timber)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.security.crypto)

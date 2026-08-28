@@ -38,6 +38,12 @@ data class SampleItem(
 private val ALL_SAMPLES = listOf(
     // Beginner
     SampleItem(
+        title = "CruiseAPM & Observability SDK",
+        description = "Production APM library (:cruise-apm-sdk), OkHttp network metrics, execution traces, live RAM vitals & ANR watchdog",
+        category = "Beginner",
+        route = SamplesDestinations.HELLO_SDK_ROUTE
+    ),
+    SampleItem(
         title = "Null Safety",
         description = "Nullable types, safe call, Elvis operator, let, lateinit",
         category = "Beginner",
@@ -154,7 +160,25 @@ private val ALL_SAMPLES = listOf(
         route = SamplesDestinations.PASSING_DATA_ROUTE
     ),
 
-    // Advanced (Dev Tools)
+    // Advanced (Sensor SDK, Dev Tools & Media)
+    SampleItem(
+        title = "Location SDK & Data Pipeline",
+        description = "Standalone Mobile SDK, Adaptive Duty-Cycling (Activity Recognition) & DWH Cloud Ingestion",
+        category = "Advanced",
+        route = SamplesDestinations.LOCATION_SDK_PIPELINE_ROUTE
+    ),
+    SampleItem(
+        title = "BLE Beacon Scanner & Decoded Telemetry",
+        description = "BluetoothLeScanner, iBeacon/AltBeacon frame decoding, RSSI meter & Path Loss distance",
+        category = "Advanced",
+        route = SamplesDestinations.BLE_BEACON_SCANNER_ROUTE
+    ),
+    SampleItem(
+        title = "BLE GATT Client, Server & Device Pairing",
+        description = "Full GATT Lifecycle, BluetoothGattServer peripheral, createBond() pairing & Error 133 Queue",
+        category = "Advanced",
+        route = SamplesDestinations.BLE_GATT_MANAGER_ROUTE
+    ),
     SampleItem(
         title = "Memory Leak Detection",
         description = "Detect and fix leaks using Profiler, LeakCanary, heap dumps",

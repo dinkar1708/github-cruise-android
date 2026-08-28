@@ -46,6 +46,7 @@ See **[Product Documentation](#product--business-documentation)** for detailed p
 
 ### Technical Implementation
 - [Features](#features)
+- [Custom Android SDK (CruiseAPM)](#custom-android-sdk-cruiseapm)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
@@ -179,6 +180,28 @@ See complete features in [FEATURES.md](documentation/FEATURES.md)
 
 ---
 
+## Custom Android SDK (CruiseAPM)
+
+This repository includes **CruiseAPM**—a production-grade, standalone Application Performance Monitoring & Network Observability Android SDK (`:cruise-apm-sdk`).
+
+- **SDK Source Code Path:** [`cruise-apm-sdk/`](cruise-apm-sdk/) (`cruise-apm-sdk/src/main/java/com/cruise/apm/`)
+- **SDK Documentation Path:** [`cruise-apm-sdk/README.md`](cruise-apm-sdk/README.md) & [Custom SDK Architecture Guide](docs/technical/FAQ/advanced/custom_android_sdk_guide.md)
+- **Interactive App Demo:** [`CruiseApmExampleScreen.kt`](app/src/main/java/com/jetpack/compose/github/github/cruise/ui/samples/beginner/CruiseApmExampleScreen.kt) (Accessible via App Samples)
+- **Implemented Capabilities (What Was Built):**
+  - **OkHttp Observability:** Non-destructive round-trip network latency (`ms`), payload sizing, and HTTP status code tracking via `CruiseApmOkHttpInterceptor`.
+  - **Monotonic Execution Tracing:** High-precision monotonic nanosecond timer measurements (`ApmTrace`) for background tasks & repositories.
+  - **Live Hardware Vitals:** Real-time collection of JVM heap memory utilization, battery level/charging state, and thermal status.
+  - **Main Looper ANR Watchdog:** Background heartbeat thread detecting UI freezes ($>5000\text{ ms}$) with full thread stack traces.
+  - **Multi-Level L1/L2 Cache:** Lock-free in-memory Kotlin Channel buffer (L1) + persistent atomic disk spool (L2) surviving app termination and offline modes.
+  - **App Hilt DI Integration:** Cleanly wired into the host app via `ApmModule.kt` without polluting the pure SDK library with DI bloat.
+- **Future Roadmap (What Can Be Added):**
+  - **Compose Jank & Dropped Frame Tracker:** AndroidX `JankStats` integration to monitor frame rendering stutters ($>16.6\text{ ms}$) during lazy list scrolling.
+  - **Uncaught Exception Crash Reporter:** Automatic crash breadcrumbs and stack trace spooling to prevent diagnostic data loss.
+  - **OpenTelemetry (OTel) Exporter:** Direct telemetry export to Datadog, Prometheus, and Grafana via OTLP standard format.
+  - **Gzip Spool Compression:** On-disk gzip compression before server upload to save user mobile data bandwidth.
+
+---
+
 ## Tech Stack
 
 ### Core Technologies
@@ -258,13 +281,18 @@ See full architecture in [ARCHITECTURE.md](documentation/ARCHITECTURE.md)
 
 ```
 GithubCruiseAndroid/
+├── cruise-apm-sdk/           # Standalone Mobile APM & Network Observability SDK library
+│   ├── model/                # APM Events, Vitals, Network metrics & ANR models
+│   ├── trace/                # Monotonic execution trace timers (ApmTrace)
+│   ├── network/              # CruiseApmOkHttpInterceptor for HTTP observability
+│   └── internal/             # Concurrency Channels, Worker CoroutineScope, Offline Spool & Watchdog
 ├── app/src/main/java/com/jetpack/compose/github/github/cruise/
 │   ├── di/                    # Dependency Injection (Hilt modules)
 │   ├── domain/                # Business logic layer
 │   │   ├── model/            # Domain models
 │   │   └── usecase/          # Use cases
 │   ├── data/                 # Data layer
-│   │   ├── network/         # Network layer (Retrofit, API)
+│   │   ├── network/         # Network layer (Retrofit, API, Circuit Breaker)
 │   │   ├── repository/      # Data repositories
 │   │   └── preferences/     # Data preferences
 │   └── ui/                   # Presentation layer
@@ -273,11 +301,13 @@ GithubCruiseAndroid/
 │       │   ├── users/
 │       │   ├── userrepository/      # User profile & repos screen
 │       │   └── repodetails/         # Repository details screen
+│       ├── samples/          # Training & architecture showcase screens (including CruiseAPM)
 │       ├── shared/           # Reusable UI components
 │       └── theme/            # Material Design 3 theme & tokens
 ├── docs/                      # Project documentation
 │   ├── technical/            # Technical documentation
 │   │   ├── ARCHITECTURE_BEST_PRACTICES.md  # Android best practices
+│   │   ├── FAQ/advanced/custom_android_sdk_guide.md # Custom Android SDK master guide
 │   │   ├── API_CALL_CANCELLATION.md       # API cancellation patterns
 │   │   ├── API_CALL_PATTERNS.md           # Serial vs Parallel APIs
 │   │   ├── OFFLINE_CACHE_STATUS.md        # Offline-first cache status

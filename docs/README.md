@@ -25,6 +25,7 @@ docs/
 │
 ├── technical/                          # Technical documentation
 │   ├── architecture.md
+│   ├── FAQ/advanced/custom_android_sdk_guide.md # CruiseAPM Custom Android SDK Master Guide
 │   ├── code-coverage.md
 │   ├── coverage-report.md
 │   ├── design-system.md
@@ -32,6 +33,9 @@ docs/
 │   ├── OFFLINE_CACHE_STATUS.md         # Offline-first cache implementation status
 │   ├── FAVORITES_IMPLEMENTATION.md     # Favorites with Room Database
 │   └── testing-types.md
+│
+├── cruise-apm-sdk/                     # Standalone Mobile APM SDK module
+│   └── README.md                       # SDK integration, features & roadmap
 │
 └── testing/                            # Testing guides
     ├── ui-testing-guide.md            # Compose Testing setup
@@ -78,6 +82,8 @@ These master specs define features, APIs, and standards for the entire portfolio
 3. [architecture.md](technical/architecture.md) - Code structure and patterns
 
 **Development:**
+- [custom_android_sdk_guide.md](technical/FAQ/advanced/custom_android_sdk_guide.md) - **CruiseAPM Custom Android SDK Master Guide** (Architecture, ProGuard, Offline Spooling, Network Tracing)
+- [cruise-apm-sdk/README.md](../cruise-apm-sdk/README.md) - CruiseAPM library module reference & roadmap
 - [design-system.md](technical/design-system.md) - UI guidelines and Material Design 3
 - [GITHUB_API_SPECIFICATION.md](master/GITHUB_API_SPECIFICATION.md) - GitHub API endpoints (see master docs)
 - [OFFLINE_CACHE_STATUS.md](technical/OFFLINE_CACHE_STATUS.md) - Offline cache implementation tracking
@@ -95,6 +101,7 @@ These master specs define features, APIs, and standards for the entire portfolio
 ## Quick Navigation
 
 **I want to...**
+- **Learn Custom Android SDK (CruiseAPM)** → [custom_android_sdk_guide.md](technical/FAQ/advanced/custom_android_sdk_guide.md)
 - **Check cross-platform features** → [MASTER_FEATURE_SPECIFICATION.md](master/MASTER_FEATURE_SPECIFICATION.md)
 - **See all available APIs** → [GITHUB_API_SPECIFICATION.md](master/GITHUB_API_SPECIFICATION.md)
 - **Follow engineering standards** → [BEST_PRACTICES.md](master/BEST_PRACTICES.md)

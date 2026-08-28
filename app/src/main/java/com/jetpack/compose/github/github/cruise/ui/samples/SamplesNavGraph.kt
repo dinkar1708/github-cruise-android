@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.jetpack.compose.github.github.cruise.ui.samples.beginner.CoroutinesExampleScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.beginner.CruiseApmExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.beginner.DataClassesExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.beginner.LifecycleActivityExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.beginner.LifecycleComposeExampleScreen
@@ -26,6 +27,9 @@ import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.PassingD
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.StateFlowVsSharedFlowExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.ViewModelFlowExampleScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.intermediate.WorkManagerSampleScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.advanced.ble.BleBeaconScannerScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.advanced.ble.BleGattManagerScreen
+import com.jetpack.compose.github.github.cruise.ui.samples.advanced.location.LocationSdkPipelineScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.advanced.MemoryLeakExamplesScreen
 import com.jetpack.compose.github.github.cruise.ui.samples.advanced.PerformanceMonitoringScreen
 
@@ -37,6 +41,7 @@ object SamplesDestinations {
     const val SAMPLES_LIST_ROUTE = "samples_list"
 
     // Beginner
+    const val HELLO_SDK_ROUTE = "hello_sdk"
     const val NULL_SAFETY_ROUTE = "null_safety"
     const val STATE_RECOMPOSITION_ROUTE = "state_recomposition"
     const val DATA_CLASSES_ROUTE = "data_classes"
@@ -62,7 +67,10 @@ object SamplesDestinations {
     const val PASSING_DATA_PROFILE_ROUTE = "passing_data/profile/{userId}/{userName}"
     const val PASSING_DATA_SHARED_ROUTE = "passing_data/shared"
 
-    // Advanced (Dev Tools & Media)
+    // Advanced (Dev Tools, Sensor SDK & Media)
+    const val LOCATION_SDK_PIPELINE_ROUTE = "location_sdk_pipeline"
+    const val BLE_BEACON_SCANNER_ROUTE = "ble_beacon_scanner"
+    const val BLE_GATT_MANAGER_ROUTE = "ble_gatt_manager"
     const val MEMORY_LEAK_ROUTE = "memory_leak"
     const val PERFORMANCE_MONITORING_ROUTE = "performance_monitoring"
     const val LIVE_BROADCASTING_ROUTE = "live_broadcasting"
@@ -106,6 +114,12 @@ fun NavGraphBuilder.samplesNavGraph(
         }
 
         // Beginner Examples
+        composable(SamplesDestinations.HELLO_SDK_ROUTE) {
+            CruiseApmExampleScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
         composable(SamplesDestinations.NULL_SAFETY_ROUTE) {
             NullSafetyExampleScreen(
                 onBackClick = { navController.navigateUp() }
@@ -255,7 +269,25 @@ fun NavGraphBuilder.samplesNavGraph(
             )
         }
 
-        // Advanced (Dev Tools) Examples
+        // Advanced (Sensor SDK, Dev Tools & Media) Examples
+        composable(SamplesDestinations.LOCATION_SDK_PIPELINE_ROUTE) {
+            LocationSdkPipelineScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        composable(SamplesDestinations.BLE_BEACON_SCANNER_ROUTE) {
+            BleBeaconScannerScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
+        composable(SamplesDestinations.BLE_GATT_MANAGER_ROUTE) {
+            BleGattManagerScreen(
+                onBackClick = { navController.navigateUp() }
+            )
+        }
+
         composable(SamplesDestinations.MEMORY_LEAK_ROUTE) {
             MemoryLeakExamplesScreen(
                 onBackClick = { navController.navigateUp() }
