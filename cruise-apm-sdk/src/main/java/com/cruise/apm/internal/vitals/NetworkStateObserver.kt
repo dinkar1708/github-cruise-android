@@ -73,15 +73,28 @@ internal class NetworkStateObserver(context: Context) {
 
     private fun determineCurrentNetwork(): String {
         val cm = connectivityManager ?: return "UNKNOWN"
-        val activeNetwork = cm.activeNetwork ?: return "OFFLINE"
-        val caps = cm.getNetworkCapabilities(activeNetwork) ?: return "OFFLINE"
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            val activeNetwork = cm.activeNetwork ?: return "OFFLINE"
+            val caps = cm.getNetworkCapabilities(activeNetwork) ?: return "OFFLINE"
 
-        return when {
-            caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "WIFI"
-            caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "CELLULAR"
-            caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> "ETHERNET"
-            caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> "VPN"
-            else -> "CONNECTED"
+            when {
+                caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "WIFI"
+                caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "CELLULAR"
+                caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> "ETHERNET"
+                caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> "VPN"
+                else -> "CONNECTED"
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            val networkInfo = cm.activeNetworkInfo ?: return "OFFLINE"
+            @Suppress("DEPRECATION")
+            when (networkInfo.type) {
+                ConnectivityManager.TYPE_WIFI -> "WIFI"
+                ConnectivityManager.TYPE_MOBILE -> "CELLULAR"
+                ConnectivityManager.TYPE_ETHERNET -> "ETHERNET"
+                ConnectivityManager.TYPE_VPN -> "VPN"
+                else -> if (networkInfo.isConnected) "CONNECTED" else "OFFLINE"
+            }
         }
     }
 }
