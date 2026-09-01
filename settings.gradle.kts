@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "GithubCruise"
 include(":app")
- 
+include(":cruise-apm-sdk")

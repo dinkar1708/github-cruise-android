@@ -56,6 +56,12 @@ Comprehensive technical documentation and architecture reference for Android dev
 - [Memory Leak Detection and LeakCanary](advanced/memory_leak_detection.md)
 - [Performance Monitoring and Recomposition Tracing](advanced/performance_monitoring.md)
 
+### Mobile SDK & Sensor Telemetry Systems
+- [Custom Android SDK Architecture, Packaging & Publishing Guide](advanced/custom_android_sdk_guide.md)
+- [Location SDK Architecture & High-Throughput Data Pipeline](advanced/location_sdk_data_pipeline.md)
+- [BLE Beacon Scanning & Frame Decoding (iBeacon/AltBeacon)](advanced/ble_beacon_scanning_guide.md)
+- [BLE GATT Client, Server (Peripheral) & Device Pairing Guide](advanced/ble_gatt_client_server_pairing_guide.md)
+
 ### Background Processing & System Services
 - [AlarmManager Timing Guarantees, Doze Mode & Exact Alarms](advanced/alarm_manager_guarantees.md)
 

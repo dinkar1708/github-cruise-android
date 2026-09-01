@@ -6,6 +6,9 @@ import com.jetpack.compose.github.github.cruise.BuildConfig.DEBUG
 import com.jetpack.compose.github.github.cruise.data.datastore.LocaleDataStore
 import com.jetpack.compose.github.github.cruise.data.security.SecureTokenManager
 import com.jetpack.compose.github.github.cruise.utils.LocaleManager
+import com.cruise.apm.CruiseApm
+import com.cruise.apm.CruiseApmConfig
+import com.cruise.apm.model.SdkEnvironment
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -29,6 +32,17 @@ class GithubCruiseApplication : Application() {
         if (DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+
+        // Initialize CruiseAPM Mobile Observability SDK
+        CruiseApm.initialize(
+            context = this,
+            config = CruiseApmConfig.Builder(apiKey = "ghc_cruise_apm_live_token_98765")
+                .setEnvironment(if (DEBUG) SdkEnvironment.SANDBOX else SdkEnvironment.PRODUCTION)
+                .setNetworkMonitoringEnabled(true)
+                .setAnrWatchdogEnabled(true)
+                .setLoggingEnabled(DEBUG)
+                .build()
+        )
 
         // Initialize secure API key from BuildConfig (demo flow)
         initializeSecureApiKey()

@@ -59,28 +59,37 @@ object NetworkDataSourceModule {
 
     @Singleton
     @Provides
-    fun provideNetworkDataSource(
+    fun provideOkHttpClient(
         moshi: Moshi,
         tokenManager: SecureTokenManager,
         tokenAuthenticator: TokenAuthenticator,
-        retryInterceptor: RetryInterceptor
-    ): NetworkDataSource {
+        retryInterceptor: RetryInterceptor,
+        apmInterceptor: com.cruise.apm.network.CruiseApmOkHttpInterceptor
+    ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
 
         val apiInterceptor = ApiInterceptor(moshi, tokenManager)
 
-        val okHttpClient = OkHttpClient.Builder()
+        return OkHttpClient.Builder()
             .authenticator(tokenAuthenticator) // Mutex-protected token refresh on 401
             .addInterceptor(loggingInterceptor)
             .addInterceptor(retryInterceptor) // Resilient retries with full jitter + circuit breaker
             .addInterceptor(apiInterceptor)
+            .addInterceptor(apmInterceptor) // Injected via Hilt from ApmModule
             .connectTimeout(15, TimeUnit.SECONDS)
             .readTimeout(15, TimeUnit.SECONDS)
             .writeTimeout(15, TimeUnit.SECONDS)
             .build()
+    }
 
+    @Singleton
+    @Provides
+    fun provideNetworkDataSource(
+        moshi: Moshi,
+        okHttpClient: OkHttpClient
+    ): NetworkDataSource {
         val retrofitBuilder: Retrofit.Builder =
             Retrofit.Builder()
                 // release and debug url setting

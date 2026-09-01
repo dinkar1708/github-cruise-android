@@ -34,3 +34,4 @@ docs/research/
 
 # Outputs folder (personal notes and analysis, not for commit)
 outputs/
+.claude/settings.local.json
